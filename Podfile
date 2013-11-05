@@ -1,7 +1,4 @@
-platform :ios, '7.0'
+platform :osx, '10.9'
 
-# Link the pods with our unit test target too.
-link_with ['TCGoogleStreetView', 'TCGoogleStreetViewTests']
-
-pod 'Google-Maps-iOS-SDK', '~> 1.5.0'
-pod 'SDWebImage', '~> 3.5'
+pod 'AFNetworking', '~> 2.0.2'
+pod 'RaptureXML', '~> 1.0.1'
