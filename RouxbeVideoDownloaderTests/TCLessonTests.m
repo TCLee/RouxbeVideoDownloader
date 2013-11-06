@@ -10,10 +10,9 @@
 
 #import "TCLesson.h"
 #import "TCLessonStep.h"
+#import "TCTestData.h"
 
 @interface TCLessonTests : XCTestCase
-
-@property (nonatomic, copy) NSData *xmlData;
 
 @end
 
@@ -22,22 +21,10 @@
 - (void)setUp
 {
     [super setUp];
-
-    // Load the Lesson XML data from the unit test bundle.
-    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-    NSURL *xmlURL= [testBundle URLForResource:@"Lesson" withExtension:@"xml"];
-
-    NSError *__autoreleasing error = nil;
-    self.xmlData = [[NSData alloc] initWithContentsOfURL:xmlURL options:kNilOptions error:&error];
-    if (nil == self.xmlData) {
-        XCTFail(@"Failed to load Lesson XML data from unit test bundle.\nError: %@", [error localizedDescription]);
-    }
 }
 
 - (void)tearDown
 {
-    self.xmlData = nil;
-
     [super tearDown];
 }
 
@@ -46,7 +33,8 @@
  */
 - (void)testInitWithXML
 {
-    TCLesson *lesson = [[TCLesson alloc] initWithXMLData:self.xmlData];
+    RXMLElement *rootElement = [[RXMLElement alloc] initFromXMLData:[TCTestData XMLDataWithName:@"Lesson"]];
+    TCLesson *lesson = [[TCLesson alloc] initWithXMLElement:rootElement];
 
     XCTAssertNotNil(lesson, @"Lesson object should not be nil, given a valid XML data.");
 

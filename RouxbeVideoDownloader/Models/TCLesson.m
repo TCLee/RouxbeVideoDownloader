@@ -7,27 +7,28 @@
 //
 
 #import "TCLesson.h"
+#import "TCLessonStep.h"
 
 @implementation TCLesson
 
-- (id)initWithXMLData:(NSData *)xmlData
+- (id)initWithXMLElement:(RXMLElement *)element
 {
     self = [super init];
     if (self) {
-        [self parsePropertiesFromXML:xmlData];
+        [self parsePropertiesFromXMLElement:element];
     }
     return self;
 }
 
-- (void)parsePropertiesFromXML:(NSData *)xmlData
+- (void)parsePropertiesFromXMLElement:(RXMLElement *)element
 {
-    RXMLElement *lessonElement = [RXMLElement elementFromXMLData:xmlData];
-    _ID = [[lessonElement attribute:@"id"] integerValue];
-    _name = [[lessonElement attribute:@"name"] copy];
+    _ID = [[element attribute:@"id"] integerValue];
+    _name = [[element attribute:@"name"] copy];
 
     NSMutableArray *mutableSteps = [[NSMutableArray alloc] init];
-    [lessonElement iterate:@"recipesteps.recipestep" usingBlock:^(RXMLElement *stepElement) {
-        [mutableSteps addObject:stepElement];
+    [element iterate:@"recipesteps.recipestep" usingBlock:^(RXMLElement *stepElement) {
+        TCLessonStep *step = [[TCLessonStep alloc] initWithXMLElement:stepElement];
+        [mutableSteps addObject:step];
     }];
     _steps = [mutableSteps copy];
 }
