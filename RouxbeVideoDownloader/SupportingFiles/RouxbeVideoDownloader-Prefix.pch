@@ -5,5 +5,10 @@
 //
 
 #ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
+
+@import Cocoa;
+
+#import <AFNetworking/AFNetworking.h>
+#import <RaptureXML/RXMLElement.h>
+
 #endif
