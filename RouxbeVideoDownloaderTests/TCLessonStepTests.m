@@ -34,7 +34,7 @@
     RXMLElement *lessonElement = [[RXMLElement alloc] initFromXMLData:[TCTestData XMLDataWithName:@"Lesson"]];
 
     NSArray *stepElements = [lessonElement childrenWithRootXPath:@"/recipe/recipesteps/recipestep"];
-    TCLessonStep *step = [[TCLessonStep alloc]initWithXMLElement:stepElements[0]];
+    TCLessonStep *step = [[TCLessonStep alloc]initWithXMLElement:stepElements[0] lesson:nil];
 
     XCTAssert(step.ID == 105, @"The step ID was not parsed properly from the XML.");
     XCTAssert(step.position == 0, @"The step position was not parsed properly from the XML.");
