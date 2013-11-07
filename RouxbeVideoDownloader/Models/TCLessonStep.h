@@ -6,11 +6,18 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
+@class TCLesson;
+
 /**
  * \c TCLessonStep object describes a step in a lesson. A lesson consists of
  * one or more steps.
  */
 @interface TCLessonStep : NSObject
+
+/**
+ * The lesson that this step belongs to.
+ */
+@property (nonatomic, weak, readonly) TCLesson *lesson;
 
 /**
  * The unique ID of this lesson step.
@@ -32,15 +39,18 @@
  * Initializes the lesson step's properties with data parsed from the 
  * given XML element.
  *
- * @param xmlElement The \c RXMLElement object representing the lesson's 
- *                   step XML element.
+ * @param element The \c RXMLElement object representing the lesson's
+ *                step XML element.
+ * @param lesson The \c TCLesson parent object that owns this step.
  *
  * @return An initialized \c TCLessonStep object.
  */
-- (id)initWithXMLElement:(RXMLElement *)xmlElement;
+- (id)initWithXMLElement:(RXMLElement *)element lesson:(TCLesson *)lesson;
 
 /**
- * Finds and returns the URL of this lesson step's video.
+ * Finds and returns the URL of this lesson step's video. The video URL will be
+ * cached when it's found, so calling this method the next time will just return 
+ * the cached URL.
  *
  * @param completion The completion block will be called when the video URL has 
  *                   been found or an error was encountered.

@@ -27,7 +27,7 @@
 
     NSMutableArray *mutableSteps = [[NSMutableArray alloc] init];
     [element iterate:@"recipesteps.recipestep" usingBlock:^(RXMLElement *stepElement) {
-        TCLessonStep *step = [[TCLessonStep alloc] initWithXMLElement:stepElement];
+        TCLessonStep *step = [[TCLessonStep alloc] initWithXMLElement:stepElement lesson:self];
         [mutableSteps addObject:step];
     }];
     _steps = [mutableSteps copy];
