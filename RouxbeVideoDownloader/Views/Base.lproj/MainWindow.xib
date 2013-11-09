@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TCMainWindowController">
             <connections>
+                <outlet property="tableView" destination="JMX-H2-f4N" id="XEa-fZ-xW2"/>
                 <outlet property="urlTextField" destination="3jO-F5-ME2" id="isY-Ck-Ue3"/>
                 <outlet property="window" destination="lrr-J4-DdU" id="Amx-7U-crW"/>
             </connections>
@@ -31,7 +32,6 @@
                         </textFieldCell>
                         <connections>
                             <action selector="downloadVideos:" target="-2" id="9VT-vG-8eA"/>
-                            <outlet property="delegate" destination="-2" id="3be-gI-Up7"/>
                         </connections>
                     </textField>
                     <scrollView appearanceType="lightContent" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="dq4-Qv-CQi">
@@ -48,7 +48,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="DownloadCell" editable="NO" width="483" minWidth="40" maxWidth="1000" id="n7i-gB-gcs">
+                                        <tableColumn identifier="TCDownloadCell" editable="NO" width="483" minWidth="40" maxWidth="1000" id="n7i-gB-gcs">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -61,7 +61,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView identifier="DownloadCell" id="GfC-qw-0My">
+                                                <tableCellView identifier="TCDownloadCell" id="GfC-qw-0My" customClass="TCDownloadCellView">
                                                     <rect key="frame" x="1" y="1" width="483" height="109"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -114,13 +114,18 @@
                                                         <constraint firstItem="Cvw-fQ-aJt" firstAttribute="leading" secondItem="GfC-qw-0My" secondAttribute="leading" constant="20" id="Xl9-6c-IVk"/>
                                                         <constraint firstAttribute="bottom" secondItem="Cvw-fQ-aJt" secondAttribute="bottom" constant="20" symbolic="YES" id="jh1-pf-vIY"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <outlet property="progressBar" destination="lPJ-1c-dZs" id="WKM-rj-FA3"/>
+                                                        <outlet property="progressLabel" destination="WK9-an-ni0" id="2R0-1B-mlp"/>
+                                                        <outlet property="titleLabel" destination="FvC-9u-NGm" id="2r1-5z-llv"/>
+                                                    </connections>
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <outlet property="dataSource" destination="akM-LJ-9H9" id="jqM-mO-e7J"/>
-                                        <outlet property="delegate" destination="akM-LJ-9H9" id="aS9-Jq-gH7"/>
+                                        <outlet property="dataSource" destination="-2" id="v6I-TG-QoM"/>
+                                        <outlet property="delegate" destination="-2" id="btO-8C-2oi"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -150,10 +155,5 @@
                 <outlet property="delegate" destination="-2" id="pSv-N3-Q3C"/>
             </connections>
         </window>
-        <viewController id="akM-LJ-9H9" customClass="TCDownloadListViewController">
-            <connections>
-                <outlet property="tableView" destination="JMX-H2-f4N" id="kZT-hi-n0K"/>
-            </connections>
-        </viewController>
     </objects>
 </document>
