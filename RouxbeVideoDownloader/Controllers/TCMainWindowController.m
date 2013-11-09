@@ -10,13 +10,17 @@
 #import "TCDownloadCellView.h"
 #import "TCDownload.h"
 
-#pragma mark -
-
 @interface TCMainWindowController ()
 
 @property (nonatomic, weak) IBOutlet NSTextField *urlTextField;
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
 
+/**
+ * The download manager manages the queue of video downloads.
+ *
+ * This window controller is the delegate object of the download manager
+ * and will receive callbacks for download related events.
+ */
 @property (nonatomic, strong, readonly) TCDownloadManager *downloadManager;
 
 @end
@@ -25,18 +29,12 @@
 
 @synthesize downloadManager = _downloadManager;
 
+#pragma mark - Initialize From NIB
+
 - (id)init
 {
     self = [super initWithWindowNibName:@"MainWindow" owner:self];
     return self;
-}
-
-- (TCDownloadManager *)downloadManager
-{
-    if (!_downloadManager) {
-        _downloadManager = [[TCDownloadManager alloc] initWithDelegate:self];
-    }
-    return _downloadManager;
 }
 
 #pragma mark - IBAction Methods
@@ -55,20 +53,40 @@
 
     // Make sure the URL is not empty.
     if (0 == urlString.length) {
-        NSAlert *alert = [NSAlert alertWithMessageText:@"No URL Provided"
-                                         defaultButton:nil
-                                       alternateButton:nil
-                                           otherButton:nil
-                             informativeTextWithFormat:@"You must provide a URL for download."];
-        [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        [self showAlertWithStyle:NSInformationalAlertStyle
+                           title:@"No URL Provided"
+                 informativeText:@"You must provide a URL for the download."
+              defaultButtonTitle:@"OK"];
         return;
     }
 
     // Add video downloads from user's given URL to the queue.
     [self.downloadManager addDownloadsWithURL:[NSURL URLWithString:urlString]];
+    
 }
 
-#pragma mark - Table View Data Source
+/**
+ * Convenience method to show an NSAlert with given values.
+ *
+ * @param style              The \c NSAlertStyle constant for the alert's style.
+ * @param title              Title of the alert.
+ * @param text               Informative text for the alert.
+ * @param defaultButtonTitle Title for the default button.
+ */
+- (void)showAlertWithStyle:(NSAlertStyle)style
+                     title:(NSString *)title
+           informativeText:(NSString *)text
+        defaultButtonTitle:(NSString *)defaultButtonTitle
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.alertStyle = style;
+    alert.messageText = title;
+    alert.informativeText = text;
+    [alert addButtonWithTitle:defaultButtonTitle];
+    [alert beginSheetModalForWindow:self.window completionHandler:nil];
+}
+
+#pragma mark - Table View Data Source & Delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
@@ -86,7 +104,19 @@
     return cellView;
 }
 
-#pragma mark - TCDownloadManager Delegate
+#pragma mark - Download Manager
+
+// Download manager object will be lazily created when it's first accessed and
+// then cached after that.
+- (TCDownloadManager *)downloadManager
+{
+    if (!_downloadManager) {
+        _downloadManager = [[TCDownloadManager alloc] initWithDelegate:self];
+    }
+    return _downloadManager;
+}
+
+#pragma mark - Download Manager Delegate
 
 - (void)downloadManager:(TCDownloadManager *)downloadManager
   didAddDownloadAtIndex:(NSUInteger)index
