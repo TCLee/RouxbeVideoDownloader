@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0AE2511D957F42A2A5C56E3B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A88F10E1FF4F3499023017 /* libPods.a */; };
-		0B7DFB0275F1430F9278CF0D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A88F10E1FF4F3499023017 /* libPods.a */; };
 		8107DB411828EA7F0078A318 /* TCDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107DB401828EA7F0078A318 /* TCDownloadManager.m */; };
 		81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81310AE21828948E00327AFF /* TCMainWindowController.m */; };
 		81310AE81828950700327AFF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81310AE61828950700327AFF /* MainWindow.xib */; };
@@ -35,6 +34,10 @@
 		81EFED68182B644600F28B1B /* TCVideoFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED67182B644600F28B1B /* TCVideoFileTests.m */; };
 		81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED6A182B8A8200F28B1B /* TCDownload.m */; };
 		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
+		81F99D5C182DD0D6006E561B /* NSString+FindSubstringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */; };
+		81F99D5E182DD653006E561B /* TCFindStringAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D5D182DD653006E561B /* TCFindStringAdditionsTests.m */; };
+		81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */; };
+		81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,12 @@
 		81EFED6A182B8A8200F28B1B /* TCDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownload.m; sourceTree = "<group>"; };
 		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
 		81F99D58182CBC6E006E561B /* TCDownloadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadCellView.m; sourceTree = "<group>"; };
+		81F99D5A182DD0D6006E561B /* NSString+FindSubstringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FindSubstringAdditions.h"; sourceTree = "<group>"; };
+		81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FindSubstringAdditions.m"; sourceTree = "<group>"; };
+		81F99D5D182DD653006E561B /* TCFindStringAdditionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCFindStringAdditionsTests.m; sourceTree = "<group>"; };
+		81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RouxbeAdditions.h"; sourceTree = "<group>"; };
+		81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+RouxbeAdditions.m"; sourceTree = "<group>"; };
+		81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLValidationTests.m; sourceTree = "<group>"; };
 		EA621434EFAA40278656A5D5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,7 +121,6 @@
 			files = (
 				81632895182770120070914E /* Cocoa.framework in Frameworks */,
 				81632894182770120070914E /* XCTest.framework in Frameworks */,
-				0B7DFB0275F1430F9278CF0D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +194,8 @@
 				81EFED41182A002B00F28B1B /* TCLessonStepTests.m */,
 				81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */,
 				81EFED67182B644600F28B1B /* TCVideoFileTests.m */,
+				81F99D5D182DD653006E561B /* TCFindStringAdditionsTests.m */,
+				81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */,
 			);
 			path = RouxbeVideoDownloaderTests;
 			sourceTree = "<group>";
@@ -271,6 +281,10 @@
 				81EFED5C182B35CB00F28B1B /* TCVideoMP4URL.m */,
 				81EFED5D182B35CB00F28B1B /* TCXMLLoader.h */,
 				81EFED5E182B35CB00F28B1B /* TCXMLLoader.m */,
+				81F99D5A182DD0D6006E561B /* NSString+FindSubstringAdditions.h */,
+				81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */,
+				81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */,
+				81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -301,11 +315,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 816328A5182770120070914E /* Build configuration list for PBXNativeTarget "RouxbeVideoDownloaderTests" */;
 			buildPhases = (
-				185916CAA87C441CB3AE796D /* Check Pods Manifest.lock */,
 				8163288E182770120070914E /* Sources */,
 				8163288F182770120070914E /* Frameworks */,
 				81632890182770120070914E /* Resources */,
-				3FA5F84921FB4CD4A425ECCA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -391,36 +403,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		185916CAA87C441CB3AE796D /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		3FA5F84921FB4CD4A425ECCA /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		876C856E35684B699D67E5FC /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -443,12 +425,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81F99D5C182DD0D6006E561B /* NSString+FindSubstringAdditions.m in Sources */,
 				81EFED5F182B35CB00F28B1B /* TCVideoMP4URL.m in Sources */,
 				81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */,
 				81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */,
 				81EFED60182B35CB00F28B1B /* TCXMLLoader.m in Sources */,
 				8107DB411828EA7F0078A318 /* TCDownloadManager.m in Sources */,
 				816328BA18277F3F0070914E /* main.m in Sources */,
+				81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */,
 				81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */,
 				81632888182770120070914E /* TCAppDelegate.m in Sources */,
 				81EFED66182B3F4C00F28B1B /* TCVideoFile.m in Sources */,
@@ -463,6 +447,8 @@
 			files = (
 				81EFED50182A3FA800F28B1B /* TCVideoMP4URLTests.m in Sources */,
 				81EFED45182A18DE00F28B1B /* TCTestData.m in Sources */,
+				81F99D5E182DD653006E561B /* TCFindStringAdditionsTests.m in Sources */,
+				81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */,
 				81EFED42182A002B00F28B1B /* TCLessonStepTests.m in Sources */,
 				81EFED68182B644600F28B1B /* TCVideoFileTests.m in Sources */,
 				81EFED371829E77600F28B1B /* TCLessonTests.m in Sources */,
