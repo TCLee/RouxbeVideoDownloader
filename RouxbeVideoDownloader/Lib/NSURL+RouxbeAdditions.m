@@ -30,21 +30,25 @@
 
     // Lesson URL = http://rouxbe.com/cooking-school/lessons/170-how-to-pan-fry
     // Path Components = ["/", "cooking-school", "lessons", "170-how-to-pan-fry"]
+    // Lesson URL = http://rouxbe.com/cooking-school/lessons/170-how-to-pan-fry/details
+    // Path Components = ["/", "cooking-school", "lessons", "170-how-to-pan-fry", "details"]
     if ([pathComponents[1] isEqualToString:@"cooking-school"] &&
-        [pathComponents[2] isEqualToString:@"lessons"] &&
-        pathComponents.count == 4) {
-        // Find the Lesson ID. If found, then URL is valid.
-        NSScanner *scanner = [[NSScanner alloc] initWithString:pathComponents[3]];
-        return [scanner scanInteger:NULL];
+        [pathComponents[2] isEqualToString:@"lessons"]) {
+        if (pathComponents.count >= 4) {
+            // Find the Lesson ID. If found, then URL is valid.
+            NSScanner *scanner = [[NSScanner alloc] initWithString:pathComponents[3]];
+            return [scanner scanInteger:NULL];
+        }
     }
 
     // Tip URL = http://rouxbe.com/tips-techniques/98-what-are-pappadams-indian-flatbread
     // Path Components = ["/", "tips-techniques", "98-what-are-pappadams-indian-flatbread"]
     // Recipes URL = http://rouxbe.com/recipes/89-chicken-cashew
     // Path Components = ["/", "recipes", "89-chicken-cashew"]
-    if (([pathComponents[1] isEqualToString:@"recipes"] ||
-         [pathComponents[1] isEqualToString:@"tips-techniques"]) &&
-        pathComponents.count == 3) {
+    // Recipes URL = http://rouxbe.com/recipes/89-chicken-cashew/text
+    // Path Components = ["/", "recipes", "89-chicken-cashew", "text"]
+    if ([pathComponents[1] isEqualToString:@"recipes"] ||
+        [pathComponents[1] isEqualToString:@"tips-techniques"]) {
         // Find the Tip or Recipe ID. If found, then URL is valid.
         NSScanner *scanner = [[NSScanner alloc] initWithString:pathComponents[2]];
         return [scanner scanInteger:NULL];
@@ -62,11 +66,6 @@
     }
 
     NSArray *pathComponents = [self pathComponents];
-
-    // Examples of the path components:
-    // Lesson = ["/", "cooking-school", "lessons", "170-how-to-pan-fry"]
-    // Recipe = ["/", "recipes", "89-chicken-cashew"]
-    // Tip    = ["/", "tips-techniques", "98-what-are-pappadams-indian-flatbread"]
 
     if ([pathComponents[1] isEqualToString:@"recipes"]) {
         return TCRouxbeCategoryRecipe;
