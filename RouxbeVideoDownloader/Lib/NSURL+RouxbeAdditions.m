@@ -8,6 +8,19 @@
 
 #import "NSURL+RouxbeAdditions.h"
 
+/**
+ * Constant string describing the Lesson URL's path component.
+ */
+static NSString * const kLessonsPathComponent = @"lessons";
+/**
+ * Constant string describing the Recipe URL's path component.
+ */
+static NSString * const kRecipesPathComponent = @"recipes";
+/**
+ * Constant string describing the Tip & Technique URL's path component.
+ */
+static NSString * const kTipsPathComponent = @"tips-techniques";
+
 @implementation NSURL (RouxbeAdditions)
 
 - (BOOL)isValidRouxbeURL
@@ -33,7 +46,7 @@
     // Lesson URL = http://rouxbe.com/cooking-school/lessons/170-how-to-pan-fry/details
     // Path Components = ["/", "cooking-school", "lessons", "170-how-to-pan-fry", "details"]
     if ([pathComponents[1] isEqualToString:@"cooking-school"] &&
-        [pathComponents[2] isEqualToString:@"lessons"]) {
+        [pathComponents[2] isEqualToString:kLessonsPathComponent]) {
         if (pathComponents.count >= 4) {
             // Find the Lesson ID. If found, then URL is valid.
             NSScanner *scanner = [[NSScanner alloc] initWithString:pathComponents[3]];
@@ -47,8 +60,8 @@
     // Path Components = ["/", "recipes", "89-chicken-cashew"]
     // Recipes URL = http://rouxbe.com/recipes/89-chicken-cashew/text
     // Path Components = ["/", "recipes", "89-chicken-cashew", "text"]
-    if ([pathComponents[1] isEqualToString:@"recipes"] ||
-        [pathComponents[1] isEqualToString:@"tips-techniques"]) {
+    if ([pathComponents[1] isEqualToString:kRecipesPathComponent] ||
+        [pathComponents[1] isEqualToString:kTipsPathComponent]) {
         // Find the Tip or Recipe ID. If found, then URL is valid.
         NSScanner *scanner = [[NSScanner alloc] initWithString:pathComponents[2]];
         return [scanner scanInteger:NULL];
@@ -67,11 +80,11 @@
 
     NSArray *pathComponents = [self pathComponents];
 
-    if ([pathComponents[1] isEqualToString:@"recipes"]) {
+    if ([pathComponents[1] isEqualToString:kRecipesPathComponent]) {
         return TCRouxbeCategoryRecipe;
-    } else if ([pathComponents[1] isEqualToString:@"tips-techniques"]) {
+    } else if ([pathComponents[1] isEqualToString:kTipsPathComponent]) {
         return TCRouxbeCategoryTip;
-    } else if ([pathComponents[2] isEqualToString:@"lessons"]) {
+    } else if ([pathComponents[2] isEqualToString:kLessonsPathComponent]) {
         return TCRouxbeCategoryLesson;
     }
     return TCRouxbeCategoryUnknown;
@@ -79,12 +92,20 @@
 
 - (NSUInteger)rouxbeID
 {
+    // Cannot extract ID if URL is invalid in the first place.
     if (![self isValidRouxbeURL]) {
         return NSNotFound;
     }
 
-    //TODO: Not implemented yet.
-    return 0;
+    // Find out the index of the path component that contains the Rouxbe ID.
+    NSUInteger contentPathIndex =
+        [self rouxbeCategory] == TCRouxbeCategoryLesson ? 3 : 2;
+
+    // Extract the ID from the path component at that index.
+    NSInteger contentID = 0;
+    NSScanner *scanner = [[NSScanner alloc] initWithString:
+                          [self pathComponents][contentPathIndex]];
+    return [scanner scanInteger:&contentID] ? contentID : NSNotFound;
 }
 
 - (NSURL *)rouxbeXMLDocumentURL

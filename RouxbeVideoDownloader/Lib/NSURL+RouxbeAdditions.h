@@ -47,10 +47,18 @@ typedef NS_ENUM(NSInteger, TCRouxbeCategory) {
  */
 - (TCRouxbeCategory)rouxbeCategory;
 
+/**
+ * Returns the Rouxbe content ID from the receiver.
+ *
+ * The ID is used to uniquely identify resources in a category.
+ *
+ * @return The Rouxbe content ID or \c NSNotFound if receiver is 
+ *         not a valid Rouxbe URL.
+ */
 - (NSUInteger)rouxbeID;
 
 /**
- * Returns the URL to the XML representation of the current URL.
+ * Returns a new URL to the XML representation of the receiver.
  *
  * @return A new URL to the XML document.
  */
