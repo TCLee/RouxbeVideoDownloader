@@ -17,14 +17,17 @@ PODS:
   - AFNetworking/Reachability (2.0.2)
   - AFNetworking/Security (2.0.2)
   - AFNetworking/Serialization (2.0.2)
+  - OCMock (2.2.1)
   - RaptureXML (1.0.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0.2)
+  - OCMock (~> 2.2.1)
   - RaptureXML (~> 1.0.1)
 
 SPEC CHECKSUMS:
   AFNetworking: 22de50ae71ab1c4859773f61068d6fcd1d8f9a4d
+  OCMock: 80e4cfbc71a0e1bd28caf10a9fda27da7c4c8402
   RaptureXML: ef017fda62eb95c60300108366d1f0cd0c28cbd4
 
 COCOAPODS: 0.27.1
