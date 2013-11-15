@@ -6,6 +6,9 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
+typedef void(^TCDownloadDidCompleteBlock)(NSURL *fileURL, NSError *error);
+typedef void(^TCDownloadDidChangeProgressBlock)(NSProgress *progress);
+
 /**
  * \c TCDownload class describes a video download in progress.
  */
@@ -20,7 +23,7 @@
 @property (nonatomic, copy) NSURL *downloadDirectoryURL;
 
 /**
- * The title string that will be displayed for this download.
+ * The string that will be displayed as the title for this download.
  */
 @property (nonatomic, copy, readonly) NSString *title;
 
@@ -28,14 +31,17 @@
 @property (nonatomic, copy, readonly) NSURL *destinationURL;
 @property (nonatomic, copy, readonly) NSProgress *progress;
 
+@property (nonatomic, copy, readwrite) TCDownloadDidChangeProgressBlock didChangeProgress;
+@property (nonatomic, copy, readwrite) TCDownloadDidCompleteBlock didComplete;
+
 - (id)initWithSourceURL:(NSURL *)sourceURL
               groupName:(NSString *)groupName
                position:(NSUInteger)position
                    name:(NSString *)name;
 
 //- (id)initWithSourceURL:(NSURL *)sourceURL
-//               fileName:(NSString *)fileName;
+//                   name:(NSString *)fileName;
 
-//- (void)startWithCompletion:(void (^)(NSURL *fileURL , NSError *error))completion;
+- (void)start;
 
 @end

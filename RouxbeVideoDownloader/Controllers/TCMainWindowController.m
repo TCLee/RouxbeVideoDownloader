@@ -8,6 +8,8 @@
 
 #import "TCMainWindowController.h"
 #import "TCDownloadCellView.h"
+
+#import "TCDownloadManager.h"
 #import "TCDownload.h"
 
 @interface TCMainWindowController ()
@@ -51,12 +53,14 @@
 
     NSString *urlString = self.urlTextField.stringValue;
 
-    // Make sure the URL is not empty.
+    // Make sure the URL is provided by the user.
     if (0 == urlString.length) {
-        [self showAlertWithStyle:NSInformationalAlertStyle
-                           title:@"No URL Provided"
-                 informativeText:@"You must provide a URL for the download."
-              defaultButtonTitle:@"OK"];
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.alertStyle = NSInformationalAlertStyle;
+        alert.messageText = @"No URL Provided";
+        alert.informativeText = @"You must provide a URL for the download.";
+        [alert addButtonWithTitle:@"OK"];
+        [alert beginSheetModalForWindow:self.window completionHandler:nil];
         return;
     }
 
@@ -65,27 +69,6 @@
     if (url) {
         [self.downloadManager addDownloadsWithURL:url];
     }
-}
-
-/**
- * Convenience method to show an NSAlert with given values.
- *
- * @param style              The \c NSAlertStyle constant for the alert's style.
- * @param title              Title of the alert.
- * @param text               Informative text for the alert.
- * @param defaultButtonTitle Title for the default button.
- */
-- (void)showAlertWithStyle:(NSAlertStyle)style
-                     title:(NSString *)title
-           informativeText:(NSString *)text
-        defaultButtonTitle:(NSString *)defaultButtonTitle
-{
-    NSAlert *alert = [[NSAlert alloc] init];
-    alert.alertStyle = style;
-    alert.messageText = title;
-    alert.informativeText = text;
-    [alert addButtonWithTitle:defaultButtonTitle];
-    [alert beginSheetModalForWindow:self.window completionHandler:nil];
 }
 
 #pragma mark - Table View Data Source & Delegate
@@ -112,61 +95,59 @@
 // then cached after that.
 - (TCDownloadManager *)downloadManager
 {
-    if (!_downloadManager) {
-        _downloadManager = [[TCDownloadManager alloc] initWithDelegate:self];
-    }
+    // Download Manager only needs to be created and initialized once.
+    if (_downloadManager) { return _downloadManager; }
+
+    _downloadManager = [[TCDownloadManager alloc] init];
+
+    // Create the weak references to avoid a strong reference cycle.
+    __weak typeof(self)weakSelf = self;
+    __weak typeof(_downloadManager)weakDownloadManager = _downloadManager;
+
+    // Block that will be called when Download Manager has added a new Download.
+    [_downloadManager setDidAddDownload:^(TCDownload *download, NSError *error) {
+        if (download) {
+            // Find the index of the new download.
+            NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
+
+            // Insert new row for download with an animation.
+            [weakSelf.tableView beginUpdates];
+            [weakSelf.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
+                                  withAnimation:NSTableViewAnimationSlideDown];
+            [weakSelf.tableView scrollRowToVisible:downloadIndex];
+            [weakSelf.tableView endUpdates];
+        } else {
+            // Error - Failed to add download.
+            NSAlert *alert = [NSAlert alertWithError:error];
+            [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
+        }
+    }];
+
+    // Block that will be called when a Download has made progress.
+    [_downloadManager setDownloadDidChangeProgress:^(TCDownload *download) {
+        // Reload only that specified cell to update the progress bar.
+        NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
+        [weakSelf.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
+                                  columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+    }];
+
+    // Block that will be called when a Download has completed.
+    [_downloadManager setDownloadDidComplete:^(TCDownload *download, NSError *error) {
+        // Remove download row when it has completed.
+        NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
+        [weakSelf.tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
+                              withAnimation:NSTableViewAnimationSlideUp];
+
+        // The only way to know if there's an error is to check the NSError
+        // object. This is not considered good practice by Apple, but
+        // Apple's own NSURLSessionTaskDelegate is implemented that way.
+        if (error) {
+            NSAlert *alert = [NSAlert alertWithError:error];
+            [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
+        }
+    }];
+
     return _downloadManager;
-}
-
-#pragma mark - Download Manager Delegate
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-  didAddDownloadAtIndex:(NSUInteger)index
-{
-    // A new download has been added to the download queue.
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:index]
-                          withAnimation:NSTableViewAnimationSlideDown];
-    [self.tableView scrollRowToVisible:index];
-    [self.tableView endUpdates];
-}
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-didFailToAddDownloadWithError:(NSError *)error
-{
-    // Show alert view to let user know why we failed to add the downloads.
-    NSAlert *alert = [NSAlert alertWithError:error];
-    [alert beginSheetModalForWindow:self.window completionHandler:nil];
-}
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-downloadProgressChangedAtIndex:(NSUInteger)index
-{
-    // Reload data for only that specified cell. If that cell is not visible,
-    // nothing will happen.
-    [self.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:index]
-                              columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-}
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-downloadCompletedAtIndex:(NSUInteger)index
-{
-    // Download has finished and is removed from download queue.
-    [self.tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:index]
-                          withAnimation:NSTableViewAnimationSlideUp];
-}
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-        downloadAtIndex:(NSUInteger)index
-       didFailWithError:(NSError *)error
-{
-    // Download has failed and is removed from download queue.
-    [self.tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:index]
-                          withAnimation:NSTableViewAnimationEffectFade];
-
-    // Show alert view to let user know which download has failed.
-    NSAlert *alert = [NSAlert alertWithError:error];
-    [alert beginSheetModalForWindow:self.window completionHandler:nil];
 }
 
 @end

@@ -7,8 +7,8 @@
 //
 
 #import "TCDownloadManager.h"
-#import "TCDownload.h"
 #import "TCDownloadBuilder.h"
+#import "TCDownload.h"
 
 /**
  * The URL to the Tips & Technique embedded video player XML.
@@ -17,19 +17,25 @@ static NSString * const kEmbeddedTipVideoXML = @"http://rouxbe.com/embedded_play
 
 @interface TCDownloadManager ()
 
+/**
+ * The mutable version of our download queue for use internally only.
+ */
 @property (nonatomic, copy, readonly) NSMutableArray *mutableDownloadQueue;
 
 @end
 
 @implementation TCDownloadManager
 
-- (id)initWithDelegate:(id<TCDownloadManagerDelegate>)delegate
+#pragma mark - Download Queue
+
+@synthesize mutableDownloadQueue = _mutableDownloadQueue;
+
+- (NSMutableArray *)mutableDownloadQueue
 {
-    self = [super init];
-    if (self) {
-        _delegate = delegate;
+    if (!_mutableDownloadQueue) {
+        _mutableDownloadQueue = [[NSMutableArray alloc] init];
     }
-    return self;
+    return _mutableDownloadQueue;
 }
 
 - (NSArray *)downloadQueue
@@ -40,18 +46,32 @@ static NSString * const kEmbeddedTipVideoXML = @"http://rouxbe.com/embedded_play
 
 - (void)addDownloadsWithURL:(NSURL *)aURL
 {
+    NSAssert(self.didAddDownload, @"Require block handler for download added to download queue.");
+    NSAssert(self.downloadDidChangeProgress, @"Require block handler for download progress.");
+    NSAssert(self.downloadDidComplete, @"Require block handler for download completed.");
+
     // Download Builder will create the appropriate downloads from the given URL.
     // The handler block will be called multiple times, once for each download created.
     [TCDownloadBuilder createDownloadsWithURL:aURL handler:^(TCDownload *download, NSError *error) {
         if (download) {
+            // Add new download to queue.
             [self.mutableDownloadQueue addObject:download];
+            self.didAddDownload(download, nil);
 
-            // Notify delegate object that we've appended a download to the queue.
-            [self.delegate downloadManager:self
-                     didAddDownloadAtIndex:(self.mutableDownloadQueue.count - 1)];
+            // Callback blocks for download completion and progress.
+            __weak typeof(download)weakDownload = download;
+            download.didComplete = ^(NSURL *fileURL, NSError *error) {
+                self.downloadDidComplete(weakDownload, error);
+            };
+            download.didChangeProgress = ^(NSProgress *progress) {
+                self.downloadDidChangeProgress(weakDownload);
+            };
+
+            // Start the newly added download.
+            [download start];
         } else {
-            // Error - Failed to add download to download queue.
-            [self.delegate downloadManager:self didFailToAddDownloadWithError:error];
+            // Error - Failed to add download.
+            self.didAddDownload(nil, error);
         }
     }];
 }

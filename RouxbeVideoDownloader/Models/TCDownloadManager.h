@@ -6,39 +6,11 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-@class TCDownloadManager;
 @class TCDownload;
 
-@protocol TCDownloadManagerDelegate <NSObject>
-
-@required
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-  didAddDownloadAtIndex:(NSUInteger)index;
-
-/**
- * Tells the delegate that the download manager could not add a
- * download to the download queue because of the given error.
- *
- * @param downloadManager The download manager instance that reported the error.
- * @param error           The error object describing why the download manager 
- *                        failed to add the download.
- */
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-didFailToAddDownloadWithError:(NSError *)error;
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-downloadProgressChangedAtIndex:(NSUInteger)index;
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-downloadCompletedAtIndex:(NSUInteger)index;
-
-- (void)downloadManager:(TCDownloadManager *)downloadManager
-        downloadAtIndex:(NSUInteger)index
-       didFailWithError:(NSError *)error;
-
-@end
-
+typedef void(^TCDownloadManagerAddDownloadBlock)(TCDownload *download, NSError *error);
+typedef void(^TCDownloadManagerDownloadProgressBlock)(TCDownload *download);
+typedef void(^TCDownloadManagerDownloadCompleteBlock)(TCDownload *download, NSError *error);
 
 /**
  * \c TCDownloadManager manages a queue of video downloads. Each video download
@@ -47,34 +19,19 @@ downloadCompletedAtIndex:(NSUInteger)index;
 @interface TCDownloadManager : NSObject
 
 /**
- * The delegate object that will receive callbacks of the download progress
- * and status.
- */
-@property (nonatomic, weak, readonly) id<TCDownloadManagerDelegate> delegate;
-
-/**
  * The download queue contains all the downloads that are in progress.
  */
 @property (nonatomic, copy, readonly) NSArray *downloadQueue;
 
-/**
- * Initializes a new download manager with the given delegate for callbacks.
- *
- * @param delegate The download manager delegate object that will receive 
- *                 callbacks for download related events.
- *
- * @return An initialized \c TCDownloadManager object.
- */
-- (id)initWithDelegate:(id<TCDownloadManagerDelegate>)delegate;
+@property (nonatomic, copy, readwrite) TCDownloadManagerAddDownloadBlock didAddDownload;
+@property (nonatomic, copy, readwrite) TCDownloadManagerDownloadProgressBlock downloadDidChangeProgress;
+@property (nonatomic, copy, readwrite) TCDownloadManagerDownloadCompleteBlock downloadDidComplete;
 
 /**
  * Add one or more video downloads to the queue with the given URL.
  * A URL may point to a resource with a collection of videos or just one video.
  *
- * If downloads are already in progress for the given URL, the downloads will 
- * not be added to the queue again.
- *
- * @param url The URL to the resource that contains a collection of one 
+ * @param url The URL to the resource that contains a collection of one
  *            or more videos.
  */
 - (void)addDownloadsWithURL:(NSURL *)url;

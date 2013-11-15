@@ -14,6 +14,8 @@
                    completion:(void (^)(NSData *data, NSError *error))completion
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+
+    // We want the response back as raw NSData, so we set it to AFHTTPResponseSerializer.
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
 
     [manager GET:[aURL absoluteString] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {

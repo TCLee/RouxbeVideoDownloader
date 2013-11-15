@@ -38,7 +38,6 @@
 		81EFED50182A3FA800F28B1B /* TCVideoMP4URLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */; };
 		81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED6A182B8A8200F28B1B /* TCDownload.m */; };
 		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
-		81F99D5C182DD0D6006E561B /* NSString+FindSubstringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */; };
 		81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */; };
 		81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */; };
 		D110F5CA73DD449A8D570AE0 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76EA7428D7480B80D1F390 /* libPods-test.a */; };
@@ -108,8 +107,6 @@
 		81EFED6A182B8A8200F28B1B /* TCDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownload.m; sourceTree = "<group>"; };
 		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
 		81F99D58182CBC6E006E561B /* TCDownloadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadCellView.m; sourceTree = "<group>"; };
-		81F99D5A182DD0D6006E561B /* NSString+FindSubstringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FindSubstringAdditions.h"; sourceTree = "<group>"; };
-		81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FindSubstringAdditions.m"; sourceTree = "<group>"; };
 		81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RouxbeAdditions.h"; sourceTree = "<group>"; };
 		81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+RouxbeAdditions.m"; sourceTree = "<group>"; };
 		81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLValidationTests.m; sourceTree = "<group>"; };
@@ -310,8 +307,6 @@
 		81EFED5A182B35CB00F28B1B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				81F99D5A182DD0D6006E561B /* NSString+FindSubstringAdditions.h */,
-				81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */,
 				81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */,
 				81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */,
 			);
@@ -487,7 +482,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				819887D2183353BC00FE21BB /* TCLessonDownloadBuilder.m in Sources */,
-				81F99D5C182DD0D6006E561B /* NSString+FindSubstringAdditions.m in Sources */,
 				819887E31834DD5700FE21BB /* TCMP4VideoURL.m in Sources */,
 				81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */,
 				8175B9021831FD2500C763F8 /* TCXMLService.m in Sources */,
