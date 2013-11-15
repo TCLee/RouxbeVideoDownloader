@@ -7,68 +7,69 @@
 //
 
 #import "TCLessonStep.h"
-#import "TCXMLLoader.h"
-#import "TCVideoMP4URL.h"
+#import "TCXMLService.h"
+#import "TCMP4VideoURL.h"
 
 /**
- * The URL to the Lesson's embedded video player XML.
+ * The string template representing the URL to a Lesson's video player XML.
  */
-static NSString * const kEmbeddedLessonVideoXML = @"http://rouxbe.com/embedded_player/settings_section/%ld.xml";
+static NSString * const kLessonVideoPlayerURLString = @"http://rouxbe.com/embedded_player/settings_section/%ld.xml";
 
 @interface TCLessonStep ()
 
+@property (nonatomic, copy, readwrite) NSURL *videoURL;
+
 /**
- * The URL of this lesson step's video.
+ * Set the MP4 video URL from the given string representing the
+ * Flash video URL.
  *
- * We will cache the video URL after we have found it.
+ * @param URLString The string representing the video URL.
  */
-@property (nonatomic, copy) NSURL *videoURL;
+- (void)setVideoURLWithString:(NSString *)URLString;
 
 @end
 
 @implementation TCLessonStep
 
-- (id)initWithXMLElement:(RXMLElement *)element lesson:(TCLesson *)lesson
+- (id)initWithXML:(RXMLElement *)stepXML lessonName:(NSString *)lessonName
 {
     self = [super init];
-
     if (self) {
-        _lesson = lesson;
-        _ID = [[element attribute:@"id"] integerValue];
-        _position = [[element attribute:@"position"] integerValue];
-        _name = [[element attribute:@"name"] copy];
-
-        NSString *videoURLString = [element attribute:@"url"];
-        _videoURL = videoURLString ? [[NSURL alloc] initWithString:videoURLString] : nil;
+        _lessonName = [lessonName copy];
+        
+        _ID = [[stepXML attribute:@"id"] integerValue];
+        _position = [[stepXML attribute:@"position"] integerValue];
+        _name = [stepXML attribute:@"name"];
+        [self setVideoURLWithString:[stepXML attribute:@"url"]];
     }
-
     return self;
 }
 
-- (void)findVideoURLWithCompletion:(void (^)(NSURL *videoURL, NSError *error))completion
+- (void)videoURLWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler
 {
-    // If we have the video URL in the cache, we will just return the video
-    // URL immediately.
-    if (_videoURL) {
-        completion(_videoURL, nil);
+    // If we already have cached the video URL, we can return it immediately.
+    if (self.videoURL) {
+        completionHandler(self.videoURL, nil);
         return;
     }
 
-    // Get the video URL from the Lesson's embedded player XML.
-    NSURL *xmlURL = [NSURL URLWithString:[NSString stringWithFormat:kEmbeddedLessonVideoXML, self.ID]];
+    // Otherwise, we will have to extract the video URL from the video player.
+    NSURL *videoPlayerURL = [NSURL URLWithString:
+                             [NSString stringWithFormat:kLessonVideoPlayerURLString, self.ID]];
 
-    [TCXMLLoader loadXMLFromURL:xmlURL completion:^(RXMLElement *rootElement, NSError *error) {
-        if (rootElement) {
-            NSString *urlString = [[rootElement child:@"video"] attribute:@"url"];
+    [TCXMLService requestXMLDataWithURL:videoPlayerURL completion:^(NSData *data, NSError *error) {
+        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
 
-            // By default, Rouxbe uses Flash videos. So, we have to convert the
-            // Flash video URL to a MP4 video URL.
-            NSURL *videoURL = [TCVideoMP4URL mp4VideoURLFromFlashVideoURL:[NSURL URLWithString:urlString]];
-            completion(videoURL, nil);
-        } else {
-            completion(nil, error);
-        }
+        [self setVideoURLWithString:
+         [[rootXML child:@"video"] attribute:@"url"]];
+
+        completionHandler(self.videoURL, error);
     }];
+}
+
+- (void)setVideoURLWithString:(NSString *)URLString
+{
+    _videoURL = [TCMP4VideoURL MP4VideoURLWithString:URLString];
 }
 
 @end

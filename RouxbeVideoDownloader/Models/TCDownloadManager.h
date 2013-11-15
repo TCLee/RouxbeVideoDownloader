@@ -16,6 +16,17 @@
 - (void)downloadManager:(TCDownloadManager *)downloadManager
   didAddDownloadAtIndex:(NSUInteger)index;
 
+/**
+ * Tells the delegate that the download manager could not add a
+ * download to the download queue because of the given error.
+ *
+ * @param downloadManager The download manager instance that reported the error.
+ * @param error           The error object describing why the download manager 
+ *                        failed to add the download.
+ */
+- (void)downloadManager:(TCDownloadManager *)downloadManager
+didFailToAddDownloadWithError:(NSError *)error;
+
 - (void)downloadManager:(TCDownloadManager *)downloadManager
 downloadProgressChangedAtIndex:(NSUInteger)index;
 

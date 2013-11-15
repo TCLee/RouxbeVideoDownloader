@@ -7,24 +7,17 @@
 //
 
 #import "TCDownloadManager.h"
-
-/**
- * The URL to the Lesson embedded video player XML.
- */
-static NSString * const kEmbeddedLessonVideoXML = @"http://rouxbe.com/embedded_player/settings_section/%ld.xml";
+#import "TCDownload.h"
+#import "TCDownloadBuilder.h"
 
 /**
  * The URL to the Tips & Technique embedded video player XML.
  */
 static NSString * const kEmbeddedTipVideoXML = @"http://rouxbe.com/embedded_player/settings_drilldown/%ld.xml";
 
-/**
- * URL to get the MP4 version of the video rather than the default Flash video.
- * Downloading the video in MP4 makes it compatible with iOS devices.
- */
-static NSString * const kMP4VideoURLString = @"http://media.rouxbe.com/itouch/mp4/%@.mp4";
-
 @interface TCDownloadManager ()
+
+@property (nonatomic, copy, readonly) NSMutableArray *mutableDownloadQueue;
 
 @end
 
@@ -39,46 +32,27 @@ static NSString * const kMP4VideoURLString = @"http://media.rouxbe.com/itouch/mp
     return self;
 }
 
-- (void)addDownloadsWithURL:(NSURL *)url
+- (NSArray *)downloadQueue
 {
-
+    // Return the immutable copy of our download queue.
+    return [self.mutableDownloadQueue copy];
 }
 
-- (void)addDownloadsWithURL:(NSURL *)theURL completion:(void (^)(NSArray *downloads, NSError *error))completion
+- (void)addDownloadsWithURL:(NSURL *)aURL
 {
-    NSArray *pathComponents = [theURL pathComponents];
+    // Download Builder will create the appropriate downloads from the given URL.
+    // The handler block will be called multiple times, once for each download created.
+    [TCDownloadBuilder createDownloadsWithURL:aURL handler:^(TCDownload *download, NSError *error) {
+        if (download) {
+            [self.mutableDownloadQueue addObject:download];
 
-    // Second last component of the path represents the category.
-    NSString *category = pathComponents[pathComponents.count - 2];
-
-    if ([category isEqualToString:@"lessons"]) {
-
-    } else if ([category isEqualToString:@"recipes"]) {
-
-    } else if ([category isEqualToString:@"tips-techniques"]) {
-        // Last component of the path represents the content URL itself.
-        NSString *contentURL = pathComponents.lastObject;
-
-        // Extract the content's ID from the content URL.
-        NSScanner *scanner = [[NSScanner alloc] initWithString:contentURL];
-        NSInteger contentID = -1;
-        [scanner scanInteger:&contentID];
-        NSLog(@"Tip ID: %ld", contentID);
-    } else {
-        // Error - Invalid URL
-    }
-}
-
-- (void)getXMLForURL:(NSURL *)URL completion:(void (^)(NSData *xmlData, NSError *error))completion
-{
-    NSURL *xmlURL = [URL URLByAppendingPathExtension:@"xml"];
-
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    [manager GET:[xmlURL absoluteString] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        completion(responseObject, nil);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completion(nil, error);
+            // Notify delegate object that we've appended a download to the queue.
+            [self.delegate downloadManager:self
+                     didAddDownloadAtIndex:(self.mutableDownloadQueue.count - 1)];
+        } else {
+            // Error - Failed to add download to download queue.
+            [self.delegate downloadManager:self didFailToAddDownloadWithError:error];
+        }
     }];
 }
 

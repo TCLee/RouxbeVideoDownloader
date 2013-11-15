@@ -8,29 +8,50 @@
 
 #import "TCLesson.h"
 #import "TCLessonStep.h"
+#import "TCXMLService.h"
+
+/**
+ * The string template representing the URL to a Lesson's XML.
+ */
+static NSString * const kLessonURLString = @"http://rouxbe.com/cooking-school/lessons/%lu.xml";
 
 @implementation TCLesson
 
-- (id)initWithXMLElement:(RXMLElement *)element
++ (void)lessonWithID:(NSUInteger)lessonID
+   completionHandler:(TCLessonBlock)completionHandler
+{
+    NSURL *lessonURL = [NSURL URLWithString:
+                        [NSString stringWithFormat:kLessonURLString, lessonID]];
+    [TCXMLService requestXMLDataWithURL:lessonURL completion:^(NSData *data, NSError *error) {
+        completionHandler([[TCLesson alloc] initWithXMLData:data], error);
+    }];
+}
+
+- (id)initWithXMLData:(NSData *)data
 {
     self = [super init];
     if (self) {
-        [self parsePropertiesFromXMLElement:element];
+        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
+
+        _ID = [[rootXML attribute:@"id"] integerValue];
+        _name = [rootXML attribute:@"name"];
+        _steps = [self stepsWithXML:rootXML];
     }
     return self;
 }
 
-- (void)parsePropertiesFromXMLElement:(RXMLElement *)element
+- (NSArray *)stepsWithXML:(RXMLElement *)rootXML
 {
-    _ID = [[element attribute:@"id"] integerValue];
-    _name = [[element attribute:@"name"] copy];
-
     NSMutableArray *mutableSteps = [[NSMutableArray alloc] init];
-    [element iterate:@"recipesteps.recipestep" usingBlock:^(RXMLElement *stepElement) {
-        TCLessonStep *step = [[TCLessonStep alloc] initWithXMLElement:stepElement lesson:self];
+
+    // Create a TCLessonStep object from each step XML element.
+    [rootXML iterate:@"recipesteps.recipestep" usingBlock:^(RXMLElement *stepXML) {
+        TCLessonStep *step = [[TCLessonStep alloc] initWithXML:stepXML
+                                                    lessonName:self.name];
         [mutableSteps addObject:step];
     }];
-    _steps = [mutableSteps copy];
+
+    return [mutableSteps copy];
 }
 
 @end

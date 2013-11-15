@@ -60,9 +60,11 @@
         return;
     }
 
-    // Add video downloads from user's given URL to the queue.
-    [self.downloadManager addDownloadsWithURL:[NSURL URLWithString:urlString]];
-    
+    NSURL *url = [[NSURL alloc] initWithString:urlString];
+    // If URL is valid, add downloads to the download queue.
+    if (url) {
+        [self.downloadManager addDownloadsWithURL:url];
+    }
 }
 
 /**
@@ -127,6 +129,14 @@
                           withAnimation:NSTableViewAnimationSlideDown];
     [self.tableView scrollRowToVisible:index];
     [self.tableView endUpdates];
+}
+
+- (void)downloadManager:(TCDownloadManager *)downloadManager
+didFailToAddDownloadWithError:(NSError *)error
+{
+    // Show alert view to let user know why we failed to add the downloads.
+    NSAlert *alert = [NSAlert alertWithError:error];
+    [alert beginSheetModalForWindow:self.window completionHandler:nil];
 }
 
 - (void)downloadManager:(TCDownloadManager *)downloadManager

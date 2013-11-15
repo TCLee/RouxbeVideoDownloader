@@ -1,2010 +1,751 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>archiveVersion</key>
-	<string>1</string>
-	<key>classes</key>
-	<dict/>
-	<key>objectVersion</key>
-	<string>46</string>
-	<key>objects</key>
-	<dict>
-		<key>00A88F10E1FF4F3499023017</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>libPods.a</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>01522A4266904960AF37954B</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>0AE2511D957F42A2A5C56E3B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>00A88F10E1FF4F3499023017</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>4A76EA7428D7480B80D1F390</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>libPods-test.a</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>76E0ADDA46604FAE969A0677</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>8107DB3F1828EA7F0078A318</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCDownloadManager.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8107DB401828EA7F0078A318</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCDownloadManager.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8107DB411828EA7F0078A318</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8107DB401828EA7F0078A318</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81310AE11828948E00327AFF</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCMainWindowController.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81310AE21828948E00327AFF</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCMainWindowController.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81310AE41828948E00327AFF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81310AE21828948E00327AFF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81310AE61828950700327AFF</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81310AE71828950700327AFF</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>MainWindow.xib</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81310AE71828950700327AFF</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.xib</string>
-			<key>name</key>
-			<string>Base</string>
-			<key>path</key>
-			<string>Base.lproj/MainWindow.xib</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81310AE81828950700327AFF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81310AE61828950700327AFF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8154CE1D182F327100DC73EC</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCRouxbeURLCategoryTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8154CE1E182F327100DC73EC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8154CE1D182F327100DC73EC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8154CE1F182F657E00DC73EC</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCRouxbeURLContentIDTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8154CE20182F657E00DC73EC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8154CE1F182F657E00DC73EC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8154CE21182F78FC00DC73EC</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCRouxbeXMLURLTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8154CE22182F78FC00DC73EC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8154CE21182F78FC00DC73EC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81632868182770120070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>8163287A182770120070914E</string>
-				<string>81632898182770120070914E</string>
-				<string>81632873182770120070914E</string>
-				<string>81632872182770120070914E</string>
-				<string>EA621434EFAA40278656A5D5</string>
-				<string>E7CCC0441B2F48439F00001A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81632869182770120070914E</key>
-		<dict>
-			<key>attributes</key>
-			<dict>
-				<key>CLASSPREFIX</key>
-				<string>TC</string>
-				<key>LastUpgradeCheck</key>
-				<string>0500</string>
-				<key>ORGANIZATIONNAME</key>
-				<string>Lee Tze Cheun</string>
-				<key>TargetAttributes</key>
-				<dict>
-					<key>81632891182770120070914E</key>
-					<dict>
-						<key>TestTargetID</key>
-						<string>81632870182770120070914E</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>buildConfigurationList</key>
-			<string>8163286C182770120070914E</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 3.2</string>
-			<key>developmentRegion</key>
-			<string>English</string>
-			<key>hasScannedForEncodings</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-				<string>Base</string>
-			</array>
-			<key>mainGroup</key>
-			<string>81632868182770120070914E</string>
-			<key>productRefGroup</key>
-			<string>81632872182770120070914E</string>
-			<key>projectDirPath</key>
-			<string></string>
-			<key>projectReferences</key>
-			<array/>
-			<key>projectRoot</key>
-			<string></string>
-			<key>targets</key>
-			<array>
-				<string>81632870182770120070914E</string>
-				<string>81632891182770120070914E</string>
-			</array>
-		</dict>
-		<key>8163286C182770120070914E</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>816328A0182770120070914E</string>
-				<string>816328A1182770120070914E</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>8163286D182770120070914E</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>819887D2183353BC00FE21BB</string>
-				<string>81F99D5C182DD0D6006E561B</string>
-				<string>81EFED5F182B35CB00F28B1B</string>
-				<string>81EFED351829E1D400F28B1B</string>
-				<string>8175B9021831FD2500C763F8</string>
-				<string>81310AE41828948E00327AFF</string>
-				<string>81EFED60182B35CB00F28B1B</string>
-				<string>8107DB411828EA7F0078A318</string>
-				<string>816328BA18277F3F0070914E</string>
-				<string>81F99D61182DDD92006E561B</string>
-				<string>81EFED6B182B8A8200F28B1B</string>
-				<string>81632888182770120070914E</string>
-				<string>819887CC183311EA00FE21BB</string>
-				<string>81F99D59182CBC6E006E561B</string>
-				<string>81EFED321829DFD600F28B1B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>8163286E182770120070914E</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>81632875182770120070914E</string>
-				<string>0AE2511D957F42A2A5C56E3B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>8163286F182770120070914E</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>816328BC18277F3F0070914E</string>
-				<string>81310AE81828950700327AFF</string>
-				<string>816328B718277F3F0070914E</string>
-				<string>816328B918277F3F0070914E</string>
-				<string>816328B818277F3F0070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>81632870182770120070914E</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>816328A2182770120070914E</string>
-			<key>buildPhases</key>
-			<array>
-				<string>01522A4266904960AF37954B</string>
-				<string>8163286D182770120070914E</string>
-				<string>8163286E182770120070914E</string>
-				<string>8163286F182770120070914E</string>
-				<string>876C856E35684B699D67E5FC</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>RouxbeVideoDownloader</string>
-			<key>productName</key>
-			<string>RouxbeVideoDownloader</string>
-			<key>productReference</key>
-			<string>81632871182770120070914E</string>
-			<key>productType</key>
-			<string>com.apple.product-type.application</string>
-		</dict>
-		<key>81632871182770120070914E</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.application</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>RouxbeVideoDownloader.app</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>81632872182770120070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81632871182770120070914E</string>
-				<string>81632892182770120070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81632873182770120070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81632874182770120070914E</string>
-				<string>81632893182770120070914E</string>
-				<string>81632876182770120070914E</string>
-				<string>00A88F10E1FF4F3499023017</string>
-				<string>4A76EA7428D7480B80D1F390</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81632874182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>Cocoa.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/Cocoa.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>81632875182770120070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81632874182770120070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81632876182770120070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81632877182770120070914E</string>
-				<string>81632878182770120070914E</string>
-				<string>81632879182770120070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Other Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81632877182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>AppKit.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/AppKit.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>81632878182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>CoreData.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/CoreData.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>81632879182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>Foundation.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/Foundation.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>8163287A182770120070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81632886182770120070914E</string>
-				<string>81632887182770120070914E</string>
-				<string>81EFED5A182B35CB00F28B1B</string>
-				<string>816328A918277F3F0070914E</string>
-				<string>816328A818277F3F0070914E</string>
-				<string>816328B418277F3F0070914E</string>
-				<string>816328AA18277F3F0070914E</string>
-				<string>816328AC18277F3F0070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>RouxbeVideoDownloader</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81632886182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCAppDelegate.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81632887182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCAppDelegate.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81632888182770120070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81632887182770120070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8163288E182770120070914E</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>81EFED50182A3FA800F28B1B</string>
-				<string>819887DB183473D000FE21BB</string>
-				<string>8154CE20182F657E00DC73EC</string>
-				<string>81F99D63182E0AB5006E561B</string>
-				<string>8154CE1E182F327100DC73EC</string>
-				<string>81EFED42182A002B00F28B1B</string>
-				<string>819887D91834734800FE21BB</string>
-				<string>81EFED371829E77600F28B1B</string>
-				<string>8154CE22182F78FC00DC73EC</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>8163288F182770120070914E</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>81632895182770120070914E</string>
-				<string>81632894182770120070914E</string>
-				<string>D110F5CA73DD449A8D570AE0</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>81632890182770120070914E</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>81EFED3C1829E83200F28B1B</string>
-				<string>81EFED401829F6BC00F28B1B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>81632891182770120070914E</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>816328A5182770120070914E</string>
-			<key>buildPhases</key>
-			<array>
-				<string>76E0ADDA46604FAE969A0677</string>
-				<string>8163288E182770120070914E</string>
-				<string>8163288F182770120070914E</string>
-				<string>81632890182770120070914E</string>
-				<string>F567DBCB05434CC391C2DCD1</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>81632897182770120070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>RouxbeVideoDownloaderTests</string>
-			<key>productName</key>
-			<string>RouxbeVideoDownloaderTests</string>
-			<key>productReference</key>
-			<string>81632892182770120070914E</string>
-			<key>productType</key>
-			<string>com.apple.product-type.bundle.unit-test</string>
-		</dict>
-		<key>81632892182770120070914E</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.cfbundle</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>RouxbeVideoDownloaderTests.xctest</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>81632893182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>XCTest.framework</string>
-			<key>path</key>
-			<string>Library/Frameworks/XCTest.framework</string>
-			<key>sourceTree</key>
-			<string>DEVELOPER_DIR</string>
-		</dict>
-		<key>81632894182770120070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81632893182770120070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81632895182770120070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81632874182770120070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81632896182770120070914E</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>81632869182770120070914E</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>81632870182770120070914E</string>
-			<key>remoteInfo</key>
-			<string>RouxbeVideoDownloader</string>
-		</dict>
-		<key>81632897182770120070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>target</key>
-			<string>81632870182770120070914E</string>
-			<key>targetProxy</key>
-			<string>81632896182770120070914E</string>
-		</dict>
-		<key>81632898182770120070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81EFED381829E83200F28B1B</string>
-				<string>819887D61834734800FE21BB</string>
-				<string>81EFED3E1829F6BC00F28B1B</string>
-				<string>819887DA183473D000FE21BB</string>
-				<string>81EFED361829E77600F28B1B</string>
-				<string>81EFED41182A002B00F28B1B</string>
-				<string>81EFED4F182A3FA800F28B1B</string>
-				<string>81F99D62182E0AB5006E561B</string>
-				<string>8154CE1D182F327100DC73EC</string>
-				<string>8154CE1F182F657E00DC73EC</string>
-				<string>8154CE21182F78FC00DC73EC</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>RouxbeVideoDownloaderTests</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328A0182770120070914E</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_ENABLE_OBJC_EXCEPTIONS</key>
-				<string>YES</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
-				<string>NO</string>
-				<key>GCC_TREAT_WARNINGS_AS_ERRORS</key>
-				<string>YES</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>MACOSX_DEPLOYMENT_TARGET</key>
-				<string>10.9</string>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>SDKROOT</key>
-				<string>macosx</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>816328A1182770120070914E</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>YES</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf-with-dsym</string>
-				<key>ENABLE_NS_ASSERTIONS</key>
-				<string>NO</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_ENABLE_OBJC_EXCEPTIONS</key>
-				<string>YES</string>
-				<key>GCC_TREAT_WARNINGS_AS_ERRORS</key>
-				<string>YES</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>MACOSX_DEPLOYMENT_TARGET</key>
-				<string>10.9</string>
-				<key>SDKROOT</key>
-				<string>macosx</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>816328A2182770120070914E</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>816328A3182770120070914E</string>
-				<string>816328A4182770120070914E</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>816328A3182770120070914E</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>EA621434EFAA40278656A5D5</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>COMBINE_HIDPI_IMAGES</key>
-				<string>YES</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>app</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>816328A4182770120070914E</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>EA621434EFAA40278656A5D5</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>COMBINE_HIDPI_IMAGES</key>
-				<string>YES</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>app</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>816328A5182770120070914E</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>816328A6182770120070914E</string>
-				<string>816328A7182770120070914E</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>816328A6182770120070914E</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>E7CCC0441B2F48439F00001A</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>BUNDLE_LOADER</key>
-				<string>$(BUILT_PRODUCTS_DIR)/RouxbeVideoDownloader.app/Contents/MacOS/RouxbeVideoDownloader</string>
-				<key>COMBINE_HIDPI_IMAGES</key>
-				<string>YES</string>
-				<key>FRAMEWORK_SEARCH_PATHS</key>
-				<array>
-					<string>$(DEVELOPER_FRAMEWORKS_DIR)</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>INFOPLIST_FILE</key>
-				<string>RouxbeVideoDownloaderTests/SupportingFiles/RouxbeVideoDownloaderTests-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_HOST</key>
-				<string>$(BUNDLE_LOADER)</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>xctest</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>816328A7182770120070914E</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>E7CCC0441B2F48439F00001A</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>BUNDLE_LOADER</key>
-				<string>$(BUILT_PRODUCTS_DIR)/RouxbeVideoDownloader.app/Contents/MacOS/RouxbeVideoDownloader</string>
-				<key>COMBINE_HIDPI_IMAGES</key>
-				<string>YES</string>
-				<key>FRAMEWORK_SEARCH_PATHS</key>
-				<array>
-					<string>$(DEVELOPER_FRAMEWORKS_DIR)</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>RouxbeVideoDownloaderTests/SupportingFiles/RouxbeVideoDownloaderTests-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_HOST</key>
-				<string>$(BUNDLE_LOADER)</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>xctest</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>816328A818277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81310AE11828948E00327AFF</string>
-				<string>81310AE21828948E00327AFF</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Controllers</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328A918277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>8175B9001831FD2500C763F8</string>
-				<string>8175B9011831FD2500C763F8</string>
-				<string>8107DB3F1828EA7F0078A318</string>
-				<string>8107DB401828EA7F0078A318</string>
-				<string>81EFED69182B8A8100F28B1B</string>
-				<string>81EFED6A182B8A8200F28B1B</string>
-				<string>819887D0183353BC00FE21BB</string>
-				<string>819887D1183353BC00FE21BB</string>
-				<string>819887CA183311EA00FE21BB</string>
-				<string>819887CB183311EA00FE21BB</string>
-				<string>81EFED301829DFD600F28B1B</string>
-				<string>81EFED311829DFD600F28B1B</string>
-				<string>81EFED331829E1D400F28B1B</string>
-				<string>81EFED341829E1D400F28B1B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Models</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328AA18277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>816328AB18277F3F0070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Resources</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328AB18277F3F0070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>folder.assetcatalog</string>
-			<key>path</key>
-			<string>Images.xcassets</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328AC18277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>816328AD18277F3F0070914E</string>
-				<string>816328AF18277F3F0070914E</string>
-				<string>816328B118277F3F0070914E</string>
-				<string>816328B218277F3F0070914E</string>
-				<string>816328B318277F3F0070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>SupportingFiles</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328AD18277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>816328AE18277F3F0070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>Credits.rtf</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328AE18277F3F0070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.rtf</string>
-			<key>name</key>
-			<string>en</string>
-			<key>path</key>
-			<string>en.lproj/Credits.rtf</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328AF18277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>816328B018277F3F0070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B018277F3F0070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.strings</string>
-			<key>name</key>
-			<string>en</string>
-			<key>path</key>
-			<string>en.lproj/InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B118277F3F0070914E</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>main.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B218277F3F0070914E</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>RouxbeVideoDownloader-Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B318277F3F0070914E</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RouxbeVideoDownloader-Prefix.pch</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B418277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>816328B518277F3F0070914E</string>
-				<string>81310AE61828950700327AFF</string>
-				<string>81F99D57182CBC6E006E561B</string>
-				<string>81F99D58182CBC6E006E561B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Views</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B518277F3F0070914E</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>816328B618277F3F0070914E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>MainMenu.xib</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B618277F3F0070914E</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>file.xib</string>
-			<key>name</key>
-			<string>Base</string>
-			<key>path</key>
-			<string>Base.lproj/MainMenu.xib</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>816328B718277F3F0070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>816328AB18277F3F0070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>816328B818277F3F0070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>816328AD18277F3F0070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>816328B918277F3F0070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>816328AF18277F3F0070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>816328BA18277F3F0070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>816328B118277F3F0070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>816328BC18277F3F0070914E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>816328B518277F3F0070914E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8175B9001831FD2500C763F8</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCXMLService.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8175B9011831FD2500C763F8</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCXMLService.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8175B9021831FD2500C763F8</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8175B9011831FD2500C763F8</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>819887CA183311EA00FE21BB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCLessonService.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887CB183311EA00FE21BB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCLessonService.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887CC183311EA00FE21BB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>819887CB183311EA00FE21BB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>819887D0183353BC00FE21BB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCLessonDownloadBuilder.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887D1183353BC00FE21BB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCLessonDownloadBuilder.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887D2183353BC00FE21BB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>819887D1183353BC00FE21BB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>819887D61834734800FE21BB</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>819887D71834734800FE21BB</string>
-				<string>819887D81834734800FE21BB</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Lib</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887D71834734800FE21BB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCTestDataLoader.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887D81834734800FE21BB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCTestDataLoader.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887D91834734800FE21BB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>819887D81834734800FE21BB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>819887DA183473D000FE21BB</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCAddDownloadTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>819887DB183473D000FE21BB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>819887DA183473D000FE21BB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED301829DFD600F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCLesson.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED311829DFD600F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCLesson.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED321829DFD600F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED311829DFD600F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED331829E1D400F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCLessonStep.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED341829E1D400F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCLessonStep.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED351829E1D400F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED341829E1D400F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED361829E77600F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCLessonTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED371829E77600F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED361829E77600F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED381829E83200F28B1B</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81EFED391829E83200F28B1B</string>
-				<string>81EFED3B1829E83200F28B1B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>SupportingFiles</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED391829E83200F28B1B</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81EFED3A1829E83200F28B1B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED3A1829E83200F28B1B</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.strings</string>
-			<key>name</key>
-			<string>en</string>
-			<key>path</key>
-			<string>en.lproj/InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED3B1829E83200F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>RouxbeVideoDownloaderTests-Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED3C1829E83200F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED391829E83200F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED3E1829F6BC00F28B1B</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81EFED3F1829F6BC00F28B1B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Data</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED3F1829F6BC00F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xml</string>
-			<key>path</key>
-			<string>Lesson.xml</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED401829F6BC00F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED3F1829F6BC00F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED41182A002B00F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCLessonStepTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED42182A002B00F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED41182A002B00F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED4F182A3FA800F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCVideoMP4URLTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED50182A3FA800F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED4F182A3FA800F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED5A182B35CB00F28B1B</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>81EFED5B182B35CB00F28B1B</string>
-				<string>81EFED5C182B35CB00F28B1B</string>
-				<string>81EFED5D182B35CB00F28B1B</string>
-				<string>81EFED5E182B35CB00F28B1B</string>
-				<string>81F99D5A182DD0D6006E561B</string>
-				<string>81F99D5B182DD0D6006E561B</string>
-				<string>81F99D5F182DDD92006E561B</string>
-				<string>81F99D60182DDD92006E561B</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Lib</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED5B182B35CB00F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCVideoMP4URL.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED5C182B35CB00F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCVideoMP4URL.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED5D182B35CB00F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCXMLLoader.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED5E182B35CB00F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCXMLLoader.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED5F182B35CB00F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED5C182B35CB00F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED60182B35CB00F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED5E182B35CB00F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81EFED69182B8A8100F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCDownload.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED6A182B8A8200F28B1B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCDownload.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81EFED6B182B8A8200F28B1B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81EFED6A182B8A8200F28B1B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81F99D57182CBC6E006E561B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>TCDownloadCellView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81F99D58182CBC6E006E561B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCDownloadCellView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81F99D59182CBC6E006E561B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81F99D58182CBC6E006E561B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81F99D5A182DD0D6006E561B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>NSString+FindSubstringAdditions.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81F99D5B182DD0D6006E561B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>NSString+FindSubstringAdditions.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81F99D5C182DD0D6006E561B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81F99D5B182DD0D6006E561B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81F99D5F182DDD92006E561B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>NSURL+RouxbeAdditions.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81F99D60182DDD92006E561B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>NSURL+RouxbeAdditions.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81F99D61182DDD92006E561B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81F99D60182DDD92006E561B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>81F99D62182E0AB5006E561B</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>TCRouxbeURLValidationTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>81F99D63182E0AB5006E561B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>81F99D62182E0AB5006E561B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>876C856E35684B699D67E5FC</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Pods-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>D110F5CA73DD449A8D570AE0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>4A76EA7428D7480B80D1F390</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>E7CCC0441B2F48439F00001A</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-test.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Pods-test.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>EA621434EFAA40278656A5D5</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Pods.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F567DBCB05434CC391C2DCD1</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Pods-test-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-	</dict>
-	<key>rootObject</key>
-	<string>81632869182770120070914E</string>
-</dict>
-</plist>
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0AE2511D957F42A2A5C56E3B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A88F10E1FF4F3499023017 /* libPods.a */; };
+		8107DB411828EA7F0078A318 /* TCDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107DB401828EA7F0078A318 /* TCDownloadManager.m */; };
+		81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81310AE21828948E00327AFF /* TCMainWindowController.m */; };
+		81310AE81828950700327AFF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81310AE61828950700327AFF /* MainWindow.xib */; };
+		8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */; };
+		8154CE20182F657E00DC73EC /* TCRouxbeURLContentIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */; };
+		8154CE22182F78FC00DC73EC /* TCRouxbeXMLURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */; };
+		81632875182770120070914E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81632874182770120070914E /* Cocoa.framework */; };
+		81632888182770120070914E /* TCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81632887182770120070914E /* TCAppDelegate.m */; };
+		81632894182770120070914E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81632893182770120070914E /* XCTest.framework */; };
+		81632895182770120070914E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81632874182770120070914E /* Cocoa.framework */; };
+		816328B718277F3F0070914E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 816328AB18277F3F0070914E /* Images.xcassets */; };
+		816328B818277F3F0070914E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 816328AD18277F3F0070914E /* Credits.rtf */; };
+		816328B918277F3F0070914E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 816328AF18277F3F0070914E /* InfoPlist.strings */; };
+		816328BA18277F3F0070914E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 816328B118277F3F0070914E /* main.m */; };
+		816328BC18277F3F0070914E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816328B518277F3F0070914E /* MainMenu.xib */; };
+		8175B9021831FD2500C763F8 /* TCXMLService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8175B9011831FD2500C763F8 /* TCXMLService.m */; };
+		819887D2183353BC00FE21BB /* TCLessonDownloadBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D1183353BC00FE21BB /* TCLessonDownloadBuilder.m */; };
+		819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D81834734800FE21BB /* TCTestDataLoader.m */; };
+		819887DB183473D000FE21BB /* TCAddDownloadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887DA183473D000FE21BB /* TCAddDownloadTests.m */; };
+		819887DF1834B39A00FE21BB /* TCDownloadBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887DE1834B39A00FE21BB /* TCDownloadBuilder.m */; };
+		819887E31834DD5700FE21BB /* TCMP4VideoURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887E21834DD5700FE21BB /* TCMP4VideoURL.m */; };
+		81EFED321829DFD600F28B1B /* TCLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED311829DFD600F28B1B /* TCLesson.m */; };
+		81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED341829E1D400F28B1B /* TCLessonStep.m */; };
+		81EFED371829E77600F28B1B /* TCLessonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED361829E77600F28B1B /* TCLessonTests.m */; };
+		81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED391829E83200F28B1B /* InfoPlist.strings */; };
+		81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED3F1829F6BC00F28B1B /* Lesson.xml */; };
+		81EFED42182A002B00F28B1B /* TCLessonStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED41182A002B00F28B1B /* TCLessonStepTests.m */; };
+		81EFED50182A3FA800F28B1B /* TCVideoMP4URLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */; };
+		81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED6A182B8A8200F28B1B /* TCDownload.m */; };
+		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
+		81F99D5C182DD0D6006E561B /* NSString+FindSubstringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */; };
+		81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */; };
+		81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */; };
+		D110F5CA73DD449A8D570AE0 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76EA7428D7480B80D1F390 /* libPods-test.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		81632896182770120070914E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 81632869182770120070914E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 81632870182770120070914E;
+			remoteInfo = RouxbeVideoDownloader;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00A88F10E1FF4F3499023017 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A76EA7428D7480B80D1F390 /* libPods-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8107DB3F1828EA7F0078A318 /* TCDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadManager.h; sourceTree = "<group>"; };
+		8107DB401828EA7F0078A318 /* TCDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadManager.m; sourceTree = "<group>"; };
+		81310AE11828948E00327AFF /* TCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMainWindowController.h; sourceTree = "<group>"; };
+		81310AE21828948E00327AFF /* TCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMainWindowController.m; sourceTree = "<group>"; };
+		81310AE71828950700327AFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLCategoryTests.m; sourceTree = "<group>"; };
+		8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLContentIDTests.m; sourceTree = "<group>"; };
+		8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeXMLURLTests.m; sourceTree = "<group>"; };
+		81632871182770120070914E /* RouxbeVideoDownloader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouxbeVideoDownloader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81632874182770120070914E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		81632877182770120070914E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		81632878182770120070914E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		81632879182770120070914E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		81632886182770120070914E /* TCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCAppDelegate.h; sourceTree = "<group>"; };
+		81632887182770120070914E /* TCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCAppDelegate.m; sourceTree = "<group>"; };
+		81632892182770120070914E /* RouxbeVideoDownloaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RouxbeVideoDownloaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		81632893182770120070914E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		816328AB18277F3F0070914E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		816328AE18277F3F0070914E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		816328B018277F3F0070914E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		816328B118277F3F0070914E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		816328B218277F3F0070914E /* RouxbeVideoDownloader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RouxbeVideoDownloader-Info.plist"; sourceTree = "<group>"; };
+		816328B318277F3F0070914E /* RouxbeVideoDownloader-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RouxbeVideoDownloader-Prefix.pch"; sourceTree = "<group>"; };
+		816328B618277F3F0070914E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		8175B9001831FD2500C763F8 /* TCXMLService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCXMLService.h; sourceTree = "<group>"; };
+		8175B9011831FD2500C763F8 /* TCXMLService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCXMLService.m; sourceTree = "<group>"; };
+		819887D0183353BC00FE21BB /* TCLessonDownloadBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLessonDownloadBuilder.h; sourceTree = "<group>"; };
+		819887D1183353BC00FE21BB /* TCLessonDownloadBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonDownloadBuilder.m; sourceTree = "<group>"; };
+		819887D71834734800FE21BB /* TCTestDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTestDataLoader.h; sourceTree = "<group>"; };
+		819887D81834734800FE21BB /* TCTestDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTestDataLoader.m; sourceTree = "<group>"; };
+		819887DA183473D000FE21BB /* TCAddDownloadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCAddDownloadTests.m; sourceTree = "<group>"; };
+		819887DC18347E0D00FE21BB /* RouxbeVideoDownloaderTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RouxbeVideoDownloaderTests-Prefix.pch"; sourceTree = "<group>"; };
+		819887DD1834B39A00FE21BB /* TCDownloadBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadBuilder.h; sourceTree = "<group>"; };
+		819887DE1834B39A00FE21BB /* TCDownloadBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadBuilder.m; sourceTree = "<group>"; };
+		819887E01834C8B700FE21BB /* TCDownloadBuilderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCDownloadBuilderProtocol.h; sourceTree = "<group>"; };
+		819887E11834DD5700FE21BB /* TCMP4VideoURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMP4VideoURL.h; sourceTree = "<group>"; };
+		819887E21834DD5700FE21BB /* TCMP4VideoURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMP4VideoURL.m; sourceTree = "<group>"; };
+		81EFED301829DFD600F28B1B /* TCLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLesson.h; sourceTree = "<group>"; };
+		81EFED311829DFD600F28B1B /* TCLesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLesson.m; sourceTree = "<group>"; };
+		81EFED331829E1D400F28B1B /* TCLessonStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLessonStep.h; sourceTree = "<group>"; };
+		81EFED341829E1D400F28B1B /* TCLessonStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonStep.m; sourceTree = "<group>"; };
+		81EFED361829E77600F28B1B /* TCLessonTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonTests.m; sourceTree = "<group>"; };
+		81EFED3A1829E83200F28B1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		81EFED3B1829E83200F28B1B /* RouxbeVideoDownloaderTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RouxbeVideoDownloaderTests-Info.plist"; sourceTree = "<group>"; };
+		81EFED3F1829F6BC00F28B1B /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
+		81EFED41182A002B00F28B1B /* TCLessonStepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonStepTests.m; sourceTree = "<group>"; };
+		81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCVideoMP4URLTests.m; sourceTree = "<group>"; };
+		81EFED69182B8A8100F28B1B /* TCDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownload.h; sourceTree = "<group>"; };
+		81EFED6A182B8A8200F28B1B /* TCDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownload.m; sourceTree = "<group>"; };
+		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
+		81F99D58182CBC6E006E561B /* TCDownloadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadCellView.m; sourceTree = "<group>"; };
+		81F99D5A182DD0D6006E561B /* NSString+FindSubstringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FindSubstringAdditions.h"; sourceTree = "<group>"; };
+		81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FindSubstringAdditions.m"; sourceTree = "<group>"; };
+		81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RouxbeAdditions.h"; sourceTree = "<group>"; };
+		81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+RouxbeAdditions.m"; sourceTree = "<group>"; };
+		81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLValidationTests.m; sourceTree = "<group>"; };
+		E7CCC0441B2F48439F00001A /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
+		EA621434EFAA40278656A5D5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8163286E182770120070914E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81632875182770120070914E /* Cocoa.framework in Frameworks */,
+				0AE2511D957F42A2A5C56E3B /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8163288F182770120070914E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81632895182770120070914E /* Cocoa.framework in Frameworks */,
+				81632894182770120070914E /* XCTest.framework in Frameworks */,
+				D110F5CA73DD449A8D570AE0 /* libPods-test.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		81632868182770120070914E = {
+			isa = PBXGroup;
+			children = (
+				8163287A182770120070914E /* RouxbeVideoDownloader */,
+				81632898182770120070914E /* RouxbeVideoDownloaderTests */,
+				81632873182770120070914E /* Frameworks */,
+				81632872182770120070914E /* Products */,
+				EA621434EFAA40278656A5D5 /* Pods.xcconfig */,
+				E7CCC0441B2F48439F00001A /* Pods-test.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		81632872182770120070914E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				81632871182770120070914E /* RouxbeVideoDownloader.app */,
+				81632892182770120070914E /* RouxbeVideoDownloaderTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		81632873182770120070914E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				81632874182770120070914E /* Cocoa.framework */,
+				81632893182770120070914E /* XCTest.framework */,
+				81632876182770120070914E /* Other Frameworks */,
+				00A88F10E1FF4F3499023017 /* libPods.a */,
+				4A76EA7428D7480B80D1F390 /* libPods-test.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		81632876182770120070914E /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				81632877182770120070914E /* AppKit.framework */,
+				81632878182770120070914E /* CoreData.framework */,
+				81632879182770120070914E /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		8163287A182770120070914E /* RouxbeVideoDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				81632886182770120070914E /* TCAppDelegate.h */,
+				81632887182770120070914E /* TCAppDelegate.m */,
+				81EFED5A182B35CB00F28B1B /* Lib */,
+				816328A918277F3F0070914E /* Models */,
+				816328A818277F3F0070914E /* Controllers */,
+				816328B418277F3F0070914E /* Views */,
+				816328AA18277F3F0070914E /* Resources */,
+				816328AC18277F3F0070914E /* SupportingFiles */,
+			);
+			path = RouxbeVideoDownloader;
+			sourceTree = "<group>";
+		};
+		81632898182770120070914E /* RouxbeVideoDownloaderTests */ = {
+			isa = PBXGroup;
+			children = (
+				81EFED381829E83200F28B1B /* SupportingFiles */,
+				819887D61834734800FE21BB /* Lib */,
+				81EFED3E1829F6BC00F28B1B /* Data */,
+				819887DA183473D000FE21BB /* TCAddDownloadTests.m */,
+				81EFED361829E77600F28B1B /* TCLessonTests.m */,
+				81EFED41182A002B00F28B1B /* TCLessonStepTests.m */,
+				81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */,
+				81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */,
+				8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */,
+				8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */,
+				8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */,
+			);
+			path = RouxbeVideoDownloaderTests;
+			sourceTree = "<group>";
+		};
+		816328A818277F3F0070914E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				81310AE11828948E00327AFF /* TCMainWindowController.h */,
+				81310AE21828948E00327AFF /* TCMainWindowController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		816328A918277F3F0070914E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8175B9001831FD2500C763F8 /* TCXMLService.h */,
+				8175B9011831FD2500C763F8 /* TCXMLService.m */,
+				819887E11834DD5700FE21BB /* TCMP4VideoURL.h */,
+				819887E21834DD5700FE21BB /* TCMP4VideoURL.m */,
+				8107DB3F1828EA7F0078A318 /* TCDownloadManager.h */,
+				8107DB401828EA7F0078A318 /* TCDownloadManager.m */,
+				81EFED69182B8A8100F28B1B /* TCDownload.h */,
+				81EFED6A182B8A8200F28B1B /* TCDownload.m */,
+				819887E01834C8B700FE21BB /* TCDownloadBuilderProtocol.h */,
+				819887DD1834B39A00FE21BB /* TCDownloadBuilder.h */,
+				819887DE1834B39A00FE21BB /* TCDownloadBuilder.m */,
+				819887D0183353BC00FE21BB /* TCLessonDownloadBuilder.h */,
+				819887D1183353BC00FE21BB /* TCLessonDownloadBuilder.m */,
+				81EFED301829DFD600F28B1B /* TCLesson.h */,
+				81EFED311829DFD600F28B1B /* TCLesson.m */,
+				81EFED331829E1D400F28B1B /* TCLessonStep.h */,
+				81EFED341829E1D400F28B1B /* TCLessonStep.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		816328AA18277F3F0070914E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				816328AB18277F3F0070914E /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		816328AC18277F3F0070914E /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				816328AD18277F3F0070914E /* Credits.rtf */,
+				816328AF18277F3F0070914E /* InfoPlist.strings */,
+				816328B118277F3F0070914E /* main.m */,
+				816328B218277F3F0070914E /* RouxbeVideoDownloader-Info.plist */,
+				816328B318277F3F0070914E /* RouxbeVideoDownloader-Prefix.pch */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		816328B418277F3F0070914E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				816328B518277F3F0070914E /* MainMenu.xib */,
+				81310AE61828950700327AFF /* MainWindow.xib */,
+				81F99D57182CBC6E006E561B /* TCDownloadCellView.h */,
+				81F99D58182CBC6E006E561B /* TCDownloadCellView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		819887D61834734800FE21BB /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				819887D71834734800FE21BB /* TCTestDataLoader.h */,
+				819887D81834734800FE21BB /* TCTestDataLoader.m */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		81EFED381829E83200F28B1B /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				819887DC18347E0D00FE21BB /* RouxbeVideoDownloaderTests-Prefix.pch */,
+				81EFED391829E83200F28B1B /* InfoPlist.strings */,
+				81EFED3B1829E83200F28B1B /* RouxbeVideoDownloaderTests-Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		81EFED3E1829F6BC00F28B1B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				81EFED3F1829F6BC00F28B1B /* Lesson.xml */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		81EFED5A182B35CB00F28B1B /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				81F99D5A182DD0D6006E561B /* NSString+FindSubstringAdditions.h */,
+				81F99D5B182DD0D6006E561B /* NSString+FindSubstringAdditions.m */,
+				81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */,
+				81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		81632870182770120070914E /* RouxbeVideoDownloader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 816328A2182770120070914E /* Build configuration list for PBXNativeTarget "RouxbeVideoDownloader" */;
+			buildPhases = (
+				01522A4266904960AF37954B /* Check Pods Manifest.lock */,
+				8163286D182770120070914E /* Sources */,
+				8163286E182770120070914E /* Frameworks */,
+				8163286F182770120070914E /* Resources */,
+				876C856E35684B699D67E5FC /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RouxbeVideoDownloader;
+			productName = RouxbeVideoDownloader;
+			productReference = 81632871182770120070914E /* RouxbeVideoDownloader.app */;
+			productType = "com.apple.product-type.application";
+		};
+		81632891182770120070914E /* RouxbeVideoDownloaderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 816328A5182770120070914E /* Build configuration list for PBXNativeTarget "RouxbeVideoDownloaderTests" */;
+			buildPhases = (
+				76E0ADDA46604FAE969A0677 /* Check Pods Manifest.lock */,
+				8163288E182770120070914E /* Sources */,
+				8163288F182770120070914E /* Frameworks */,
+				81632890182770120070914E /* Resources */,
+				F567DBCB05434CC391C2DCD1 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				81632897182770120070914E /* PBXTargetDependency */,
+			);
+			name = RouxbeVideoDownloaderTests;
+			productName = RouxbeVideoDownloaderTests;
+			productReference = 81632892182770120070914E /* RouxbeVideoDownloaderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		81632869182770120070914E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = TC;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Lee Tze Cheun";
+				TargetAttributes = {
+					81632891182770120070914E = {
+						TestTargetID = 81632870182770120070914E;
+					};
+				};
+			};
+			buildConfigurationList = 8163286C182770120070914E /* Build configuration list for PBXProject "RouxbeVideoDownloader" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 81632868182770120070914E;
+			productRefGroup = 81632872182770120070914E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				81632870182770120070914E /* RouxbeVideoDownloader */,
+				81632891182770120070914E /* RouxbeVideoDownloaderTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8163286F182770120070914E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				816328BC18277F3F0070914E /* MainMenu.xib in Resources */,
+				81310AE81828950700327AFF /* MainWindow.xib in Resources */,
+				816328B718277F3F0070914E /* Images.xcassets in Resources */,
+				816328B918277F3F0070914E /* InfoPlist.strings in Resources */,
+				816328B818277F3F0070914E /* Credits.rtf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81632890182770120070914E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */,
+				81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		01522A4266904960AF37954B /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		76E0ADDA46604FAE969A0677 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		876C856E35684B699D67E5FC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F567DBCB05434CC391C2DCD1 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-test-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8163286D182770120070914E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				819887D2183353BC00FE21BB /* TCLessonDownloadBuilder.m in Sources */,
+				81F99D5C182DD0D6006E561B /* NSString+FindSubstringAdditions.m in Sources */,
+				819887E31834DD5700FE21BB /* TCMP4VideoURL.m in Sources */,
+				81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */,
+				8175B9021831FD2500C763F8 /* TCXMLService.m in Sources */,
+				81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */,
+				8107DB411828EA7F0078A318 /* TCDownloadManager.m in Sources */,
+				816328BA18277F3F0070914E /* main.m in Sources */,
+				81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */,
+				81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */,
+				81632888182770120070914E /* TCAppDelegate.m in Sources */,
+				819887DF1834B39A00FE21BB /* TCDownloadBuilder.m in Sources */,
+				81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */,
+				81EFED321829DFD600F28B1B /* TCLesson.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8163288E182770120070914E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81EFED50182A3FA800F28B1B /* TCVideoMP4URLTests.m in Sources */,
+				819887DB183473D000FE21BB /* TCAddDownloadTests.m in Sources */,
+				8154CE20182F657E00DC73EC /* TCRouxbeURLContentIDTests.m in Sources */,
+				81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */,
+				8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */,
+				81EFED42182A002B00F28B1B /* TCLessonStepTests.m in Sources */,
+				819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */,
+				81EFED371829E77600F28B1B /* TCLessonTests.m in Sources */,
+				8154CE22182F78FC00DC73EC /* TCRouxbeXMLURLTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		81632897182770120070914E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 81632870182770120070914E /* RouxbeVideoDownloader */;
+			targetProxy = 81632896182770120070914E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		81310AE61828950700327AFF /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				81310AE71828950700327AFF /* Base */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		816328AD18277F3F0070914E /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				816328AE18277F3F0070914E /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		816328AF18277F3F0070914E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				816328B018277F3F0070914E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		816328B518277F3F0070914E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				816328B618277F3F0070914E /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		81EFED391829E83200F28B1B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				81EFED3A1829E83200F28B1B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		816328A0182770120070914E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		816328A1182770120070914E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		816328A3182770120070914E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA621434EFAA40278656A5D5 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch";
+				INFOPLIST_FILE = "RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		816328A4182770120070914E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA621434EFAA40278656A5D5 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch";
+				INFOPLIST_FILE = "RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		816328A6182770120070914E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7CCC0441B2F48439F00001A /* Pods-test.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RouxbeVideoDownloader.app/Contents/MacOS/RouxbeVideoDownloader";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RouxbeVideoDownloaderTests/SupportingFiles/RouxbeVideoDownloaderTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "RouxbeVideoDownloaderTests/SupportingFiles/RouxbeVideoDownloaderTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		816328A7182770120070914E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7CCC0441B2F48439F00001A /* Pods-test.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RouxbeVideoDownloader.app/Contents/MacOS/RouxbeVideoDownloader";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RouxbeVideoDownloaderTests/SupportingFiles/RouxbeVideoDownloaderTests-Prefix.pch";
+				INFOPLIST_FILE = "RouxbeVideoDownloaderTests/SupportingFiles/RouxbeVideoDownloaderTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8163286C182770120070914E /* Build configuration list for PBXProject "RouxbeVideoDownloader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				816328A0182770120070914E /* Debug */,
+				816328A1182770120070914E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		816328A2182770120070914E /* Build configuration list for PBXNativeTarget "RouxbeVideoDownloader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				816328A3182770120070914E /* Debug */,
+				816328A4182770120070914E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		816328A5182770120070914E /* Build configuration list for PBXNativeTarget "RouxbeVideoDownloaderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				816328A6182770120070914E /* Debug */,
+				816328A7182770120070914E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 81632869182770120070914E /* Project object */;
+}

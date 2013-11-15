@@ -6,7 +6,14 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-@class TCLesson;
+/**
+ * The block that will be called when a lesson step's video URL 
+ * request has completed.
+ *
+ * @param videoURL The URL to the video or \c nil on error.
+ * @param error    The \c NSError object describing the error, if any.
+ */
+typedef void(^TCLessonStepVideoURLBlock)(NSURL *videoURL, NSError *error);
 
 /**
  * \c TCLessonStep object describes a step in a lesson. A lesson consists of
@@ -15,9 +22,9 @@
 @interface TCLessonStep : NSObject
 
 /**
- * The lesson that this step belongs to.
+ * The name of the lesson that this step belongs to.
  */
-@property (nonatomic, weak, readonly) TCLesson *lesson;
+@property (nonatomic, copy, readonly) NSString *lessonName;
 
 /**
  * The unique ID of this lesson step.
@@ -25,8 +32,7 @@
 @property (nonatomic, assign, readonly) NSUInteger ID;
 
 /**
- * The position of this lesson step, with \c 0 being the first position,
- * \c 1 being the second position, etc...
+ * The zero-based position of this lesson step.
  */
 @property (nonatomic, assign, readonly) NSUInteger position;
 
@@ -36,25 +42,31 @@
 @property (nonatomic, copy, readonly) NSString *name;
 
 /**
- * Initializes the lesson step's properties with data parsed from the 
- * given XML element.
+ * The URL to this lesson step's video.
  *
- * @param element The \c RXMLElement object representing the lesson's
- *                step XML element.
- * @param lesson The \c TCLesson parent object that owns this step.
- *
- * @return An initialized \c TCLessonStep object.
+ * The video URL may return \c nil, if the video URL has not been fetched
+ * yet with a call to TCLesson::videoURLWithCompletionHandler:
  */
-- (id)initWithXMLElement:(RXMLElement *)element lesson:(TCLesson *)lesson;
+@property (nonatomic, copy, readonly) NSURL *videoURL;
 
 /**
- * Finds and returns the URL of this lesson step's video. The video URL will be
- * cached when it's found, so calling this method the next time will just return 
- * the cached URL.
+ * Initializes a new lesson step object from the given XML.
  *
- * @param completion The completion block will be called when the video URL has 
- *                   been found or an error was encountered.
+ * @param stepXML    The XML representing a lesson step element.
+ * @param lessonName The name of the lesson that this step belongs to.
+ *
+ * @return A new \c TCLessonStep object with properties initialized 
+ *         from the XML.
  */
-- (void)findVideoURLWithCompletion:(void (^)(NSURL *videoURL, NSError *error))completion;
+- (id)initWithXML:(RXMLElement *)stepXML
+       lessonName:(NSString *)lessonName;
+
+/**
+ * Fetches the video URL for this lesson step.
+ *
+ * @param completionHandler The completion handler to call when the video
+ *                          URL is fetched or there is an error.
+ */
+- (void)videoURLWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler;
 
 @end
