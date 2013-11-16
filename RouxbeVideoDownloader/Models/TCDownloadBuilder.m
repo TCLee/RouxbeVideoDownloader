@@ -33,6 +33,11 @@
 
         default: {
             // Error - Unknown category or invalid rouxbe.com URL.
+            NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
+                                                        code:NSURLErrorBadURL
+                                                    userInfo:@{NSLocalizedDescriptionKey: @"The URL is not a valid rouxbe.com URL.",
+                                                               NSLocalizedRecoverySuggestionErrorKey: @"Example of a valid rouxbe.com URL:\nhttp://rouxbe.com/cooking-school/lessons/198-how-to-make-veal-beef-stock"}];
+            handler(nil, error);
             break;
         }
     }
