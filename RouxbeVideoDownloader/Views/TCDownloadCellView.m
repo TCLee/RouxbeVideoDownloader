@@ -15,16 +15,19 @@
 {
     _download = theDownload;
 
-    self.titleLabel.stringValue = _download.title;
-    [self setProgress:_download.progress];
-}
+    // Download title.
+    self.titleLabel.stringValue = _download.name;
 
-- (void)setProgress:(NSProgress *)theProgress
-{
-    _progress = theProgress;
-
-    self.progressLabel.stringValue = [_progress localizedAdditionalDescription];
-    self.progressBar.doubleValue = _progress.fractionCompleted;
+    // If download has started then we show its progress.
+    // Else just reset to zero.
+    NSProgress *progress = _download.progress;
+    if (progress) {
+        self.progressLabel.stringValue = [progress localizedAdditionalDescription];
+        self.progressBar.doubleValue = progress.fractionCompleted;
+    } else {
+        self.progressLabel.stringValue = @"";
+        self.progressBar.doubleValue = 0;
+    }
 }
 
 @end

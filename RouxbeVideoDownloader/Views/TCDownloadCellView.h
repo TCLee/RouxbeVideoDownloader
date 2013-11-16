@@ -9,8 +9,8 @@
 @class TCDownload;
 
 /**
- * \c TCDownloadCellView class renders the current state of a 
- * \c TCDownload model object.
+ * \c TCDownloadCellView class renders the current state and 
+ * progress of a \c TCDownload model object.
  */
 @interface TCDownloadCellView : NSTableCellView
 
@@ -22,10 +22,5 @@
  * The \c TCDownload object describing the download.
  */
 @property (nonatomic, strong) TCDownload *download;
-
-/**
- * The \c NSProgress object describing the current download progress.
- */
-@property (nonatomic, strong) NSProgress *progress;
 
 @end
