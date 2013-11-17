@@ -13,22 +13,33 @@
 /**
  * The string template representing the URL to a Lesson's XML.
  */
-static NSString * const kLessonURLString = @"http://rouxbe.com/cooking-school/lessons/%lu.xml";
+static NSString * const kTCRouxbeLessonURLString = @"http://rouxbe.com/cooking-school/lessons/%lu.xml";
+
+@interface TCLesson ()
+
+@end
 
 @implementation TCLesson
+
+#pragma mark - Class Methods
 
 + (void)lessonWithID:(NSUInteger)lessonID
    completionHandler:(TCLessonBlock)completionHandler
 {
     NSURL *lessonURL = [NSURL URLWithString:
-                        [NSString stringWithFormat:kLessonURLString, lessonID]];
+                        [NSString stringWithFormat:kTCRouxbeLessonURLString, lessonID]];
     [TCXMLService requestXMLDataWithURL:lessonURL completion:^(NSData *data, NSError *error) {
         completionHandler([[TCLesson alloc] initWithXMLData:data], error);
     }];
 }
 
+#pragma mark - Instance Methods
+
 - (id)initWithXMLData:(NSData *)data
 {
+    // If XML data is not provided, we can't create a Lesson object.
+    if (!data) { return nil; }
+
     self = [super init];
     if (self) {
         RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
