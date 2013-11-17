@@ -11,17 +11,7 @@
 #import "TCLesson.h"
 #import "TCLessonStep.h"
 #import "TCTestDataLoader.h"
-#import "TCXMLService.h"
-
-/**
- * The block signature used to mock
- * TCXMLService::requestXMLDataWithURL:completion: class method.
- *
- * @param requestURL      The request URL passed into the mock method.
- * @param completionBlock The completion block to call before the 
- *                        mock method returns.
- */
-typedef void(^TCMockXMLServiceBlock)(NSURL *requestURL, TCXMLServiceBlock completionBlock);
+#import "TCMockXMLServiceFactory.h"
 
 /**
  * @test
@@ -72,19 +62,35 @@ typedef void(^TCMockXMLServiceBlock)(NSURL *requestURL, TCXMLServiceBlock comple
 
 /**
  * @test
+ * Test that the Lesson request URL is the correct format.
+ */
+- (void)testLessonXMLURL
+{
+    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+        XCTAssertEqualObjects(requestURL, [NSURL URLWithString:@"http://rouxbe.com/cooking-school/lessons/101.xml"],
+                              @"Lesson request URL should match the expected rouxbe.com URL.");
+    }];
+
+    [TCLesson lessonWithID:101 completionHandler:^(TCLesson *lesson, NSError *error) {
+    }];
+
+    [mock stopMocking];
+}
+
+/**
+ * @test
  * Test fetching a Lesson object with a success case.
  */
 - (void) testFetchLessonSuccess
 {
-    id mock = [self mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
-        // Verify that we've received the correct Lesson XML URL.
-        XCTAssertEqualObjects(requestURL, [NSURL URLWithString:@"http://rouxbe.com/cooking-school/lessons/101.xml"], @"Request URL does not match the expected URL.");
-
+    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         // Load the XML data from the test bundle.
         NSError *__autoreleasing error = nil;
         NSData *data= [TCTestDataLoader XMLDataWithName:@"Lesson"
                                                   error:&error];
-        completionBlock(data, error);
+        NSAssert(data, @"%@", error.localizedDescription);
+        
+        completionBlock(data, nil);
     }];
 
     [TCLesson lessonWithID:101 completionHandler:^(TCLesson *lesson, NSError *error) {
@@ -97,12 +103,11 @@ typedef void(^TCMockXMLServiceBlock)(NSURL *requestURL, TCXMLServiceBlock comple
 
 /**
  * @test
- * Test fetching a Lesson object with a fail case.
+ * Test fetching a Lesson object with an error.
  */
 - (void) testFetchLessonError
 {
-    // A mock service that always return a failed response.
-    id mock = [self mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
                                                     code:NSURLErrorBadServerResponse
                                                 userInfo:nil];
@@ -111,39 +116,13 @@ typedef void(^TCMockXMLServiceBlock)(NSURL *requestURL, TCXMLServiceBlock comple
 
     [TCLesson lessonWithID:101 completionHandler:^(TCLesson *lesson, NSError *error) {
         XCTAssertNil(lesson, @"The lesson object should be nil on error.");
-        XCTAssertNotNil(error, @"The error object should have a value on error.");
 
-        // Verify that the error object gets propagated from the XML Service
-        // class back to the caller.
-        XCTAssertEqualObjects(error.domain, NSURLErrorDomain, @"The error object does not match the one created by TCXMLService class.");
-        XCTAssertTrue(error.code == NSURLErrorBadServerResponse, @"The error object does not match the one created by TCXMLService class.");
+        XCTAssertNotNil(error, @"The error object should have a value on error.");
+        XCTAssertEqualObjects(error.domain, NSURLErrorDomain, @"Error object should have the correct domain.");
+        XCTAssertTrue(error.code == NSURLErrorBadServerResponse, @"Error object should have the correct error code.");
     }];
 
     [mock stopMocking];
-}
-
-/**
- * Creates and returns a mock of \c TCXMLService class with its method 
- * \c requestXMLDataWithURL:completion: replaced with \c aBlock.
- *
- * @param aBlock The block to replace the method with.
- *
- * @return A mock of \c TCXMLService class.
- */
-- (id)mockXMLServiceWithBlock:(TCMockXMLServiceBlock)mockBlock
-{
-    id mock = [OCMockObject mockForClass:[TCXMLService class]];
-
-    void(^invocationBlock)(NSInvocation *) = ^(NSInvocation *invocation) {
-        NSURL *requestURL = [[invocation getArgumentAtIndexAsObject:2] copy];
-        TCXMLServiceBlock completionBlock = [[invocation getArgumentAtIndexAsObject:3] copy];
-        mockBlock(requestURL, completionBlock);
-    };
-    
-    [[[[mock stub] classMethod] andDo:invocationBlock]
-     requestXMLDataWithURL:OCMOCK_ANY completion:OCMOCK_ANY];
-
-    return mock;
 }
 
 @end

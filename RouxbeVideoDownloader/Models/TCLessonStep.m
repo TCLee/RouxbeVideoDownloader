@@ -58,10 +58,10 @@ static NSString * const kLessonVideoPlayerURLString = @"http://rouxbe.com/embedd
                              [NSString stringWithFormat:kLessonVideoPlayerURLString, self.ID]];
 
     [TCXMLService requestXMLDataWithURL:videoPlayerURL completion:^(NSData *data, NSError *error) {
-        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
-
-        [self setVideoURLWithString:
-         [[rootXML child:@"video"] attribute:@"url"]];
+        if (data) {
+            RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
+            [self setVideoURLWithString:[[rootXML child:@"video"] attribute:@"url"]];
+        }
 
         completionHandler(self.videoURL, error);
     }];

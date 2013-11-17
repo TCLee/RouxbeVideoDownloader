@@ -28,6 +28,7 @@
 		819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D81834734800FE21BB /* TCTestDataLoader.m */; };
 		819887DF1834B39A00FE21BB /* TCDownloadBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887DE1834B39A00FE21BB /* TCDownloadBuilder.m */; };
 		819887E31834DD5700FE21BB /* TCMP4VideoURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887E21834DD5700FE21BB /* TCMP4VideoURL.m */; };
+		81AEE0101838B9A800FD2B4C /* TCMockXMLServiceFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 81AEE00F1838B9A800FD2B4C /* TCMockXMLServiceFactory.m */; };
 		81EFED321829DFD600F28B1B /* TCLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED311829DFD600F28B1B /* TCLesson.m */; };
 		81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED341829E1D400F28B1B /* TCLessonStep.m */; };
 		81EFED371829E77600F28B1B /* TCLessonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED361829E77600F28B1B /* TCLessonTests.m */; };
@@ -36,6 +37,7 @@
 		81EFED42182A002B00F28B1B /* TCLessonStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED41182A002B00F28B1B /* TCLessonStepTests.m */; };
 		81EFED50182A3FA800F28B1B /* TCMP4VideoURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */; };
 		81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED6A182B8A8200F28B1B /* TCDownload.m */; };
+		81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */; };
 		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
 		81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */; };
 		81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */; };
@@ -91,6 +93,8 @@
 		819887E01834C8B700FE21BB /* TCDownloadBuilderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCDownloadBuilderProtocol.h; sourceTree = "<group>"; };
 		819887E11834DD5700FE21BB /* TCMP4VideoURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMP4VideoURL.h; sourceTree = "<group>"; };
 		819887E21834DD5700FE21BB /* TCMP4VideoURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMP4VideoURL.m; sourceTree = "<group>"; };
+		81AEE00E1838B9A800FD2B4C /* TCMockXMLServiceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMockXMLServiceFactory.h; sourceTree = "<group>"; };
+		81AEE00F1838B9A800FD2B4C /* TCMockXMLServiceFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMockXMLServiceFactory.m; sourceTree = "<group>"; };
 		81EFED301829DFD600F28B1B /* TCLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLesson.h; sourceTree = "<group>"; };
 		81EFED311829DFD600F28B1B /* TCLesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLesson.m; sourceTree = "<group>"; };
 		81EFED331829E1D400F28B1B /* TCLessonStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLessonStep.h; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 		81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMP4VideoURLTests.m; sourceTree = "<group>"; };
 		81EFED69182B8A8100F28B1B /* TCDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownload.h; sourceTree = "<group>"; };
 		81EFED6A182B8A8200F28B1B /* TCDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownload.m; sourceTree = "<group>"; };
+		81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LessonStepVideo.xml; sourceTree = "<group>"; };
 		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
 		81F99D58182CBC6E006E561B /* TCDownloadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadCellView.m; sourceTree = "<group>"; };
 		81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RouxbeAdditions.h"; sourceTree = "<group>"; };
@@ -279,6 +284,8 @@
 			children = (
 				819887D71834734800FE21BB /* TCTestDataLoader.h */,
 				819887D81834734800FE21BB /* TCTestDataLoader.m */,
+				81AEE00E1838B9A800FD2B4C /* TCMockXMLServiceFactory.h */,
+				81AEE00F1838B9A800FD2B4C /* TCMockXMLServiceFactory.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -296,6 +303,7 @@
 		81EFED3E1829F6BC00F28B1B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */,
 				81EFED3F1829F6BC00F28B1B /* Lesson.xml */,
 			);
 			path = Data;
@@ -404,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */,
+				81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */,
 				81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,6 +512,7 @@
 				81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */,
 				8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */,
 				81EFED42182A002B00F28B1B /* TCLessonStepTests.m in Sources */,
+				81AEE0101838B9A800FD2B4C /* TCMockXMLServiceFactory.m in Sources */,
 				819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */,
 				81EFED371829E77600F28B1B /* TCLessonTests.m in Sources */,
 				8154CE22182F78FC00DC73EC /* TCRouxbeXMLURLTests.m in Sources */,

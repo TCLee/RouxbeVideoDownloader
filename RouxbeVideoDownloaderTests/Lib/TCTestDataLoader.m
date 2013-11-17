@@ -17,10 +17,12 @@
 
     // Error - Could not locate file in test bundle.
     if (!fileURL) {
-        if (NULL == outError) { return nil; }
-        *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
-                                               code:NSFileNoSuchFileError
-                                           userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The XML file '%@.xml' could not be located.", name]}];
+        if (outError) {
+            *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
+                                                   code:NSFileNoSuchFileError
+                                               userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The XML file '%@.xml' could not be located.", name]}];
+        }
+        return nil;
     }
 
     NSError *__autoreleasing readFileError = nil;
@@ -28,10 +30,13 @@
 
     // Error - Failed to read contents from file.
     if (!xmlData) {
-        if (NULL == outError) { return nil; }
-        *outError = [readFileError copy];
+        if (outError) {
+            *outError = [readFileError copy];
+        }
+        return nil;
     }
 
+    // Success reading XML data.
     return xmlData;
 }
 
