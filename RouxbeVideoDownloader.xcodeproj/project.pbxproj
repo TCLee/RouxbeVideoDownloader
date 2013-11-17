@@ -26,7 +26,6 @@
 		8175B9021831FD2500C763F8 /* TCXMLService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8175B9011831FD2500C763F8 /* TCXMLService.m */; };
 		819887D2183353BC00FE21BB /* TCLessonDownloadBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D1183353BC00FE21BB /* TCLessonDownloadBuilder.m */; };
 		819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D81834734800FE21BB /* TCTestDataLoader.m */; };
-		819887DB183473D000FE21BB /* TCAddDownloadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887DA183473D000FE21BB /* TCAddDownloadTests.m */; };
 		819887DF1834B39A00FE21BB /* TCDownloadBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887DE1834B39A00FE21BB /* TCDownloadBuilder.m */; };
 		819887E31834DD5700FE21BB /* TCMP4VideoURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887E21834DD5700FE21BB /* TCMP4VideoURL.m */; };
 		81EFED321829DFD600F28B1B /* TCLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED311829DFD600F28B1B /* TCLesson.m */; };
@@ -35,7 +34,7 @@
 		81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED391829E83200F28B1B /* InfoPlist.strings */; };
 		81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED3F1829F6BC00F28B1B /* Lesson.xml */; };
 		81EFED42182A002B00F28B1B /* TCLessonStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED41182A002B00F28B1B /* TCLessonStepTests.m */; };
-		81EFED50182A3FA800F28B1B /* TCVideoMP4URLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */; };
+		81EFED50182A3FA800F28B1B /* TCMP4VideoURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */; };
 		81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED6A182B8A8200F28B1B /* TCDownload.m */; };
 		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
 		81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */; };
@@ -86,7 +85,6 @@
 		819887D1183353BC00FE21BB /* TCLessonDownloadBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonDownloadBuilder.m; sourceTree = "<group>"; };
 		819887D71834734800FE21BB /* TCTestDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTestDataLoader.h; sourceTree = "<group>"; };
 		819887D81834734800FE21BB /* TCTestDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTestDataLoader.m; sourceTree = "<group>"; };
-		819887DA183473D000FE21BB /* TCAddDownloadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCAddDownloadTests.m; sourceTree = "<group>"; };
 		819887DC18347E0D00FE21BB /* RouxbeVideoDownloaderTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RouxbeVideoDownloaderTests-Prefix.pch"; sourceTree = "<group>"; };
 		819887DD1834B39A00FE21BB /* TCDownloadBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadBuilder.h; sourceTree = "<group>"; };
 		819887DE1834B39A00FE21BB /* TCDownloadBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadBuilder.m; sourceTree = "<group>"; };
@@ -102,7 +100,7 @@
 		81EFED3B1829E83200F28B1B /* RouxbeVideoDownloaderTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RouxbeVideoDownloaderTests-Info.plist"; sourceTree = "<group>"; };
 		81EFED3F1829F6BC00F28B1B /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
 		81EFED41182A002B00F28B1B /* TCLessonStepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonStepTests.m; sourceTree = "<group>"; };
-		81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCVideoMP4URLTests.m; sourceTree = "<group>"; };
+		81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMP4VideoURLTests.m; sourceTree = "<group>"; };
 		81EFED69182B8A8100F28B1B /* TCDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownload.h; sourceTree = "<group>"; };
 		81EFED6A182B8A8200F28B1B /* TCDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownload.m; sourceTree = "<group>"; };
 		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
@@ -201,10 +199,9 @@
 				81EFED381829E83200F28B1B /* SupportingFiles */,
 				819887D61834734800FE21BB /* Lib */,
 				81EFED3E1829F6BC00F28B1B /* Data */,
-				819887DA183473D000FE21BB /* TCAddDownloadTests.m */,
 				81EFED361829E77600F28B1B /* TCLessonTests.m */,
 				81EFED41182A002B00F28B1B /* TCLessonStepTests.m */,
-				81EFED4F182A3FA800F28B1B /* TCVideoMP4URLTests.m */,
+				81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */,
 				81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */,
 				8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */,
 				8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */,
@@ -501,8 +498,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81EFED50182A3FA800F28B1B /* TCVideoMP4URLTests.m in Sources */,
-				819887DB183473D000FE21BB /* TCAddDownloadTests.m in Sources */,
+				81EFED50182A3FA800F28B1B /* TCMP4VideoURLTests.m in Sources */,
 				8154CE20182F657E00DC73EC /* TCRouxbeURLContentIDTests.m in Sources */,
 				81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */,
 				8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */,
@@ -669,7 +665,7 @@
 		};
 		816328A6182770120070914E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7CCC0441B2F48439F00001A /* Pods-test.xcconfig */;
+			baseConfigurationReference = EA621434EFAA40278656A5D5 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RouxbeVideoDownloader.app/Contents/MacOS/RouxbeVideoDownloader";
 				COMBINE_HIDPI_IMAGES = YES;
