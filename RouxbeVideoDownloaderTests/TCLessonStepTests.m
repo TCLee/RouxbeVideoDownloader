@@ -8,9 +8,13 @@
 
 @import XCTest;
 
-#import "TCTestData.h"
+#import "TCTestDataLoader.h"
 #import "TCLessonStep.h"
 
+/**
+ * @test
+ * Tests to verify the interfaces of \c TCLessonStep class.
+ */
 @interface TCLessonStepTests : XCTestCase
 
 @end
@@ -29,16 +33,29 @@
     [super tearDown];
 }
 
-- (void)testInitWithXML
+/**
+ * @test
+ * Test that we can create a \c TCLessonStep object from the XML data.
+ */
+- (void)testInitWithXMLData
 {
-    RXMLElement *lessonElement = [[RXMLElement alloc] initFromXMLData:[TCTestData XMLDataWithName:@"Lesson"]];
+    // Load the test XML data.
+    NSError *__autoreleasing error = nil;
+    NSData *data= [TCTestDataLoader XMLDataWithName:@"Lesson"
+                                              error:&error];
+    XCTAssertNotNil(data, @"Failed to load test data. Error: %@", error);
 
-    NSArray *stepElements = [lessonElement childrenWithRootXPath:@"/recipe/recipesteps/recipestep"];
-    TCLessonStep *step = [[TCLessonStep alloc]initWithXMLElement:stepElements[0] lesson:nil];
+    // Extract one lesson step from the XML.
+    RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
+    NSArray *stepsXML = [rootXML childrenWithRootXPath:@"/recipe/recipesteps/recipestep"];
+    TCLessonStep *step = [[TCLessonStep alloc] initWithXML:stepsXML[0] lessonName:[rootXML attribute:@"name"]];
 
+    // Verify that this lesson step is created properly from the XML.
     XCTAssert(step.ID == 105, @"The step ID was not parsed properly from the XML.");
     XCTAssert(step.position == 0, @"The step position was not parsed properly from the XML.");
+    XCTAssertEqualObjects(step.lessonName, @"How to Cut Using a Chef's Knife", @"The lesson name was not parsed properly from the XML.");
     XCTAssertEqualObjects(step.name, @"Intro to How to Use a Chef's Knife", @"The step name was not parsed properly from the XML.");
+    XCTAssertEqualObjects(step.videoURL, [NSURL URLWithString:@"http://media.rouxbe.com/itouch/mp4/PB_Chef_Knife_Cut_L3_T1c.mp4"], @"The step video URL was not parsed properly from the XML.");
 }
 
 @end

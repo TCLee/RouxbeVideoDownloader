@@ -7,6 +7,14 @@
 //
 
 /**
+ * The block that will be called when request has completed.
+ *
+ * @param data  The \c NSData containing the XML.
+ * @param error The \c NSError object describing the error, if any.
+ */
+typedef void(^TCXMLServiceBlock)(NSData *data, NSError *error);
+
+/**
  * \c TCXMLService class fetches XML data from a given URL.
  */
 @interface TCXMLService : NSObject
@@ -16,11 +24,8 @@
  *
  * @param aURL The URL of the XML data.
  * @param completion The completion handler to call when the request is complete.
- *                   On success, the \c data parameter will contain the XML data. 
- *                   On error, the \c error parameter will contain an \c NSError 
- *                   object describing the failure.
  */
 + (void)requestXMLDataWithURL:(NSURL *)aURL
-                   completion:(void (^)(NSData *data, NSError *error))completion;
+                   completion:(TCXMLServiceBlock)completion;
 
 @end

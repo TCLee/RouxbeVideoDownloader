@@ -11,6 +11,7 @@
 #import "NSURL+RouxbeAdditions.h"
 
 /**
+ * @test
  * This test class contains tests for the validation of a Rouxbe URL.
  */
 @interface TCRouxbeURLValidationTests : XCTestCase

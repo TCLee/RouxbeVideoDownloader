@@ -11,7 +11,7 @@
 @implementation TCXMLService
 
 + (void)requestXMLDataWithURL:(NSURL *)aURL
-                   completion:(void (^)(NSData *data, NSError *error))completion
+                   completion:(TCXMLServiceBlock)completion
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 
