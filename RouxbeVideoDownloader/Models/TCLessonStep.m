@@ -7,13 +7,13 @@
 //
 
 #import "TCLessonStep.h"
-#import "TCXMLService.h"
+#import "TCRouxbeAPIClient.h"
 #import "TCMP4VideoURL.h"
 
 /**
  * The string template representing the URL to a Lesson's video player XML.
  */
-static NSString * const kLessonVideoPlayerURLString = @"http://rouxbe.com/embedded_player/settings_section/%ld.xml";
+static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_section/%ld.xml";
 
 @interface TCLessonStep ()
 
@@ -54,10 +54,7 @@ static NSString * const kLessonVideoPlayerURLString = @"http://rouxbe.com/embedd
     }
 
     // Otherwise, we will have to extract the video URL from the video player.
-    NSURL *videoPlayerURL = [NSURL URLWithString:
-                             [NSString stringWithFormat:kLessonVideoPlayerURLString, self.ID]];
-
-    [TCXMLService requestXMLDataWithURL:videoPlayerURL completion:^(NSData *data, NSError *error) {
+    [[TCRouxbeAPIClient sharedClient] getXML:[NSString stringWithFormat:TCLessonVideoPlayerPath, self.ID] completionHandler:^(NSData *data, NSError *error) {
         if (data) {
             RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
             [self setVideoURLWithString:[[rootXML child:@"video"] attribute:@"url"]];
