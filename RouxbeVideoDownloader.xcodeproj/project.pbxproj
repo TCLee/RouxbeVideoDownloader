@@ -38,6 +38,8 @@
 		81EFED50182A3FA800F28B1B /* TCMP4VideoURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */; };
 		81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED6A182B8A8200F28B1B /* TCDownload.m */; };
 		81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */; };
+		81F7B7521838ECFA0086F408 /* TCXMLServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7B7511838ECFA0086F408 /* TCXMLServiceTests.m */; };
+		81F7B7551839B4950086F408 /* TCMockAFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */; };
 		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
 		81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D60182DDD92006E561B /* NSURL+RouxbeAdditions.m */; };
 		81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */; };
@@ -108,6 +110,9 @@
 		81EFED69182B8A8100F28B1B /* TCDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownload.h; sourceTree = "<group>"; };
 		81EFED6A182B8A8200F28B1B /* TCDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownload.m; sourceTree = "<group>"; };
 		81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LessonStepVideo.xml; sourceTree = "<group>"; };
+		81F7B7511838ECFA0086F408 /* TCXMLServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCXMLServiceTests.m; sourceTree = "<group>"; };
+		81F7B7531839B4950086F408 /* TCMockAFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMockAFHTTPSessionManager.h; sourceTree = "<group>"; };
+		81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMockAFHTTPSessionManager.m; sourceTree = "<group>"; };
 		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
 		81F99D58182CBC6E006E561B /* TCDownloadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadCellView.m; sourceTree = "<group>"; };
 		81F99D5F182DDD92006E561B /* NSURL+RouxbeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RouxbeAdditions.h"; sourceTree = "<group>"; };
@@ -204,6 +209,7 @@
 				81EFED381829E83200F28B1B /* SupportingFiles */,
 				819887D61834734800FE21BB /* Lib */,
 				81EFED3E1829F6BC00F28B1B /* Data */,
+				81F7B7511838ECFA0086F408 /* TCXMLServiceTests.m */,
 				81EFED361829E77600F28B1B /* TCLessonTests.m */,
 				81EFED41182A002B00F28B1B /* TCLessonStepTests.m */,
 				81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */,
@@ -286,6 +292,8 @@
 				819887D81834734800FE21BB /* TCTestDataLoader.m */,
 				81AEE00E1838B9A800FD2B4C /* TCMockXMLServiceFactory.h */,
 				81AEE00F1838B9A800FD2B4C /* TCMockXMLServiceFactory.m */,
+				81F7B7531839B4950086F408 /* TCMockAFHTTPSessionManager.h */,
+				81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -303,8 +311,8 @@
 		81EFED3E1829F6BC00F28B1B /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */,
 				81EFED3F1829F6BC00F28B1B /* Lesson.xml */,
+				81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -513,9 +521,11 @@
 				8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */,
 				81EFED42182A002B00F28B1B /* TCLessonStepTests.m in Sources */,
 				81AEE0101838B9A800FD2B4C /* TCMockXMLServiceFactory.m in Sources */,
+				81F7B7521838ECFA0086F408 /* TCXMLServiceTests.m in Sources */,
 				819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */,
 				81EFED371829E77600F28B1B /* TCLessonTests.m in Sources */,
 				8154CE22182F78FC00DC73EC /* TCRouxbeXMLURLTests.m in Sources */,
+				81F7B7551839B4950086F408 /* TCMockAFHTTPSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

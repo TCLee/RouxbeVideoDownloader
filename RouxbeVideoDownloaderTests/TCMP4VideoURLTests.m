@@ -37,11 +37,23 @@
  * Test to ensure we can successfully convert a Flash video URL 
  * to a MP4 video URL.
  */
-- (void)testConvertFlashVideoURLToMP4VideoURL
+- (void)testCanConvertFlashVideoURLToMP4VideoURL
 {
     NSURL *videoURL = [TCMP4VideoURL MP4VideoURLWithString:@"http://media.rouxbe.com/h264/Cs_Eggs_L2_T2.f4v"];
     
-    XCTAssertEqualObjects(videoURL, [NSURL URLWithString:@"http://media.rouxbe.com/itouch/mp4/Cs_Eggs_L2_T2.mp4"], @"Failed to convert Flash video URL to MP4 video URL.");
+    XCTAssertEqualObjects(videoURL, [NSURL URLWithString:@"http://media.rouxbe.com/itouch/mp4/Cs_Eggs_L2_T2.mp4"],
+                          @"Should be able to return a MP4 video URL.");
+}
+
+/**
+ * @test
+ * Test that if given a \c nil URL string, it will return \c nil.
+ */
+- (void)testReturnNilWhenGivenNil
+{
+    NSURL *videoURL = [TCMP4VideoURL MP4VideoURLWithString:nil];
+
+    XCTAssertNil(videoURL, @"Should be nil, given a nil URL string.");
 }
 
 @end

@@ -8,21 +8,44 @@
 
 #import "TCXMLService.h"
 
+@interface TCXMLService ()
+
+@end
+
 @implementation TCXMLService
 
-+ (void)requestXMLDataWithURL:(NSURL *)aURL
++ (void)requestXMLDataWithSessionManager:(AFHTTPSessionManager *)sessionManager
+                                     URL:(NSURL *)requestURL
+                              completion:(TCXMLServiceBlock)completion
+{
+    NSParameterAssert(requestURL);
+
+    // Configure the response data to be serialized as an XML data.
+    AFHTTPResponseSerializer *XMLResponseSerializer = [[AFHTTPResponseSerializer alloc] init];
+    XMLResponseSerializer.stringEncoding = NSUTF8StringEncoding;
+    XMLResponseSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml", nil];
+    sessionManager.responseSerializer = XMLResponseSerializer;
+
+    // Create and start a NSURLSessionDataTask to fetch the XML data.
+    // The NSURLSessionDataTask will be added to the default NSURLSession
+    // created by AFHTTPSessionManager.
+    [sessionManager GET:[requestURL absoluteString] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (completion) {
+            completion(responseObject, nil);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (completion) {
+            completion(nil, error);
+        }
+    }];
+}
+
++ (void)requestXMLDataWithURL:(NSURL *)requestURL
                    completion:(TCXMLServiceBlock)completion
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-
-    // We want the response back as raw NSData, so we set it to AFHTTPResponseSerializer.
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-
-    [manager GET:[aURL absoluteString] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        completion(responseObject, nil);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completion(nil, error);
-    }];
+    [self requestXMLDataWithSessionManager:[AFHTTPSessionManager manager]
+                                       URL:requestURL
+                                completion:completion];
 }
 
 @end

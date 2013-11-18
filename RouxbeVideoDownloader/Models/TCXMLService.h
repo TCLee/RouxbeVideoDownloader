@@ -20,12 +20,23 @@ typedef void(^TCXMLServiceBlock)(NSData *data, NSError *error);
 @interface TCXMLService : NSObject
 
 /**
- * Fetch the XML data from the given URL and calls the  handler upon completion.
+ * Fetch XML data from the request URL using the given session manager.
  *
- * @param aURL The URL of the XML data.
- * @param completion The completion handler to call when the request is complete.
+ * @param sessionManager The \c AFHTTPSessionManager that manages the current session.
+ * @param requestURL     The request URL.
+ * @param completion     The completion block that will be called when request has finished.
  */
-+ (void)requestXMLDataWithURL:(NSURL *)aURL
++ (void)requestXMLDataWithSessionManager:(AFHTTPSessionManager *)sessionManager
+                                     URL:(NSURL *)requestURL
+                              completion:(TCXMLServiceBlock)completion;
+
+/**
+ * Fetch XML data from the request URL using the default session manager.
+ *
+ * @param requestURL     The request URL.
+ * @param completion     The completion block that will be called when request has finished.
+ */
++ (void)requestXMLDataWithURL:(NSURL *)requestURL
                    completion:(TCXMLServiceBlock)completion;
 
 @end
