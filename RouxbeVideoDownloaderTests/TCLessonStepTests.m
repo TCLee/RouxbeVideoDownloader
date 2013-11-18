@@ -9,7 +9,7 @@
 @import XCTest;
 
 #import "TCTestDataLoader.h"
-#import "TCMockXMLServiceFactory.h"
+#import "TCMockXMLService.h"
 #import "TCLessonStep.h"
 #import "TCMP4VideoURL.h"
 
@@ -85,7 +85,7 @@
  */
 - (void) testLessonStepVideoXMLURL
 {
-    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         XCTAssertEqualObjects(requestURL, [NSURL URLWithString:@"http://rouxbe.com/embedded_player/settings_section/106.xml"],
                               @"Request URL does not match the expected rouxbe.com URL.");
     }];
@@ -102,7 +102,7 @@
  */
 - (void) testFetchVideoURLSuccess
 {
-    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         NSError *error = nil;
         NSData *data = [TCTestDataLoader XMLDataWithName:@"LessonStepVideo"
                                                    error:&error];
@@ -128,7 +128,7 @@
  */
 - (void) testFetchVideoURLError
 {
-    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
                                                     code:NSURLErrorCannotParseResponse
                                                 userInfo:nil];

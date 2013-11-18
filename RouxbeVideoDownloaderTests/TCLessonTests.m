@@ -11,7 +11,7 @@
 #import "TCLesson.h"
 #import "TCLessonStep.h"
 #import "TCTestDataLoader.h"
-#import "TCMockXMLServiceFactory.h"
+#import "TCMockXMLService.h"
 
 /**
  * @test
@@ -66,7 +66,7 @@
  */
 - (void)testLessonXMLURL
 {
-    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         XCTAssertEqualObjects(requestURL, [NSURL URLWithString:@"http://rouxbe.com/cooking-school/lessons/101.xml"],
                               @"Lesson request URL should match the expected rouxbe.com URL.");
     }];
@@ -83,7 +83,7 @@
  */
 - (void) testFetchLessonSuccess
 {
-    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         // Load the XML data from the test bundle.
         NSError *__autoreleasing error = nil;
         NSData *data= [TCTestDataLoader XMLDataWithName:@"Lesson"
@@ -107,7 +107,7 @@
  */
 - (void) testFetchLessonError
 {
-    id mock = [TCMockXMLServiceFactory mockXMLServiceWithBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
+    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
         NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
                                                     code:NSURLErrorBadServerResponse
                                                 userInfo:nil];

@@ -11,10 +11,29 @@ typedef void(^AFHTTPSessionManagerFailureBlock)(NSURLSessionDataTask *task, NSEr
 typedef NSURLSessionDataTask *(^AFHTTPSessionManagerGETBlock)(NSString *URLString, NSDictionary *parameters, AFHTTPSessionManagerSuccessBlock success, AFHTTPSessionManagerFailureBlock failure);
 typedef void(^AFHTTPSessionManagerSetResponseSerializerBlock)(AFHTTPResponseSerializer *responseSerializer);
 
+/**
+ * Creates \c AFHTTPSessionManager mock objects.
+ */
 @interface TCMockAFHTTPSessionManager : NSObject
 
+/**
+ * Creates a \c AFHTTPSessionManager mock object with
+ * GET:parameters:success:failure: method replaced with the given block.
+ *
+ * @param GETBlock The block to replace GET:parameters:success:failure: method with.
+ *
+ * @return A \c AFHTTPSessionManager mock object.
+ */
 + (id)mockHTTPSessionManagerWithGETBlock:(AFHTTPSessionManagerGETBlock)GETBlock;
 
+/**
+ * Creates a \c AFHTTPSessionManager mock object with 
+ * setResponseSerializer: method replaced with the given block.
+ *
+ * @param setResponseSerializerBlock The block to replace setResponseSerializer: method with.
+ *
+ * @return A \c AFHTTPSessionManager mock object.
+ */
 + (id)mockHTTPSessionManagerWithSetResponseSerializerBlock:(AFHTTPSessionManagerSetResponseSerializerBlock)setResponseSerializerBlock;
 
 @end
