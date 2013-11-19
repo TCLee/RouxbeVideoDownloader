@@ -25,6 +25,17 @@
  */
 @property (nonatomic, strong, readonly) TCDownloadManager *downloadManager;
 
+/**
+ * Creates and returns a \c NSAlert with properties initialized from the given
+ * failed download and error object.
+ *
+ * @param download The \c TCDownload object that was the cause of the error.
+ * @param error    The \c NSError object describing the error.
+ *
+ * @return An \c NSAlert object ready for display.
+ */
+- (NSAlert *)alertWithFailedDownload:(TCDownload *)download error:(NSError *)error;
+
 @end
 
 @implementation TCMainWindowController
@@ -102,15 +113,15 @@
 
     // Create the weak references to avoid a strong reference cycle.
     __weak typeof(self)weakSelf = self;
-    __weak typeof(_downloadManager)weakDownloadManager = _downloadManager;
+    TCDownloadManager *__weak weakDownloadManager = _downloadManager;
 
     // Block that will be called when Download Manager has added a new Download.
-    [_downloadManager setDidAddDownload:^(TCDownload *download, NSError *error) {
+    _downloadManager.didAddDownload = ^(TCDownload *download, NSError *error) {
         if (download) {
-            // Find the index of the new download.
             NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
+            if (NSNotFound == downloadIndex) { return; }
 
-            // Insert new row for download with an animation.
+            // Insert row for new download with an animation.
             [weakSelf.tableView beginUpdates];
             [weakSelf.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
                                   withAnimation:NSTableViewAnimationSlideDown];
@@ -121,20 +132,24 @@
             NSAlert *alert = [NSAlert alertWithError:error];
             [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
         }
-    }];
+    };
 
     // Block that will be called when a Download has made progress.
-    [_downloadManager setDownloadDidChangeProgress:^(TCDownload *download) {
-        // Reload only that specified cell to update the progress bar.
+    _downloadManager.downloadDidChangeProgress =^(TCDownload *download) {
         NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
+        if (NSNotFound == downloadIndex) { return; }
+
+        // Reload only that specific row to update the progress bar.
         [weakSelf.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
-                                  columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-    }];
+                                      columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+    };
 
     // Block that will be called when a Download has completed.
-    [_downloadManager setDownloadDidComplete:^(TCDownload *download, NSError *error) {
-        // Remove download row when it has completed.
+    _downloadManager.downloadDidComplete = ^(TCDownload *download, NSError *error) {
         NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
+        if (NSNotFound == downloadIndex) { return; }
+
+        // Remove download row when it has completed.
         [weakSelf.tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
                               withAnimation:NSTableViewAnimationSlideUp];
 
@@ -142,12 +157,26 @@
         // object. This is not considered good practice by Apple, but
         // Apple's own NSURLSessionTaskDelegate is implemented that way.
         if (error) {
-            NSAlert *alert = [NSAlert alertWithError:error];
+            NSAlert *alert = [weakSelf alertWithFailedDownload:download
+                                                     error:error];
             [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
         }
-    }];
+    };
 
     return _downloadManager;
+}
+
+- (NSAlert *)alertWithFailedDownload:(TCDownload *)download error:(NSError *)error
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.alertStyle = NSWarningAlertStyle;
+    alert.messageText = [[NSString alloc] initWithFormat:@"Download \"%@\" Failed", download.name];
+    alert.informativeText = [[NSString alloc] initWithFormat:@"Error: %@\nSource URL:%@\nDestination URL:%@",
+                             error.localizedDescription,
+                             [download.sourceURL absoluteString],
+                             [download.destinationURL absoluteString]];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
+    return alert;
 }
 
 @end
