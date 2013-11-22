@@ -8,7 +8,7 @@
 
 #import "TCLesson.h"
 #import "TCLessonStep.h"
-#import "TCRouxbeAPIClient.h"
+#import "TCRouxbeService.h"
 
 /**
  * The string template representing the URL to a Lesson's XML.
@@ -26,8 +26,10 @@ static NSString * const TCRouxbeLessonXMLPath = @"cooking-school/lessons/%lu.xml
 + (void)lessonWithID:(NSUInteger)lessonID
    completionHandler:(TCLessonBlock)completionHandler
 {
-    [[TCRouxbeAPIClient sharedClient] getXML:[NSString stringWithFormat:TCRouxbeLessonXMLPath, lessonID] completionHandler:^(NSData *data, NSError *error) {
-        completionHandler([[TCLesson alloc] initWithXMLData:data], error);
+    [[TCRouxbeService sharedService] getXML:[NSString stringWithFormat:TCRouxbeLessonXMLPath, lessonID] success:^(NSURLSessionDataTask *task, NSData *data) {
+        completionHandler([[TCLesson alloc] initWithXMLData:data], nil);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionHandler(nil, error);
     }];
 }
 

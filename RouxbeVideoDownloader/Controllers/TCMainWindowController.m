@@ -7,9 +7,12 @@
 //
 
 #import "TCMainWindowController.h"
+#import "TCDownloadController.h"
+
+#import "NSTableView+RowAdditions.h"
 #import "TCDownloadCellView.h"
 
-#import "TCDownloadManager.h"
+#import "TCDownloadQueue.h"
 #import "TCDownload.h"
 
 @interface TCMainWindowController ()
@@ -17,30 +20,14 @@
 @property (nonatomic, weak) IBOutlet NSTextField *urlTextField;
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
 
-/**
- * The download manager manages the queue of video downloads.
- *
- * This window controller is the delegate object of the download manager
- * and will receive callbacks for download related events.
- */
-@property (nonatomic, strong, readonly) TCDownloadManager *downloadManager;
-
-/**
- * Creates and returns a \c NSAlert with properties initialized from the given
- * failed download and error object.
- *
- * @param download The \c TCDownload object that was the cause of the error.
- * @param error    The \c NSError object describing the error.
- *
- * @return An \c NSAlert object ready for display.
- */
-- (NSAlert *)alertWithFailedDownload:(TCDownload *)download error:(NSError *)error;
+@property (nonatomic, strong, readonly) TCDownloadController *downloadController;
+@property (nonatomic, strong, readonly) TCDownloadQueue *downloadQueue;
 
 @end
 
 @implementation TCMainWindowController
 
-@synthesize downloadManager = _downloadManager;
+@synthesize downloadController = _downloadController;
 
 #pragma mark - Initialize From NIB
 
@@ -50,133 +37,153 @@
     return self;
 }
 
-#pragma mark - IBAction Methods
+#pragma mark - URL Text Field Action
 
 /**
- * Begins downloading videos from the given URL when user presses the Enter key.
- *
- * @param sender The \c NSTextField that the Enter key was pressed in.
+ * User types in a URL and presses the Return/Enter key.
  */
 - (IBAction)downloadVideos:(id)sender
 {
     // Make sure the action is sent by the URL text field.
     if (sender != self.urlTextField) { return; }
 
-    NSString *urlString = self.urlTextField.stringValue;
+    NSString *URLString = self.urlTextField.stringValue;
+    NSError *__autoreleasing error = nil;
 
-    // Make sure the URL is provided by the user.
-    if (0 == urlString.length) {
-        NSAlert *alert = [[NSAlert alloc] init];
-        alert.alertStyle = NSInformationalAlertStyle;
-        alert.messageText = @"No URL Provided";
-        alert.informativeText = @"You must provide a URL for the download.";
-        [alert addButtonWithTitle:@"OK"];
+    // Error - Failed to create URL object.
+    if (![self validateURLString:URLString error:&error]) {
+        NSAlert *alert= [NSAlert alertWithError:error];
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
         return;
     }
 
-    NSURL *url = [[NSURL alloc] initWithString:urlString];
-    // If URL is valid, add downloads to the download queue.
-    if (url) {
-        [self.downloadManager addDownloadsWithURL:url];
+    NSURL *theURL = [[NSURL alloc] initWithString:URLString];
+    __weak typeof(self)weakSelf = self;
+
+    [self.downloadController addDownloadsWithURL:theURL success:^{
+        // Add a new row to the table view for each new download added
+        // to the queue.
+        [weakSelf.tableView addRow];
+    } failure:^(NSError *error) {
+        // Error - Failed to add downloads.
+        NSAlert *alert= [NSAlert alertWithError:error];
+        [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
+    }];
+}
+
+/**
+ * Returns a Boolean value that indicates whether the URL string is a 
+ * valid URL or not.
+ *
+ * @param URLString The string representing the URL.
+ * @param error     The error object will contain the description of the error or 
+ *                  \c nil if there's no error.
+ *
+ * @return \c YES if \c URLString is valid; \c NO otherwise.
+ */
+- (BOOL)validateURLString:(NSString *)URLString error:(NSError *__autoreleasing *)error
+{
+    // Make sure the URL is provided by the user.
+    if (nil == URLString || 0 == URLString.length) {
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
+                                                code:NSURLErrorBadURL
+                                            userInfo:@{NSLocalizedDescriptionKey: @"No URL Provided",
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"You must provide a URL for the download."}];
+        }
+        return NO;
     }
+
+    NSURL *theURL = [[NSURL alloc] initWithString:URLString];
+
+    // If NSURL object could not be created due to malform URL string,
+    // report error and return.
+    if (!theURL) {
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
+                                                code:NSURLErrorBadURL
+                                            userInfo:@{NSLocalizedDescriptionKey: @"Malformed URL",
+                                                       NSLocalizedRecoverySuggestionErrorKey: @"The URL must only contain valid characters."}];
+        }
+        return NO;
+    }
+
+    return YES;
 }
 
 #pragma mark - Table View Data Source & Delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    // Returns the number of downloads currently in progress.
-    return self.downloadManager.downloadQueue.count;
+    return self.downloadQueue.downloadCount;
 }
 
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+- (NSView *)tableView:(NSTableView *)tableView
+   viewForTableColumn:(NSTableColumn *)tableColumn
+                  row:(NSInteger)row
 {
     static NSString * const kCellIdentifier = @"TCDownloadCell";
-
     TCDownloadCellView *cellView = [tableView makeViewWithIdentifier:kCellIdentifier
                                                                owner:self];
-    cellView.download = self.downloadManager.downloadQueue[row];
+
+    TCDownload *download = [self.downloadQueue downloadAtIndex:row];
+    cellView.titleLabel.stringValue = download.description;
+
+    if (download.progress) {
+        // Download has started, so update the cell's progress views.
+        cellView.progressLabel.stringValue = [download.progress localizedAdditionalDescription];
+        cellView.progressBar.doubleValue = download.progress.fractionCompleted;
+    } else {
+        // Download has been queued but not started yet.
+        cellView.progressLabel.stringValue = NSLocalizedString(@"Download Not Started", @"");
+        cellView.progressBar.doubleValue = 0;
+    }
+    
     return cellView;
 }
 
-#pragma mark - Download Manager
+#pragma mark - Download Controller
 
-// Download manager object will be lazily created when it's first accessed and
-// then cached after that.
-- (TCDownloadManager *)downloadManager
+- (TCDownloadController *)downloadController
 {
-    // Download Manager only needs to be created and initialized once.
-    if (_downloadManager) { return _downloadManager; }
+    if (!_downloadController) {
+        _downloadController = [[TCDownloadController alloc] init];
 
-    _downloadManager = [[TCDownloadManager alloc] init];
+        __weak typeof(self)weakSelf = self;
 
-    // Create the weak references to avoid a strong reference cycle.
-    __weak typeof(self)weakSelf = self;
-    TCDownloadManager *__weak weakDownloadManager = _downloadManager;
+        [_downloadController.downloadQueue setDownloadDidChangeProgressBlock:^(NSUInteger index) {
+            if (NSNotFound == index) { return; }
 
-    // Block that will be called when Download Manager has added a new Download.
-    _downloadManager.didAddDownload = ^(TCDownload *download, NSError *error) {
-        if (download) {
-            NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
-            if (NSNotFound == downloadIndex) { return; }
+            // Reload row to update progress.
+            [weakSelf.tableView reloadDataAtRowIndex:index];
+        }];
 
-            // Insert row for new download with an animation.
-            [weakSelf.tableView beginUpdates];
-            [weakSelf.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
-                                  withAnimation:NSTableViewAnimationSlideDown];
-            [weakSelf.tableView scrollRowToVisible:downloadIndex];
-            [weakSelf.tableView endUpdates];
-        } else {
-            // Error - Failed to add download.
+        [_downloadController.downloadQueue setDownloadDidFinishBlock:^(NSUInteger index) {
+            if (NSNotFound == index) { return; }
+
+            // Remove finished download.
+            [weakSelf.tableView removeRowAtIndex:index];
+        }];
+
+        [_downloadController.downloadQueue setDownloadDidFailBlock:^(NSUInteger index, NSError *error) {
+            if (NSNotFound == index) { return; }
+
             NSAlert *alert = [NSAlert alertWithError:error];
-            [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
-        }
-    };
+            [alert beginSheetModalForWindow:weakSelf.window completionHandler:^(NSModalResponse returnCode) {
+                if (NSModalResponseStop == returnCode) {
+                    // Remove failed download.
+                    [weakSelf.tableView removeRowAtIndex:index];
+                }
+            }];
+        }];
+    }
 
-    // Block that will be called when a Download has made progress.
-    _downloadManager.downloadDidChangeProgress =^(TCDownload *download) {
-        NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
-        if (NSNotFound == downloadIndex) { return; }
-
-        // Reload only that specific row to update the progress bar.
-        [weakSelf.tableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
-                                      columnIndexes:[NSIndexSet indexSetWithIndex:0]];
-    };
-
-    // Block that will be called when a Download has completed.
-    _downloadManager.downloadDidComplete = ^(TCDownload *download, NSError *error) {
-        NSUInteger downloadIndex = [weakDownloadManager.downloadQueue indexOfObject:download];
-        if (NSNotFound == downloadIndex) { return; }
-
-        // Remove download row when it has completed.
-        [weakSelf.tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:downloadIndex]
-                              withAnimation:NSTableViewAnimationSlideUp];
-
-        // The only way to know if there's an error is to check the NSError
-        // object. This is not considered good practice by Apple, but
-        // Apple's own NSURLSessionTaskDelegate is implemented that way.
-        if (error) {
-            NSAlert *alert = [weakSelf alertWithFailedDownload:download
-                                                     error:error];
-            [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
-        }
-    };
-
-    return _downloadManager;
+    return _downloadController;
 }
 
-- (NSAlert *)alertWithFailedDownload:(TCDownload *)download error:(NSError *)error
+- (TCDownloadQueue *)downloadQueue
 {
-    NSAlert *alert = [[NSAlert alloc] init];
-    alert.alertStyle = NSWarningAlertStyle;
-    alert.messageText = [[NSString alloc] initWithFormat:@"Download \"%@\" Failed", download.name];
-    alert.informativeText = [[NSString alloc] initWithFormat:@"Error: %@\nSource URL:%@\nDestination URL:%@",
-                             error.localizedDescription,
-                             [download.sourceURL absoluteString],
-                             [download.destinationURL absoluteString]];
-    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
-    return alert;
+    return self.downloadController.downloadQueue;
 }
 
 @end

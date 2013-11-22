@@ -7,7 +7,7 @@
 //
 
 #import "TCLessonStep.h"
-#import "TCRouxbeAPIClient.h"
+#import "TCRouxbeService.h"
 #import "TCMP4VideoURL.h"
 
 /**
@@ -30,6 +30,8 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
 @end
 
 @implementation TCLessonStep
+
+@synthesize videoPathComponent = _videoPathComponent;
 
 - (id)initWithXML:(RXMLElement *)stepXML lessonName:(NSString *)lessonName
 {
@@ -54,19 +56,30 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
     }
 
     // Otherwise, we will have to extract the video URL from the video player.
-    [[TCRouxbeAPIClient sharedClient] getXML:[NSString stringWithFormat:TCLessonVideoPlayerPath, self.ID] completionHandler:^(NSData *data, NSError *error) {
-        if (data) {
-            RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
-            [self setVideoURLWithString:[[rootXML child:@"video"] attribute:@"url"]];
-        }
-
-        completionHandler(self.videoURL, error);
+    [[TCRouxbeService sharedService] getXML:[NSString stringWithFormat:TCLessonVideoPlayerPath, self.ID] success:^(NSURLSessionDataTask *task, NSData *data) {
+        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
+        [self setVideoURLWithString:[[rootXML child:@"video"] attribute:@"url"]];
+        completionHandler(self.videoURL, nil);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionHandler(nil, error);
     }];
 }
 
 - (void)setVideoURLWithString:(NSString *)URLString
 {
     _videoURL = [TCMP4VideoURL MP4VideoURLWithString:URLString];
+}
+
+- (NSString *)videoPathComponent
+{
+    if (!_videoPathComponent) {
+        NSString *fileName = [[NSString alloc] initWithFormat:@"%02lu - %@.mp4",
+                              self.position + 1, self.name];
+        NSString *directoryName = self.lessonName;
+
+        _videoPathComponent = [directoryName stringByAppendingPathComponent:fileName];
+    }
+    return _videoPathComponent;
 }
 
 @end

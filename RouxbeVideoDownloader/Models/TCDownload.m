@@ -7,18 +7,12 @@
 //
 
 #import "TCDownload.h"
-#import "TCRouxbeAPIClient.h"
+#import "TCDownloadPrivate.h"
+#import "TCVideo.h"
 
 @interface TCDownload ()
 
 @property (nonatomic, strong, readwrite) NSProgress *progress;
-
-/**
- * Returns the user's default Downloads directory.
- *
- * @return The URL to the user's Downloads directory.
- */
-- (NSURL *)defaultDownloadDirectoryURL;
 
 /**
  * Creates the destination directory for the downloaded file.
@@ -31,26 +25,18 @@
 
 @implementation TCDownload
 
-- (id)initWithSourceURL:(NSURL *)sourceURL
-              groupName:(NSString *)groupName
-               position:(NSUInteger)position
-                   name:(NSString *)name
+#pragma mark - Initialize
+
+- (id)initWithVideo:(TCVideo *)video
+downloadDirectoryURL:(NSURL *)downloadDirectoryURL
+        description:(NSString *)description
 {
     self = [super init];
-
     if (self) {
-        _downloadDirectoryURL = [self defaultDownloadDirectoryURL];
-        _sourceURL = sourceURL;
-
-        // Pad position with zero for numbers 1 to 9, so that Finder can
-        // sort it properly. (i.e. 01, 02, 03 ... 09)
-        // We add 1 to position so that the first position starts at 1, instead of 0.
-        NSString *filename = [[NSString alloc] initWithFormat:@"%02lu - %@.mp4", position + 1, name];
-
-        _name = [groupName stringByAppendingPathComponent:filename];
-        _destinationURL = [_downloadDirectoryURL URLByAppendingPathComponent:_name];
+        _sourceURL = [video.sourceURL copy];
+        _destinationURL = [downloadDirectoryURL URLByAppendingPathComponent:video.destinationPathComponent];
+        _description = [description copy];
     }
-
     return self;
 }
 
@@ -65,7 +51,7 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.sourceURL];
     NSProgress *__autoreleasing outProgress = nil;
 
-    NSURLSessionDownloadTask *downloadTask = [[TCRouxbeAPIClient sharedClient] downloadTaskWithRequest:request progress:&outProgress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    NSURLSessionDownloadTask *downloadTask = [[TCRouxbeService sharedService] downloadTaskWithRequest:request progress:&outProgress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         return self.destinationURL;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if (self.didComplete) {
@@ -73,10 +59,10 @@
         }
     }];
 
-
     self.progress = outProgress;
 
-    // 
+    // Configure the NSProgress to create a description string suitable for
+    // file downloads.
     self.progress.kind = NSProgressKindFile;
     [self.progress setUserInfoObject:NSProgressFileOperationKindDownloading
                               forKey:NSProgressFileOperationKindKey];
@@ -93,16 +79,6 @@
 }
 
 #pragma mark - File Operations
-
-- (NSURL *)defaultDownloadDirectoryURL
-{
-    NSURL *downloadDirectoryURL = [[[NSFileManager defaultManager]
-                                    URLsForDirectory:NSDownloadsDirectory
-                                    inDomains:NSUserDomainMask] firstObject];
-
-    NSAssert(downloadDirectoryURL, @"Could not locate the Downloads directory.");
-    return downloadDirectoryURL;
-}
 
 - (BOOL)createDestinationDirectory
 {
