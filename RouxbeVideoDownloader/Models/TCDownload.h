@@ -18,19 +18,19 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
     /**
      * The download is currently in progress.
      */
-    TCDownloadStateRunning  = 0,
+    TCDownloadStateRunning = 0,
     /**
      * The download has been paused.
      */
-    TCDownloadStatePause    = 1,
+    TCDownloadStatePaused = 1,
     /**
      * The download has failed with an error.
      */
-    TCDownloadStateFail     = 2,
+    TCDownloadStateFailed = 2,
     /**
      * The download has completed successfully.
      */
-    TCDownloadStateComplete = 3,
+    TCDownloadStateCompleted = 3,
 };
 
 /**
@@ -74,6 +74,13 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
  * The current state of the download.
  */
 @property (nonatomic, assign, readonly) TCDownloadState state;
+
+/**
+ * An error object that indicates why the download failed.
+ *
+ * This value is \c nil, if no error was encountered.
+ */
+@property (nonatomic, copy, readonly) NSError *error;
 
 /**
  * <#Description#>

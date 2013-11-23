@@ -28,6 +28,11 @@ downloadDirectoryURL:(NSURL *)downloadDirectoryURL
         _sourceURL = [video.sourceURL copy];
         _destinationURL = [downloadDirectoryURL URLByAppendingPathComponent:video.destinationPathComponent];
         _description = [description copy];
+
+        // All download starts in the paused state.
+        // It will move to the running state, when it's added to
+        // the download queue.
+        _state = TCDownloadStatePaused;
     }
     return self;
 }

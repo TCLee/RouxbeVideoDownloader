@@ -16,9 +16,11 @@
 @property (nonatomic, strong) AFURLSessionManager *sessionManager;
 @property (nonatomic, strong, readonly) NSMutableArray *mutableDownloads;
 
-@property (nonatomic, copy) TCDownloadQueueDownloadDidFinishBlock downloadDidFinish;
-@property (nonatomic, copy) TCDownloadQueueDownloadDidFailBlock downloadDidFail;
-@property (nonatomic, copy) TCDownloadQueueDownloadProgressDidChangeBlock downloadProgressDidChange;
+@property (nonatomic, copy) TCDownloadQueueDownloadStateDidChangeBlock downloadStateDidChange;
+
+//@property (nonatomic, copy) TCDownloadQueueDownloadDidFinishBlock downloadDidFinish;
+//@property (nonatomic, copy) TCDownloadQueueDownloadDidFailBlock downloadDidFail;
+//@property (nonatomic, copy) TCDownloadQueueDownloadProgressDidChangeBlock downloadProgressDidChange;
 
 @end
 
@@ -36,7 +38,7 @@
     self = [super init];
     if (self) {
         // If no session manager is provided, we'll create our own
-        // session manager.
+        // session manager using the default configuration.
         if (!aSessionManager) {
             NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
             aSessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -54,6 +56,7 @@
 
     // TODO: Get the download associated with the task.
     TCDownload *download = nil;
+    // TODO: Get the index of the download object.
     NSUInteger downloadIndex = 0;
 
     [sessionManager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
@@ -74,8 +77,8 @@
             [download.progress setUserInfoObject:@([download.speedMeasure remainingTimeOfTotalSize:totalBytesExpectedToWrite numberOfCompletedBytes:totalBytesWritten])
                                           forKey:NSProgressEstimatedTimeRemainingKey];
 
-            if (weakSelf.downloadProgressDidChange) {
-                weakSelf.downloadProgressDidChange(downloadIndex);
+            if (weakSelf.downloadStateDidChange) {
+                weakSelf.downloadStateDidChange(downloadIndex);
             }
         });
     }];
@@ -97,47 +100,63 @@
 {
     NSParameterAssert(download);
 
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:download.sourceURL];
+    [self.mutableDownloads addObject:download];
 
-    // Create the download task that will perform the actual download.
-    NSURLSessionDownloadTask *downloadTask = [self.sessionManager downloadTaskWithRequest:request progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    __weak typeof(self)weakSelf = self;
+    __weak typeof(download)weakDownload = download;
+
+    // Create the download task to perform the actual download.
+    NSURLSessionDownloadTask *downloadTask = [self.sessionManager downloadTaskWithRequest:[NSURLRequest requestWithURL:download.sourceURL] progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         return download.destinationURL;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        NSUInteger indexToRemove = [self.mutableDownloads indexOfObject:download];
-        if (NSNotFound == indexToRemove) { return; }
+        NSUInteger downloadIndex = [weakSelf.mutableDownloads indexOfObject:weakDownload];
+        if (NSNotFound == downloadIndex) {
+            [NSException raise:NSInternalInconsistencyException
+                        format:@"%s - Download \"%@\" should be found in queue.", __PRETTY_FUNCTION__, download.description];
+            return;
+        }
 
-        [self.mutableDownloads removeObjectAtIndex:indexToRemove];
+        if (filePath) {
+            weakDownload.state = TCDownloadStateCompleted;
 
-        if (error) {
-            if (self.downloadDidFail) {
-                self.downloadDidFail(indexToRemove, error);
+            if (weakSelf.downloadStateDidChange) {
+                weakSelf.downloadStateDidChange(downloadIndex);
             }
         } else {
-            if (self.downloadDidFinish) {
-                self.downloadDidFinish(indexToRemove);
+            weakDownload.state = TCDownloadStateFailed;
+
+            if (weakSelf.downloadStateDidChange) {
+                weakSelf.downloadStateDidChange(downloadIndex);
             }
         }
     }];
 
+    // Start the download task.
     download.task = downloadTask;
     [download.task resume];
+    download.state = TCDownloadStateRunning;
 }
 
 #pragma mark - Setting Download Callbacks
 
-- (void)setDownloadDidFinishBlock:(TCDownloadQueueDownloadDidFinishBlock)block
+- (void)setDownloadStateDidChangeBlock:(TCDownloadQueueDownloadStateDidChangeBlock)block
 {
-    self.downloadDidFinish = block;
+    self.downloadStateDidChange = block;
 }
 
-- (void)setDownloadDidFailBlock:(TCDownloadQueueDownloadDidFailBlock)block
-{
-    self.downloadDidFail = block;
-}
-
-- (void)setDownloadDidChangeProgressBlock:(TCDownloadQueueDownloadProgressDidChangeBlock)block
-{
-    self.downloadProgressDidChange = block;
-}
+//- (void)setDownloadDidFinishBlock:(TCDownloadQueueDownloadDidFinishBlock)block
+//{
+//    self.downloadDidFinish = block;
+//}
+//
+//- (void)setDownloadDidFailBlock:(TCDownloadQueueDownloadDidFailBlock)block
+//{
+//    self.downloadDidFail = block;
+//}
+//
+//- (void)setDownloadProgressDidChangeBlock:(TCDownloadQueueDownloadProgressDidChangeBlock)block
+//{
+//    self.downloadProgressDidChange = block;
+//}
 
 @end

@@ -8,9 +8,11 @@
 
 @class TCDownload;
 
-typedef void(^TCDownloadQueueDownloadProgressDidChangeBlock)(NSUInteger index);
-typedef void(^TCDownloadQueueDownloadDidFinishBlock)(NSUInteger index);
-typedef void(^TCDownloadQueueDownloadDidFailBlock)(NSUInteger index, NSError *error);
+typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
+
+//typedef void(^TCDownloadQueueDownloadProgressDidChangeBlock)(NSUInteger index);
+//typedef void(^TCDownloadQueueDownloadDidFinishBlock)(NSUInteger index);
+//typedef void(^TCDownloadQueueDownloadDidFailBlock)(NSUInteger index, NSError *error);
 
 /**
  * \c TCDownloadQueue class coordinates a set of downloads.
@@ -35,12 +37,20 @@ typedef void(^TCDownloadQueueDownloadDidFailBlock)(NSUInteger index, NSError *er
 - (void)addDownload:(TCDownload *)download;
 
 /**
- * Sets the block to be called when a download has updated its progress.
+ * Sets a block to be called when a download's state or progress has changed.
+ *
+ * @param block The block has no return value and takes a single argument - 
+ *              the index of the download.
  */
-- (void)setDownloadDidChangeProgressBlock:(TCDownloadQueueDownloadProgressDidChangeBlock)block;
+- (void)setDownloadStateDidChangeBlock:(TCDownloadQueueDownloadStateDidChangeBlock)block;
 
-- (void)setDownloadDidFinishBlock:(TCDownloadQueueDownloadDidFinishBlock)block;
-
-- (void)setDownloadDidFailBlock:(TCDownloadQueueDownloadDidFailBlock)block;
+///**
+// * Sets the block to be called when a download has updated its progress.
+// */
+//- (void)setDownloadProgressDidChangeBlock:(TCDownloadQueueDownloadProgressDidChangeBlock)block;
+//
+//- (void)setDownloadDidFinishBlock:(TCDownloadQueueDownloadDidFinishBlock)block;
+//
+//- (void)setDownloadDidFailBlock:(TCDownloadQueueDownloadDidFailBlock)block;
 
 @end
