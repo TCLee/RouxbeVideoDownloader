@@ -7,7 +7,9 @@
 //
 
 @class TCDownloadQueue;
+@class TCDownload;
 
+typedef void(^TCDownloadControllerDidCreateDownloadBlock)(TCDownload *download);
 typedef void(^TCDownloadControllerSuccessBlock)(void);
 typedef void(^TCDownloadControllerFailureBlock)(NSError *error);
 
@@ -17,10 +19,7 @@ typedef void(^TCDownloadControllerFailureBlock)(NSError *error);
  */
 @interface TCDownloadController : NSObject
 
-/**
- * The download queue that coordinates the download operations.
- */
-@property (nonatomic, strong, readonly) TCDownloadQueue *downloadQueue;
+- (id)initWithDownloadQueue:(TCDownloadQueue *)downloadQueue;
 
 /**
  * Search for videos from the given URL. For each video found, create a 

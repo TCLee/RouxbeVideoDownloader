@@ -14,6 +14,8 @@
 
 @interface TCDownloadController ()
 
+@property (nonatomic, strong, readwrite) TCDownloadQueue *downloadQueue;
+
 @property (nonatomic, copy) TCDownloadControllerSuccessBlock successHandler;
 @property (nonatomic, copy) TCDownloadControllerFailureBlock failureHandler;
 
@@ -21,16 +23,17 @@
 
 @implementation TCDownloadController
 
-@synthesize downloadQueue = _downloadQueue;
+#pragma mark - Initialize
 
-#pragma mark - Download Queue
-
-- (TCDownloadQueue *)downloadQueue
+- (id)initWithDownloadQueue:(TCDownloadQueue *)downloadQueue
 {
-    if (!_downloadQueue) {
-        _downloadQueue = [[TCDownloadQueue alloc] init];
+    self = [super init];
+
+    if (self) {
+        _downloadQueue = downloadQueue;
     }
-    return _downloadQueue;
+
+    return self;
 }
 
 #pragma mark - Search and Add Downloads
