@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong, readwrite) NSURLSessionDownloadTask *task;
 
+@property (nonatomic, assign, readwrite) TCDownloadState state;
+
 @property (nonatomic, strong, readonly) AFURLConnectionByteSpeedMeasure *speedMeasure;
 
 @end

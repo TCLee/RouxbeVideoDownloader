@@ -9,21 +9,13 @@
 #import "TCDownload.h"
 #import "TCDownloadPrivate.h"
 #import "TCVideo.h"
-
-@interface TCDownload ()
-
-@property (nonatomic, strong, readwrite) NSProgress *progress;
-
-/**
- * Creates the destination directory for the downloaded file.
- *
- * @return \c YES if directory was created; \c NO otherwise.
- */
-- (BOOL)createDestinationDirectory;
-
-@end
+#import "NSURL+RouxbeAdditions.h"
+#import "AFURLConnectionByteSpeedMeasure.h"
 
 @implementation TCDownload
+
+@synthesize progress = _progress;
+@synthesize speedMeasure = _speedMeasure;
 
 #pragma mark - Initialize
 
@@ -40,89 +32,114 @@ downloadDirectoryURL:(NSURL *)downloadDirectoryURL
     return self;
 }
 
-- (NSURLSessionDownloadTask *)start
+#pragma mark - Download Progress
+
+- (NSProgress *)progress
 {
-    // If we failed to create the destination directory for the downloaded file,
-    // abort the download and report error back to caller.
-    if (![self createDestinationDirectory]) {
-        return nil;
+    if (!_progress) {
+        _progress = [[NSProgress alloc] initWithParent:nil
+                                              userInfo:nil];
+
+        // Configure NSProgress to create a description string suitable for
+        // file downloads.
+        _progress.kind = NSProgressKindFile;
+        [_progress setUserInfoObject:NSProgressFileOperationKindDownloading
+                              forKey:NSProgressFileOperationKindKey];
+    }
+    return _progress;
+}
+
+- (AFURLConnectionByteSpeedMeasure *)speedMeasure
+{
+    if (!_speedMeasure) {
+        _speedMeasure = [[AFURLConnectionByteSpeedMeasure alloc] init];
+    }
+    return _speedMeasure;
+}
+
+#pragma mark - Create Downloads from a URL
+
++ (void)downloadsWithURL:(NSURL *)theURL
+       completionHandler:(TCDownloadCompletionHandler)completionHandler
+{
+    [self downloadsWithURL:theURL
+      downloadDirectoryURL:[self userDownloadsDirectoryURL]
+         completionHandler:completionHandler];
+}
+
++ (void)downloadsWithURL:(NSURL *)theURL
+    downloadDirectoryURL:(NSURL *)downloadDirectoryURL
+       completionHandler:(TCDownloadCompletionHandler)completionHandler
+{
+    // Error - Not a valid rouxbe.com URL. Cannot search for videos.
+    if (![theURL isValidRouxbeURL]) {
+        if (completionHandler) {
+            NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
+                                                        code:NSURLErrorUnsupportedURL
+                                                    userInfo:@{NSLocalizedDescriptionKey: @"The URL is not a valid rouxbe.com URL.",
+                                                               NSLocalizedRecoverySuggestionErrorKey: @"Examples of valid rouxbe.com URL:\nhttp://rouxbe.com/cooking-school/lessons/198-how-to-make-veal-beef-stock\nhttp://rouxbe.com/recipes/63-red-pepper-eggplant-confit"}];
+            completionHandler(nil, error);
+        }
+        return;
     }
 
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.sourceURL];
-    NSProgress *__autoreleasing outProgress = nil;
-
-    NSURLSessionDownloadTask *downloadTask = [[TCRouxbeService sharedService] downloadTaskWithRequest:request progress:&outProgress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return self.destinationURL;
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        if (self.didComplete) {
-            self.didComplete(filePath, error);
+    // Search for videos from the given URL. For each video found, we'll
+    // create a download for it.
+    [TCVideo videosWithURL:theURL completionHandler:^(TCVideo *video, NSError *error) {
+        if (video) {
+            [self createDownloadForVideo:video
+                    downloadDirectoryURL:downloadDirectoryURL
+                       completionHandler:completionHandler];
+        } else {
+            // Error - An error occured while searching for videos.
+            if (completionHandler) {
+                completionHandler(nil, error);
+            }
         }
     }];
-
-    self.progress = outProgress;
-
-    // Configure the NSProgress to create a description string suitable for
-    // file downloads.
-    self.progress.kind = NSProgressKindFile;
-    [self.progress setUserInfoObject:NSProgressFileOperationKindDownloading
-                              forKey:NSProgressFileOperationKindKey];
-
-    // Use Key-Value Observing (KVO) to observe progress and report back.
-    [self.progress addObserver:self
-                    forKeyPath:@"fractionCompleted"
-                       options:NSKeyValueObservingOptionNew
-                       context:NULL];
-
-    // Tasks are suspended initially, so call resume to start download.
-    [downloadTask resume];
-    return downloadTask;
 }
 
-#pragma mark - File Operations
-
-- (BOOL)createDestinationDirectory
++ (void)createDownloadForVideo:(TCVideo *)video
+          downloadDirectoryURL:(NSURL *)downloadDirectoryURL
+             completionHandler:(TCDownloadCompletionHandler)completionHandler
 {
-    NSURL *destinationDirectoryURL = [self.destinationURL URLByDeletingLastPathComponent];
+    NSURL *destinationURL = [downloadDirectoryURL URLByAppendingPathComponent:video.destinationPathComponent];
+    NSURL *destinationDirectoryURL = [destinationURL URLByDeletingLastPathComponent];
+
+    // Create the directory to contain the downloaded file (if necessary).
+    // If directory already exists, nothing will happen.
     NSError *__autoreleasing error = nil;
+    BOOL directoryCreated = [[NSFileManager defaultManager] createDirectoryAtURL:destinationDirectoryURL
+                                                     withIntermediateDirectories:YES
+                                                                      attributes:nil
+                                                                           error:&error];
+    TCDownload *download = nil;
 
-    BOOL createdDirectory = [[NSFileManager defaultManager] createDirectoryAtURL:destinationDirectoryURL withIntermediateDirectories:YES attributes:nil error:&error];
-    if (!createdDirectory) {
-        if (self.didComplete) {
-            self.didComplete(nil, error);
-        }
+    // Create the download only if destination directory could be created.
+    // Otherwise, it's pointless to create the download when we cannot write
+    // to the destination URL.
+    if (directoryCreated) {
+        download = [[TCDownload alloc] initWithVideo:video
+                                downloadDirectoryURL:downloadDirectoryURL
+                                         description:video.destinationPathComponent];
     }
-    return createdDirectory;
-}
 
-#pragma mark - Key-Value Observing (KVO)
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (object == self.progress && [keyPath isEqualToString:@"fractionCompleted"]) {
-        // Switch back to main thread to make progress callback.
-        // Otherwise, we'll end up updating the UI on another thread!
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.didChangeProgress) {
-                self.didChangeProgress(self.progress);
-            }
-        });
-    } else {
-        // Only call the superclass if we don't handle the event.
-        // Otherwise, it will throw an exception if the superclass (NSObject)
-        // does not implement the method.
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
+    if (completionHandler) {
+        completionHandler(download, error);
     }
 }
 
-- (void)dealloc
+#pragma mark - User's Downloads Directory
+
+/**
+ * Return the user's default Downloads directory or \c nil if not found.
+ */
++ (NSURL *)userDownloadsDirectoryURL
 {
-    [self.progress removeObserver:self forKeyPath:@"fractionCompleted"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *directoryURL = [[fileManager URLsForDirectory:NSDownloadsDirectory
+                                               inDomains:NSUserDomainMask] firstObject];
+    return directoryURL;
 }
 
 @end

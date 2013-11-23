@@ -7,7 +7,6 @@
 //
 
 #import "TCMainWindowController.h"
-#import "TCDownloadController.h"
 
 #import "NSTableView+RowAdditions.h"
 #import "TCDownloadCellView.h"
@@ -20,14 +19,25 @@
 @property (nonatomic, weak) IBOutlet NSTextField *urlTextField;
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
 
-@property (nonatomic, strong, readonly) TCDownloadController *downloadController;
 @property (nonatomic, strong, readonly) TCDownloadQueue *downloadQueue;
+
+/**
+ * Returns a Boolean value that indicates whether the URL string is a
+ * valid URL or not.
+ *
+ * @param URLString The string representing the URL.
+ * @param error     The error object will contain the description of the error or
+ *                  \c nil if there's no error.
+ *
+ * @return \c YES if \c URLString is valid; \c NO otherwise.
+ */
+- (BOOL)validateURLString:(NSString *)URLString error:(out NSError *__autoreleasing *)error;
 
 @end
 
 @implementation TCMainWindowController
 
-@synthesize downloadController = _downloadController;
+@synthesize downloadQueue = _downloadQueue;
 
 #pragma mark - Initialize From NIB
 
@@ -58,30 +68,23 @@
     }
 
     NSURL *theURL = [[NSURL alloc] initWithString:URLString];
-    __weak typeof(self)weakSelf = self;
 
-    [self.downloadController addDownloadsWithURL:theURL success:^{
-        // Add a new row to the table view for each new download added
-        // to the queue.
-        [weakSelf.tableView addRow];
-    } failure:^(NSError *error) {
-        // Error - Failed to add downloads.
-        NSAlert *alert= [NSAlert alertWithError:error];
-        [alert beginSheetModalForWindow:weakSelf.window completionHandler:nil];
+    // Create downloads from the given URL. For each download created, add it
+    // to the queue.
+    [TCDownload downloadsWithURL:theURL completionHandler:^(TCDownload *download, NSError *error) {
+        if (download) {
+            [self.downloadQueue addDownload:download];
+            [self.tableView addRow];
+        } else {
+            // Error - Failed to create a download.
+            NSAlert *alert= [NSAlert alertWithError:error];
+            [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        }
     }];
 }
 
-/**
- * Returns a Boolean value that indicates whether the URL string is a 
- * valid URL or not.
- *
- * @param URLString The string representing the URL.
- * @param error     The error object will contain the description of the error or 
- *                  \c nil if there's no error.
- *
- * @return \c YES if \c URLString is valid; \c NO otherwise.
- */
-- (BOOL)validateURLString:(NSString *)URLString error:(NSError *__autoreleasing *)error
+- (BOOL)validateURLString:(NSString *)URLString
+                    error:(out NSError *__autoreleasing *)error
 {
     // Make sure the URL is provided by the user.
     if (nil == URLString || 0 == URLString.length) {
@@ -129,61 +132,49 @@
     TCDownload *download = [self.downloadQueue downloadAtIndex:row];
     cellView.titleLabel.stringValue = download.description;
 
-    if (download.progress) {
-        // Download has started, so update the cell's progress views.
-        cellView.progressLabel.stringValue = [download.progress localizedAdditionalDescription];
-        cellView.progressBar.doubleValue = download.progress.fractionCompleted;
-    } else {
-        // Download has been queued but not started yet.
-        cellView.progressLabel.stringValue = NSLocalizedString(@"Download Not Started", @"");
-        cellView.progressBar.doubleValue = 0;
+    switch (download.state) {
+        case TCDownloadStateRunning:
+            cellView.progressLabel.stringValue = [download.progress localizedAdditionalDescription];
+            cellView.progressLabel.textColor = [NSColor grayColor];
+            [cellView.progressBar setHidden:NO];
+            cellView.progressBar.doubleValue = download.progress.fractionCompleted;
+            break;
+
+        case TCDownloadStateComplete:
+            cellView.progressLabel.stringValue = NSLocalizedString(@"Download Completed", @"");
+            cellView.progressLabel.textColor = [NSColor greenColor];
+            [cellView.progressBar setHidden:YES];
+            break;
+
+        case TCDownloadStateFail:
+            cellView.progressLabel.stringValue = NSLocalizedString(@"Download Failed. Retry again.", @"");
+            cellView.progressLabel.textColor = [NSColor redColor];
+            [cellView.progressBar setHidden:YES];
+            break;
+
+        default:
+            break;
     }
-    
+
     return cellView;
 }
 
-#pragma mark - Download Controller
-
-- (TCDownloadController *)downloadController
-{
-    if (!_downloadController) {
-        _downloadController = [[TCDownloadController alloc] init];
-
-        __weak typeof(self)weakSelf = self;
-
-        [_downloadController.downloadQueue setDownloadDidChangeProgressBlock:^(NSUInteger index) {
-            if (NSNotFound == index) { return; }
-
-            // Reload row to update progress.
-            [weakSelf.tableView reloadDataAtRowIndex:index];
-        }];
-
-        [_downloadController.downloadQueue setDownloadDidFinishBlock:^(NSUInteger index) {
-            if (NSNotFound == index) { return; }
-
-            // Remove finished download.
-            [weakSelf.tableView removeRowAtIndex:index];
-        }];
-
-        [_downloadController.downloadQueue setDownloadDidFailBlock:^(NSUInteger index, NSError *error) {
-            if (NSNotFound == index) { return; }
-
-            NSAlert *alert = [NSAlert alertWithError:error];
-            [alert beginSheetModalForWindow:weakSelf.window completionHandler:^(NSModalResponse returnCode) {
-                if (NSModalResponseStop == returnCode) {
-                    // Remove failed download.
-                    [weakSelf.tableView removeRowAtIndex:index];
-                }
-            }];
-        }];
-    }
-
-    return _downloadController;
-}
+#pragma mark - Download Controller and Queue
 
 - (TCDownloadQueue *)downloadQueue
 {
-    return self.downloadController.downloadQueue;
+    if (!_downloadQueue) {
+        _downloadQueue = [[TCDownloadQueue alloc] init];
+
+        __weak typeof(self)weakSelf = self;
+
+        [_downloadQueue setDownloadStateDidChangeBlock:^(NSUInteger index) {
+            if (NSNotFound != index) {
+                [weakSelf.tableView reloadDataAtRowIndex:index];
+            }
+        }];
+    }
+    return _downloadQueue;
 }
 
 @end

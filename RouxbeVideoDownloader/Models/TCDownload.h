@@ -7,6 +7,31 @@
 //
 
 @class TCVideo;
+@class TCDownload;
+
+typedef void(^TCDownloadCompletionHandler)(TCDownload *download, NSError *error);
+
+/**
+ * Constants for determining the current state of a download.
+ */
+typedef NS_ENUM(NSInteger, TCDownloadState) {
+    /**
+     * The download is currently in progress.
+     */
+    TCDownloadStateRunning  = 0,
+    /**
+     * The download has been paused.
+     */
+    TCDownloadStatePause    = 1,
+    /**
+     * The download has failed with an error.
+     */
+    TCDownloadStateFail     = 2,
+    /**
+     * The download has completed successfully.
+     */
+    TCDownloadStateComplete = 3,
+};
 
 /**
  * \c TCDownload class is responsible for downloading a video.
@@ -45,8 +70,50 @@
  */
 @property (nonatomic, strong, readonly) NSProgress *progress;
 
+/**
+ * The current state of the download.
+ */
+@property (nonatomic, assign, readonly) TCDownloadState state;
+
+/**
+ * <#Description#>
+ *
+ * @param video                <#video description#>
+ * @param downloadDirectoryURL <#downloadDirectoryURL description#>
+ * @param description          <#description description#>
+ *
+ * @return <#return value description#>
+ */
 - (id)initWithVideo:(TCVideo *)video
 downloadDirectoryURL:(NSURL *)downloadDirectoryURL
         description:(NSString *)description;
+
+/**
+ * <#Description#>
+ *
+ * @param theURL            <#theURL description#>
+ * @param completionHandler <#completionHandler description#>
+ */
++ (void)downloadsWithURL:(NSURL *)theURL
+       completionHandler:(TCDownloadCompletionHandler)completionHandler;
+
+/**
+ * <#Description#>
+ *
+ * @param theURL               <#theURL description#>
+ * @param downloadDirectoryURL <#downloadDirectoryURL description#>
+ * @param completionHandler    <#completionHandler description#>
+ */
++ (void)downloadsWithURL:(NSURL *)theURL
+    downloadDirectoryURL:(NSURL *)downloadDirectoryURL
+       completionHandler:(TCDownloadCompletionHandler)completionHandler;
+
+/**
+ * Return the user's default Downloads directory or \c nil if not found.
+ *
+ * This will be the directory used to store the downloads, if you 
+ * do not specify a directory.
+ */
++ (NSURL *)userDownloadsDirectoryURL;
 
 @end
