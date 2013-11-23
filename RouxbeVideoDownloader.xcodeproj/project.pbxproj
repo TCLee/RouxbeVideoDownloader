@@ -11,7 +11,6 @@
 		8123A18F183C6C7800A6365A /* TCVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A18E183C6C7800A6365A /* TCVideo.m */; };
 		8123A192183C9DE500A6365A /* TCDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A191183C9DE500A6365A /* TCDownloadQueue.m */; };
 		8123A199183DE2C300A6365A /* NSTableView+RowAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */; };
-		8123A19C183F111F00A6365A /* TCDownloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A19B183F111F00A6365A /* TCDownloadController.m */; };
 		81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81310AE21828948E00327AFF /* TCMainWindowController.m */; };
 		81310AE81828950700327AFF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81310AE61828950700327AFF /* MainWindow.xib */; };
 		8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */; };
@@ -70,8 +69,6 @@
 		8123A196183DC9E600A6365A /* TCDownloadPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCDownloadPrivate.h; sourceTree = "<group>"; };
 		8123A197183DE2C300A6365A /* NSTableView+RowAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+RowAdditions.h"; sourceTree = "<group>"; };
 		8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+RowAdditions.m"; sourceTree = "<group>"; };
-		8123A19A183F111F00A6365A /* TCDownloadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadController.h; sourceTree = "<group>"; };
-		8123A19B183F111F00A6365A /* TCDownloadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadController.m; sourceTree = "<group>"; };
 		81310AE11828948E00327AFF /* TCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMainWindowController.h; sourceTree = "<group>"; };
 		81310AE21828948E00327AFF /* TCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMainWindowController.m; sourceTree = "<group>"; };
 		81310AE71828950700327AFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
@@ -239,8 +236,6 @@
 			children = (
 				81310AE11828948E00327AFF /* TCMainWindowController.h */,
 				81310AE21828948E00327AFF /* TCMainWindowController.m */,
-				8123A19A183F111F00A6365A /* TCDownloadController.h */,
-				8123A19B183F111F00A6365A /* TCDownloadController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -533,7 +528,6 @@
 				819887E31834DD5700FE21BB /* TCMP4VideoURL.m in Sources */,
 				8123A18F183C6C7800A6365A /* TCVideo.m in Sources */,
 				81F7B761183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure.m in Sources */,
-				8123A19C183F111F00A6365A /* TCDownloadController.m in Sources */,
 				81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */,
 				81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */,
 				81F7B762183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m in Sources */,
