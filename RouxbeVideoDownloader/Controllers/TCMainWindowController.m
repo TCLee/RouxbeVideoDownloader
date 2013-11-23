@@ -52,7 +52,7 @@
 /**
  * User types in a URL and presses the Return/Enter key.
  */
-- (IBAction)downloadVideos:(id)sender
+- (IBAction)addDownloads:(id)sender
 {
     // Make sure the action is sent by the URL text field.
     if (sender != self.urlTextField) { return; }
@@ -126,36 +126,10 @@
                   row:(NSInteger)row
 {
     static NSString * const kCellIdentifier = @"TCDownloadCell";
+    
     TCDownloadCellView *cellView = [tableView makeViewWithIdentifier:kCellIdentifier
                                                                owner:self];
-
-    TCDownload *download = [self.downloadQueue downloadAtIndex:row];
-    cellView.titleLabel.stringValue = download.description;
-
-    switch (download.state) {
-        case TCDownloadStateRunning:
-            cellView.progressLabel.stringValue = [download.progress localizedAdditionalDescription];
-            cellView.progressLabel.textColor = [NSColor grayColor];
-            [cellView.progressBar setHidden:NO];
-            cellView.progressBar.doubleValue = download.progress.fractionCompleted;
-            break;
-
-        case TCDownloadStateComplete:
-            cellView.progressLabel.stringValue = NSLocalizedString(@"Download Completed", @"");
-            cellView.progressLabel.textColor = [NSColor greenColor];
-            [cellView.progressBar setHidden:YES];
-            break;
-
-        case TCDownloadStateFail:
-            cellView.progressLabel.stringValue = NSLocalizedString(@"Download Failed. Retry again.", @"");
-            cellView.progressLabel.textColor = [NSColor redColor];
-            [cellView.progressBar setHidden:YES];
-            break;
-
-        default:
-            break;
-    }
-
+    cellView.download = [self.downloadQueue downloadAtIndex:row];
     return cellView;
 }
 
@@ -168,6 +142,8 @@
 
         __weak typeof(self)weakSelf = self;
 
+        // Everytime the download's state change, we just reload the
+        // table view's row to update the view.
         [_downloadQueue setDownloadStateDidChangeBlock:^(NSUInteger index) {
             if (NSNotFound != index) {
                 [weakSelf.tableView reloadDataAtRowIndex:index];

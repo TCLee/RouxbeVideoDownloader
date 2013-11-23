@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
+@class TCDownload;
+
 /**
  * A \c TCDownloadCellView class is a table cell view that displays the
  * download progress.
@@ -16,5 +18,7 @@
 @property (nonatomic, weak) IBOutlet NSTextField *progressLabel;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *progressBar;
 @property (nonatomic, weak) IBOutlet NSButton *actionButton;
+
+@property (nonatomic, strong) TCDownload *download;
 
 @end
