@@ -19,6 +19,9 @@
 @property (nonatomic, weak) IBOutlet NSTextField *urlTextField;
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
 
+/**
+ * The download queue coordinates a set of download operations.
+ */
 @property (nonatomic, strong, readonly) TCDownloadQueue *downloadQueue;
 
 /**

@@ -14,17 +14,16 @@
 @interface TCDownloadQueue ()
 
 @property (nonatomic, strong) AFURLSessionManager *sessionManager;
+
 @property (nonatomic, strong, readonly) NSMutableArray *mutableDownloads;
 
 @property (nonatomic, copy) TCDownloadQueueDownloadStateDidChangeBlock downloadStateDidChange;
 
-//@property (nonatomic, copy) TCDownloadQueueDownloadDidFinishBlock downloadDidFinish;
-//@property (nonatomic, copy) TCDownloadQueueDownloadDidFailBlock downloadDidFail;
-//@property (nonatomic, copy) TCDownloadQueueDownloadProgressDidChangeBlock downloadProgressDidChange;
-
 @end
 
 @implementation TCDownloadQueue
+
+@synthesize mutableDownloads = _mutableDownloads;
 
 #pragma mark - Initialize
 
@@ -86,6 +85,14 @@
 
 #pragma mark - Managing Downloads in the Queue
 
+- (NSMutableArray *)mutableDownloads
+{
+    if (!_mutableDownloads) {
+        _mutableDownloads = [[NSMutableArray alloc] init];
+    }
+    return _mutableDownloads;
+}
+
 - (NSUInteger)downloadCount
 {
     return self.mutableDownloads.count;
@@ -133,8 +140,8 @@
 
     // Start the download task.
     download.task = downloadTask;
-    [download.task resume];
-    download.state = TCDownloadStateRunning;
+//    [download.task resume];
+//    download.state = TCDownloadStateRunning;
 }
 
 #pragma mark - Setting Download Callbacks
@@ -143,20 +150,5 @@
 {
     self.downloadStateDidChange = block;
 }
-
-//- (void)setDownloadDidFinishBlock:(TCDownloadQueueDownloadDidFinishBlock)block
-//{
-//    self.downloadDidFinish = block;
-//}
-//
-//- (void)setDownloadDidFailBlock:(TCDownloadQueueDownloadDidFailBlock)block
-//{
-//    self.downloadDidFail = block;
-//}
-//
-//- (void)setDownloadProgressDidChangeBlock:(TCDownloadQueueDownloadProgressDidChangeBlock)block
-//{
-//    self.downloadProgressDidChange = block;
-//}
 
 @end

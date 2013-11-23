@@ -82,7 +82,7 @@ downloadDirectoryURL:(NSURL *)downloadDirectoryURL
             NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
                                                         code:NSURLErrorUnsupportedURL
                                                     userInfo:@{NSLocalizedDescriptionKey: @"The URL is not a valid rouxbe.com URL.",
-                                                               NSLocalizedRecoverySuggestionErrorKey: @"Examples of valid rouxbe.com URL:\nhttp://rouxbe.com/cooking-school/lessons/198-how-to-make-veal-beef-stock\nhttp://rouxbe.com/recipes/63-red-pepper-eggplant-confit"}];
+                                                               NSLocalizedRecoverySuggestionErrorKey: @"Examples of valid rouxbe.com URL:\n- http://rouxbe.com/cooking-school/lessons/198-how-to-make-veal-beef-stock\n- http://rouxbe.com/recipes/63-red-pepper-eggplant-confit"}];
             completionHandler(nil, error);
         }
         return;

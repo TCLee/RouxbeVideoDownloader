@@ -8,14 +8,16 @@
 
 @class TCDownload;
 
+/**
+ * The signature of the block object that will be called when a download's 
+ * state has changed.
+ *
+ * @param index The index of the download.
+ */
 typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
 
-//typedef void(^TCDownloadQueueDownloadProgressDidChangeBlock)(NSUInteger index);
-//typedef void(^TCDownloadQueueDownloadDidFinishBlock)(NSUInteger index);
-//typedef void(^TCDownloadQueueDownloadDidFailBlock)(NSUInteger index, NSError *error);
-
 /**
- * \c TCDownloadQueue class coordinates a set of downloads.
+ * \c TCDownloadQueue class coordinates a set of download operations.
  */
 @interface TCDownloadQueue : NSObject
 
@@ -24,6 +26,13 @@ typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
  */
 @property (nonatomic, assign, readonly) NSUInteger downloadCount;
 
+/**
+ * <#Description#>
+ *
+ * @param sessionManager <#sessionManager description#>
+ *
+ * @return <#return value description#>
+ */
 - (id)initWithSessionManager:(AFURLSessionManager *)sessionManager;
 
 /**
@@ -43,14 +52,5 @@ typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
  *              the index of the download.
  */
 - (void)setDownloadStateDidChangeBlock:(TCDownloadQueueDownloadStateDidChangeBlock)block;
-
-///**
-// * Sets the block to be called when a download has updated its progress.
-// */
-//- (void)setDownloadProgressDidChangeBlock:(TCDownloadQueueDownloadProgressDidChangeBlock)block;
-//
-//- (void)setDownloadDidFinishBlock:(TCDownloadQueueDownloadDidFinishBlock)block;
-//
-//- (void)setDownloadDidFailBlock:(TCDownloadQueueDownloadDidFailBlock)block;
 
 @end
