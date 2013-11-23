@@ -31,7 +31,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <action selector="downloadVideos:" target="-2" id="9VT-vG-8eA"/>
+                            <action selector="addDownloads:" target="-2" id="4zT-Mt-7Mr"/>
                         </connections>
                     </textField>
                     <scrollView identifier="tableScrollView" appearanceType="lightContent" autohidesScrollers="YES" horizontalLineScroll="107" horizontalPageScroll="10" verticalLineScroll="107" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="dq4-Qv-CQi">
@@ -66,7 +66,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <progressIndicator identifier="progressBar" appearanceType="lightContent" maxValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="lPJ-1c-dZs">
-                                                            <rect key="frame" x="20" y="41" width="443" height="20"/>
+                                                            <rect key="frame" x="20" y="41" width="421" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         </progressIndicator>
                                                         <textField identifier="titleLabel" appearanceType="lightContent" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="FvC-9u-NGm">
@@ -79,7 +79,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <textField identifier="progressLabel" appearanceType="lightContent" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="WK9-an-ni0">
-                                                            <rect key="frame" x="18" y="20" width="447" height="14"/>
+                                                            <rect key="frame" x="18" y="20" width="425" height="14"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="0 MB of 0 MB" id="2VG-yL-fVi">
                                                                 <font key="font" metaFont="smallSystem"/>
@@ -87,19 +87,34 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
+                                                        <button appearanceType="lightContent" translatesAutoresizingMaskIntoConstraints="NO" id="idw-ov-Zg9">
+                                                            <rect key="frame" x="449" y="35" width="14" height="32"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="32" id="NmS-Tr-fcd"/>
+                                                                <constraint firstAttribute="width" constant="14" id="b5E-cO-L1B"/>
+                                                            </constraints>
+                                                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSRefreshFreestandingTemplate" imagePosition="overlaps" alignment="center" inset="2" id="lpS-to-X6S">
+                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="lPJ-1c-dZs" firstAttribute="leading" secondItem="GfC-qw-0My" secondAttribute="leading" constant="20" symbolic="YES" id="0do-Zd-mAf"/>
+                                                        <constraint firstAttribute="trailing" secondItem="idw-ov-Zg9" secondAttribute="trailing" constant="20" symbolic="YES" id="1ev-n3-amM"/>
+                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="trailing" secondItem="lPJ-1c-dZs" secondAttribute="trailing" id="GoK-RK-VQh"/>
                                                         <constraint firstItem="lPJ-1c-dZs" firstAttribute="top" secondItem="FvC-9u-NGm" secondAttribute="bottom" constant="8" symbolic="YES" id="HlT-jN-mnd"/>
-                                                        <constraint firstAttribute="trailing" secondItem="WK9-an-ni0" secondAttribute="trailing" constant="20" symbolic="YES" id="gAz-Yp-Z2V"/>
-                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="top" secondItem="lPJ-1c-dZs" secondAttribute="bottom" constant="8" symbolic="YES" id="hEH-St-0VI"/>
+                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="leading" secondItem="lPJ-1c-dZs" secondAttribute="leading" id="PhD-Rf-Mgd"/>
+                                                        <constraint firstItem="idw-ov-Zg9" firstAttribute="leading" secondItem="lPJ-1c-dZs" secondAttribute="trailing" constant="8" symbolic="YES" id="SD5-Ei-ytW"/>
+                                                        <constraint firstItem="lPJ-1c-dZs" firstAttribute="centerY" secondItem="idw-ov-Zg9" secondAttribute="centerY" id="Vdl-G7-Qf2"/>
+                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="top" secondItem="lPJ-1c-dZs" secondAttribute="bottom" constant="8" symbolic="YES" id="oA4-Pr-zDt"/>
                                                         <constraint firstAttribute="trailing" secondItem="FvC-9u-NGm" secondAttribute="trailing" constant="20" symbolic="YES" id="ojb-vL-qXj"/>
                                                         <constraint firstItem="FvC-9u-NGm" firstAttribute="top" secondItem="GfC-qw-0My" secondAttribute="top" constant="20" symbolic="YES" id="sDp-Uv-hMc"/>
-                                                        <constraint firstAttribute="trailing" secondItem="lPJ-1c-dZs" secondAttribute="trailing" constant="20" symbolic="YES" id="v5E-3B-5dC"/>
-                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="leading" secondItem="GfC-qw-0My" secondAttribute="leading" constant="20" symbolic="YES" id="wi0-dT-9uS"/>
                                                         <constraint firstItem="FvC-9u-NGm" firstAttribute="leading" secondItem="GfC-qw-0My" secondAttribute="leading" constant="20" symbolic="YES" id="zXC-Bo-h1p"/>
                                                     </constraints>
                                                     <connections>
+                                                        <outlet property="actionButton" destination="idw-ov-Zg9" id="Gnt-89-fpm"/>
                                                         <outlet property="progressBar" destination="lPJ-1c-dZs" id="WKM-rj-FA3"/>
                                                         <outlet property="progressLabel" destination="WK9-an-ni0" id="2R0-1B-mlp"/>
                                                         <outlet property="titleLabel" destination="FvC-9u-NGm" id="2r1-5z-llv"/>
@@ -141,4 +156,7 @@
             </connections>
         </window>
     </objects>
+    <resources>
+        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
+    </resources>
 </document>

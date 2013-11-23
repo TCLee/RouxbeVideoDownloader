@@ -15,5 +15,6 @@
 @property (nonatomic, weak) IBOutlet NSTextField *titleLabel;
 @property (nonatomic, weak) IBOutlet NSTextField *progressLabel;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *progressBar;
+@property (nonatomic, weak) IBOutlet NSButton *actionButton;
 
 @end
