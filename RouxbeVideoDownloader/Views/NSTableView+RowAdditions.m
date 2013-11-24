@@ -22,6 +22,20 @@
     [self endUpdates];
 }
 
+- (void)addNumberOfRows:(NSUInteger)rowCount
+{
+    // <Last Row Index> + 1 == <Number of Rows>
+    NSInteger indexOfFirstNewRow = self.numberOfRows;
+    NSIndexSet *indexes = [[NSIndexSet alloc] initWithIndexesInRange:
+                           NSMakeRange(indexOfFirstNewRow, rowCount)];
+
+    [self beginUpdates];
+    [self insertRowsAtIndexes:indexes
+                withAnimation:NSTableViewAnimationSlideDown];
+    [self scrollRowToVisible:indexOfFirstNewRow];
+    [self endUpdates];
+}
+
 - (void)removeRowAtIndex:(NSUInteger)rowIndex
 {
     [self removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:rowIndex]

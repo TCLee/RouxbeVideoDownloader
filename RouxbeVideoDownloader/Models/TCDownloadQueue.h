@@ -46,6 +46,13 @@ typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
 - (void)addDownload:(TCDownload *)download;
 
 /**
+ * Adds the array of downloads to the end of the queue.
+ *
+ * @param downloads An array of \c TCDownload objects.
+ */
+- (void)addDownloads:(NSArray *)downloads;
+
+/**
  * Sets a block to be called when a download's state or progress has changed.
  *
  * @param block The block has no return value and takes a single argument - 

@@ -8,13 +8,7 @@
 
 @class TCVideo;
 
-/**
- * <#Description#>
- *
- * @param video <#video description#>
- * @param error <#error description#>
- */
-typedef void (^TCVideoSearchBlock)(TCVideo *video, NSError *error);
+typedef void(^TCVideoSearchCompletionHandler)(NSArray *videos, NSError *error);
 
 /**
  * \c TCVideo class describes a Rouxbe video resource.
@@ -71,16 +65,14 @@ typedef void (^TCVideoSearchBlock)(TCVideo *video, NSError *error);
                position:(NSUInteger)position;
 
 /**
- * Find all videos from the given URL. 
- *
- * The completion handler will be called each time a video is found or 
- * an error occured during the search.
+ * Find all videos from the given URL. The completion handler will be called 
+ * when the videos are found or an error occured during the search.
  *
  * @param aURL              The URL to search for videos.
- * @param completionHandler The completion handler to call when a video is 
+ * @param completionHandler The completion handler to call when the videos are
  *                          found or an error occured.
  */
 + (void)videosWithURL:(NSURL *)aURL
-    completionHandler:(TCVideoSearchBlock)completionHandler;
+    completionHandler:(TCVideoSearchCompletionHandler)completionHandler;
 
 @end

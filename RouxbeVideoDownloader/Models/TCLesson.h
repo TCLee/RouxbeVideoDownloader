@@ -16,7 +16,7 @@
  *               response or \c nil on error.
  * @param error  A \c NSError object describing the error, if any.
  */
-typedef void(^TCLessonBlock)(TCLesson *lesson, NSError *error);
+typedef void(^TCLessonCompletionHandler)(TCLesson *lesson, NSError *error);
 
 /**
  * \c TCLesson object describes a lesson in Rouxbe's Cooking School.
@@ -46,8 +46,8 @@ typedef void(^TCLessonBlock)(TCLesson *lesson, NSError *error);
  * @param lessonID          The unique ID of the lesson.
  * @param completionHandler The handler to be called when request is done.
  */
-+ (void)lessonWithID:(NSUInteger)lessonID
-   completionHandler:(TCLessonBlock)completionHandler;
++ (NSURLSessionDataTask *)lessonWithID:(NSUInteger)lessonID
+                     completionHandler:(TCLessonCompletionHandler)completionHandler;
 
 /**
  * Initializes a new lesson object from the given XML data.

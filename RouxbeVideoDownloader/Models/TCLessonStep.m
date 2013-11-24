@@ -31,8 +31,6 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
 
 @implementation TCLessonStep
 
-@synthesize videoPathComponent = _videoPathComponent;
-
 - (id)initWithXML:(RXMLElement *)stepXML lessonName:(NSString *)lessonName
 {
     self = [super init];
@@ -47,16 +45,16 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
     return self;
 }
 
-- (void)videoURLWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler
+- (NSURLSessionDataTask *)videoURLWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler
 {
     // If we already have cached the video URL, we can return it immediately.
     if (self.videoURL) {
         completionHandler(self.videoURL, nil);
-        return;
+        return nil;
     }
 
     // Otherwise, we will have to extract the video URL from the video player.
-    [[TCRouxbeService sharedService] getXML:[NSString stringWithFormat:TCLessonVideoPlayerPath, self.ID] success:^(NSURLSessionDataTask *task, NSData *data) {
+    return [[TCRouxbeService sharedService] getXML:[NSString stringWithFormat:TCLessonVideoPlayerPath, self.ID] success:^(NSURLSessionDataTask *task, NSData *data) {
         RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
         [self setVideoURLWithString:[[rootXML child:@"video"] attribute:@"url"]];
         completionHandler(self.videoURL, nil);
@@ -68,18 +66,6 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
 - (void)setVideoURLWithString:(NSString *)URLString
 {
     _videoURL = [TCMP4VideoURL MP4VideoURLWithString:URLString];
-}
-
-- (NSString *)videoPathComponent
-{
-    if (!_videoPathComponent) {
-        NSString *fileName = [[NSString alloc] initWithFormat:@"%02lu - %@.mp4",
-                              self.position + 1, self.name];
-        NSString *directoryName = self.lessonName;
-
-        _videoPathComponent = [directoryName stringByAppendingPathComponent:fileName];
-    }
-    return _videoPathComponent;
 }
 
 @end

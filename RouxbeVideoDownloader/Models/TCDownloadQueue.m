@@ -144,6 +144,44 @@
 //    download.state = TCDownloadStateRunning;
 }
 
+- (void)addDownloads:(NSArray *)downloads
+{
+    [self.mutableDownloads addObjectsFromArray:downloads];
+
+    // Create a download task for each download object.
+    for (TCDownload *download in downloads) {
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:download.sourceURL];
+        NSURLSessionDownloadTask *downloadTask = [self.sessionManager downloadTaskWithRequest:request progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            return download.destinationURL;
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            NSUInteger downloadIndex = [self.mutableDownloads indexOfObject:download];
+            if (NSNotFound == downloadIndex) {
+                [NSException raise:NSInternalInconsistencyException
+                            format:@"%s - Download \"%@\" should be found in queue.", __PRETTY_FUNCTION__, download.description];
+                return;
+            }
+
+            if (filePath) {
+                download.state = TCDownloadStateCompleted;
+
+                if (self.downloadStateDidChange) {
+                    self.downloadStateDidChange(downloadIndex);
+                }
+            } else {
+                download.state = TCDownloadStateFailed;
+
+                if (self.downloadStateDidChange) {
+                    self.downloadStateDidChange(downloadIndex);
+                }
+            }
+        }];
+
+        download.task = downloadTask;
+//        [download.task resume];
+//        download.state = TCDownloadStateRunning;
+    }
+}
+
 #pragma mark - Setting Download Callbacks
 
 - (void)setDownloadStateDidChangeBlock:(TCDownloadQueueDownloadStateDidChangeBlock)block

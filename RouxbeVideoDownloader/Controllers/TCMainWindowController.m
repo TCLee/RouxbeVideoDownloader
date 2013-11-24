@@ -74,10 +74,10 @@
 
     // Create downloads from the given URL. For each download created, add it
     // to the queue.
-    [TCDownload downloadsWithURL:theURL completionHandler:^(TCDownload *download, NSError *error) {
-        if (download) {
-            [self.downloadQueue addDownload:download];
-            [self.tableView addRow];
+    [TCDownload downloadsWithURL:theURL completionHandler:^(NSArray *downloads, NSError *error) {
+        if (downloads) {
+            [self.downloadQueue addDownloads:downloads];
+            [self.tableView addNumberOfRows:downloads.count];
         } else {
             // Error - Failed to create a download.
             NSAlert *alert= [NSAlert alertWithError:error];

@@ -17,20 +17,86 @@ static NSString * const TCRouxbeLessonXMLPath = @"cooking-school/lessons/%lu.xml
 
 @interface TCLesson ()
 
+/**
+ * Fetches the video URL for each of the given lesson's step. Calls
+ * the completion handler when all the video URLs have been fetched
+ * or an error occured.
+ *
+ * @param lesson            The lesson's steps to fetch the video URLs for.
+ * @param completionHandler A block object to be called when the request is done
+ *                          or an error occured.
+ */
++ (void)fetchVideoURLsForLesson:(TCLesson *)lesson
+              completionHandler:(TCLessonCompletionHandler)completionHandler;
+
 @end
 
 @implementation TCLesson
 
 #pragma mark - Class Methods
 
-+ (void)lessonWithID:(NSUInteger)lessonID
-   completionHandler:(TCLessonBlock)completionHandler
++ (NSURLSessionDataTask *)lessonWithID:(NSUInteger)lessonID
+                     completionHandler:(TCLessonCompletionHandler)completionHandler;
 {
-    [[TCRouxbeService sharedService] getXML:[NSString stringWithFormat:TCRouxbeLessonXMLPath, lessonID] success:^(NSURLSessionDataTask *task, NSData *data) {
-        completionHandler([[TCLesson alloc] initWithXMLData:data], nil);
+    return [[TCRouxbeService sharedService] getXML:[NSString stringWithFormat:TCRouxbeLessonXMLPath, lessonID] success:^(NSURLSessionDataTask *task, NSData *data) {
+        TCLesson *lesson = [[TCLesson alloc] initWithXMLData:data];
+        [self fetchVideoURLsForLesson:lesson completionHandler:completionHandler];
+
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        completionHandler(nil, error);
+        // Error - Failed to fetch Lesson object.
+        if (completionHandler) {
+            completionHandler(nil, error);
+        }
     }];
+}
+
++ (void)fetchVideoURLsForLesson:(TCLesson *)lesson
+              completionHandler:(TCLessonCompletionHandler)completionHandler
+{
+    NSMutableArray *runningDataTasks = [[NSMutableArray alloc] init];
+    NSMutableArray *stepsWithoutVideoURL = [lesson.steps mutableCopy];
+
+    for (TCLessonStep *step in lesson.steps) {
+        // If step already has a video URL, then we can skip that step.
+        if (step.videoURL) {
+            [stepsWithoutVideoURL removeObjectIdenticalTo:step];
+            continue;
+        }
+
+        // Must use the __block storage type because we're using the dataTask
+        // variable inside the block before it's initialized.
+        // See Also: http://www.friday.com/bbum/2009/08/29/blocks-tips-tricks/ [Section: 7) Recursive Block]
+
+        __block NSURLSessionDataTask *dataTask = [step videoURLWithCompletionHandler:^(NSURL *videoURL, NSError *error) {
+            // This data task has completed, so remove it from the list.
+            [runningDataTasks removeObjectIdenticalTo:dataTask];
+
+            if (videoURL) {
+                // This step has a video URL now, so remove it from the list.
+                [stepsWithoutVideoURL removeObjectIdenticalTo:step];
+
+                // When all steps have a video URL, we can callback with the result.
+                if (0 == stepsWithoutVideoURL.count) {
+                    if (completionHandler) {
+                        completionHandler(lesson, nil);
+                    }
+                }
+            } else {
+                // If one of the Lesson's step video URL could not be
+                // retrieved, we consider the entire Lesson request as failed.
+
+                // Cancels all remaining running tasks.
+                [runningDataTasks enumerateObjectsUsingBlock:^(NSURLSessionDataTask *dataTask, NSUInteger index, BOOL *stop) {
+                    [dataTask cancel];
+                }];
+
+                if (completionHandler) {
+                    completionHandler(nil, error);
+                }
+            }
+        }];
+        [runningDataTasks addObject:dataTask];
+    }
 }
 
 #pragma mark - Instance Methods

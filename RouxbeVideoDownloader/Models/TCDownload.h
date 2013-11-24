@@ -9,7 +9,7 @@
 @class TCVideo;
 @class TCDownload;
 
-typedef void(^TCDownloadCompletionHandler)(TCDownload *download, NSError *error);
+typedef void(^TCDownloadCompletionHandler)(NSArray *downloads, NSError *error);
 
 /**
  * Constants for determining the current state of a download.
@@ -94,6 +94,10 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
 - (id)initWithVideo:(TCVideo *)video
 downloadDirectoryURL:(NSURL *)downloadDirectoryURL
         description:(NSString *)description;
+
+- (id)initWithSourceURL:(NSURL *)sourceURL
+         destinationURL:(NSURL *)destinationURL
+            description:(NSString *)description;
 
 /**
  * <#Description#>

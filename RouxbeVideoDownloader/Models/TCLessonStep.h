@@ -50,13 +50,6 @@ typedef void(^TCLessonStepVideoURLBlock)(NSURL *videoURL, NSError *error);
 @property (nonatomic, copy, readonly) NSURL *videoURL;
 
 /**
- * The path component of the downloaded video file. This path component 
- * should be appended to a directory of the user's choosing to form the
- * full file path.
- */
-@property (nonatomic, copy, readonly) NSString *videoPathComponent;
-
-/**
  * Initializes a new lesson step object from the given XML.
  *
  * @param stepXML    The XML representing a lesson step element.
@@ -74,6 +67,6 @@ typedef void(^TCLessonStepVideoURLBlock)(NSURL *videoURL, NSError *error);
  * @param completionHandler The completion handler to call when the video
  *                          URL is fetched or there is an error.
  */
-- (void)videoURLWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler;
+- (NSURLSessionDataTask *)videoURLWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler;
 
 @end

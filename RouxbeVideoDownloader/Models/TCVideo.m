@@ -57,7 +57,7 @@
 }
 
 + (void)videosWithURL:(NSURL *)aURL
-    completionHandler:(TCVideoSearchBlock)completionHandler
+    completionHandler:(TCVideoSearchCompletionHandler)completionHandler
 {
     NSParameterAssert(aURL);
 
@@ -88,34 +88,23 @@
 #pragma mark - Lesson Videos
 
 + (void)videosWithLessonURL:(NSURL *)lessonURL
-          completionHandler:(TCVideoSearchBlock)completionHandler
+          completionHandler:(TCVideoSearchCompletionHandler)completionHandler
 {
     [TCLesson lessonWithID:[lessonURL rouxbeID] completionHandler:^(TCLesson *lesson, NSError *error) {
         if (lesson) {
+            NSMutableArray *videos = [[NSMutableArray alloc] initWithCapacity:lesson.steps.count];
+
+            // Create a video for each Lesson's step.
             for (TCLessonStep *step in lesson.steps) {
-                [self videoWithLessonStep:step
-                        completionHandler:completionHandler];
-            }
+                TCVideo *video = [[TCVideo alloc] initWithSourceURL:step.videoURL
+                                                              group:step.lessonName
+                                                              title:step.name
+                                                           position:step.position];
+                [videos addObject:video];
+            }            
+            completionHandler(videos, nil);
         } else {
             // Error - Failed to fetch Lesson.
-            completionHandler(nil, error);
-        }
-    }];
-}
-
-+ (void)videoWithLessonStep:(TCLessonStep *)lessonStep
-          completionHandler:(TCVideoSearchBlock)completionHandler
-{
-    [lessonStep videoURLWithCompletionHandler:^(NSURL *videoURL, NSError *error) {
-        if (videoURL) {
-            // Success - Found the Lesson Step video URL.
-            TCVideo *video = [[TCVideo alloc] initWithSourceURL:videoURL
-                                                          group:lessonStep.lessonName
-                                                          title:lessonStep.name
-                                                       position:lessonStep.position];
-            completionHandler(video, nil);
-        } else {
-            // Error - Failed to fetch Lesson Step video URL.
             completionHandler(nil, error);
         }
     }];

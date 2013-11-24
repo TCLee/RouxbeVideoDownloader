@@ -19,6 +19,24 @@
 
 #pragma mark - Initialize
 
+- (id)initWithSourceURL:(NSURL *)sourceURL
+         destinationURL:(NSURL *)destinationURL
+            description:(NSString *)description
+{
+    self = [super init];
+    if (self) {
+        _sourceURL = [sourceURL copy];
+        _destinationURL = [destinationURL copy];
+        _description = [description copy];
+
+        // All download starts in the paused state.
+        // It will move to the running state, when it's added to
+        // the download queue.
+        _state = TCDownloadStatePaused;
+    }
+    return self;
+}
+
 - (id)initWithVideo:(TCVideo *)video
 downloadDirectoryURL:(NSURL *)downloadDirectoryURL
         description:(NSString *)description
@@ -88,15 +106,15 @@ downloadDirectoryURL:(NSURL *)downloadDirectoryURL
         return;
     }
 
-    // Search for videos from the given URL. For each video found, we'll
-    // create a download for it.
-    [TCVideo videosWithURL:theURL completionHandler:^(TCVideo *video, NSError *error) {
-        if (video) {
-            [self createDownloadForVideo:video
-                    downloadDirectoryURL:downloadDirectoryURL
-                       completionHandler:completionHandler];
+    // Search for videos from the given URL.
+    [TCVideo videosWithURL:theURL completionHandler:^(NSArray *videos, NSError *error) {
+        if (videos) {
+            // Create a download for each video found.
+            [self downloadsWithVideos:videos
+                 downloadDirectoryURL:downloadDirectoryURL
+                    completionHandler:completionHandler];
         } else {
-            // Error - An error occured while searching for videos.
+            // An error occured while searching for videos.
             if (completionHandler) {
                 completionHandler(nil, error);
             }
@@ -104,34 +122,54 @@ downloadDirectoryURL:(NSURL *)downloadDirectoryURL
     }];
 }
 
-+ (void)createDownloadForVideo:(TCVideo *)video
-          downloadDirectoryURL:(NSURL *)downloadDirectoryURL
-             completionHandler:(TCDownloadCompletionHandler)completionHandler
++ (void)downloadsWithVideos:(NSArray *)videos
+       downloadDirectoryURL:(NSURL *)downloadDirectoryURL
+          completionHandler:(TCDownloadCompletionHandler)completionHandler
 {
-    NSURL *destinationURL = [downloadDirectoryURL URLByAppendingPathComponent:video.destinationPathComponent];
-    NSURL *destinationDirectoryURL = [destinationURL URLByDeletingLastPathComponent];
+    NSString *pathComponent =[videos.firstObject destinationPathComponent];
+    NSURL *fullPath =[downloadDirectoryURL URLByAppendingPathComponent:pathComponent];
+    NSURL *destinationDirectoryURL = [fullPath URLByDeletingLastPathComponent];
 
-    // Create the directory to contain the downloaded file (if necessary).
-    // If directory already exists, nothing will happen.
-    NSError *__autoreleasing error = nil;
-    BOOL directoryCreated = [[NSFileManager defaultManager] createDirectoryAtURL:destinationDirectoryURL
-                                                     withIntermediateDirectories:YES
-                                                                      attributes:nil
-                                                                           error:&error];
-    TCDownload *download = nil;
+    // Create the directory to hold the downloads, if necessary.
+    // If failed to create directory, then we can't start the download as there
+    // is no place to save the downloads to.
+    if (![self createDirectoryAtURL:destinationDirectoryURL
+                  completionHandler:completionHandler]) {
+        return;
+    }
 
-    // Create the download only if destination directory could be created.
-    // Otherwise, it's pointless to create the download when we cannot write
-    // to the destination URL.
-    if (directoryCreated) {
-        download = [[TCDownload alloc] initWithVideo:video
-                                downloadDirectoryURL:downloadDirectoryURL
-                                         description:video.destinationPathComponent];
+    // Create a download for each video.
+    NSMutableArray *downloads = [[NSMutableArray alloc] initWithCapacity:videos.count];
+    for (TCVideo *video in videos) {
+        NSURL *destinationURL = [downloadDirectoryURL URLByAppendingPathComponent:video.destinationPathComponent];
+        TCDownload *download = [[TCDownload alloc] initWithSourceURL:video.sourceURL
+                                                      destinationURL:destinationURL
+                                                         description:video.destinationPathComponent];
+        [downloads addObject:download];
     }
 
     if (completionHandler) {
-        completionHandler(download, error);
+        completionHandler(downloads, nil);
     }
+}
+
++ (BOOL)createDirectoryAtURL:(NSURL *)directoryURL
+           completionHandler:(TCDownloadCompletionHandler)completionHandler
+{
+    // Create the directory to contain the downloaded files.
+    // If directory already exists, nothing will happen.
+    NSError *__autoreleasing error = nil;
+    BOOL directoryCreated = [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL
+                                                     withIntermediateDirectories:YES
+                                                                      attributes:nil
+                                                                           error:&error];
+    if (!directoryCreated) {
+        if (completionHandler) {
+            completionHandler(nil, error);
+        }
+    }
+
+    return directoryCreated;
 }
 
 #pragma mark - User's Downloads Directory
