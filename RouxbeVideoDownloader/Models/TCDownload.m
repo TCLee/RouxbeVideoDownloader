@@ -142,6 +142,9 @@
 {
     if (!_speedMeasure) {
         _speedMeasure = [[AFURLConnectionByteSpeedMeasure alloc] init];
+
+        // Activate the speed measure to enable download speed calculations.
+        _speedMeasure.active = YES;
     }
     return _speedMeasure;
 }

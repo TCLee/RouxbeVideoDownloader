@@ -28,6 +28,8 @@
  */
 @property (nonatomic, copy) TCDownloadQueueDownloadStateDidChangeBlock downloadStateDidChange;
 
+@property (nonatomic, strong) NSMutableDictionary *downloadsKeyedByTaskIdentifier;
+
 @end
 
 @implementation TCDownloadQueue
@@ -45,8 +47,8 @@
 {
     self = [super init];
     if (self) {
-        // If no session manager is provided, we'll create our own
-        // session manager using the default configuration.
+        // If no session manager is provided, we'll create our own session
+        // manager using the default configuration.
         if (!aSessionManager) {
             NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
             aSessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -62,15 +64,15 @@
 {
     __weak typeof(self)weakSelf = self;
 
-    // TODO: Get the download associated with the task.
-    // TODO: Get the index of the download object.
-    TCDownload *download = nil;
-    NSUInteger downloadIndex = 0;
-
+    // This block will be called on the AFURLSessionManager's operation queue
+    // and NOT the main queue. So, it's important for us to switch to the main
+    // queue before updating the download's properties and making a callback.
     [sessionManager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         NSDate *now = [NSDate date];
 
         dispatch_async(dispatch_get_main_queue(), ^{
+            TCDownload *download = weakSelf.downloadsKeyedByTaskIdentifier[@(downloadTask.taskIdentifier)];
+
             // Re-calculate new average download speed.
             [download.speedMeasure updateSpeedWithDataChunkLength:bytesWritten
                                                    receivedAtDate:now];
@@ -86,7 +88,7 @@
                                           forKey:NSProgressEstimatedTimeRemainingKey];
 
             if (weakSelf.downloadStateDidChange) {
-                weakSelf.downloadStateDidChange(downloadIndex);
+                weakSelf.downloadStateDidChange([weakSelf.mutableDownloads indexOfObjectIdenticalTo:download]);
             }
         });
     }];
@@ -111,36 +113,27 @@
     __weak typeof(self)weakSelf = self;
 
     for (TCDownload *download in downloads) {
-
         // Create a download task for each download object.
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:download.sourceURL];
         NSURLSessionDownloadTask *downloadTask = [self.sessionManager downloadTaskWithRequest:request progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
             return download.destinationURL;
         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            NSUInteger downloadIndex = [weakSelf.mutableDownloads indexOfObject:download];
-            if (NSNotFound == downloadIndex) {
-                [NSException raise:NSInternalInconsistencyException
-                            format:@"%s - Download \"%@\" should be found in queue.", __PRETTY_FUNCTION__, download.description];
-                return;
-            }
+            // Remove completed task from dictionary.
+            [weakSelf.downloadsKeyedByTaskIdentifier removeObjectForKey:@(download.task.taskIdentifier)];
 
-            if (filePath) {
-                download.state = TCDownloadStateCompleted;
+            // If no file path, it means that download has failed.
+            download.state = filePath ? TCDownloadStateCompleted : TCDownloadStateFailed;
 
-                if (weakSelf.downloadStateDidChange) {
-                    weakSelf.downloadStateDidChange(downloadIndex);
-                }
-            } else {
-                download.state = TCDownloadStateFailed;
-
-                if (weakSelf.downloadStateDidChange) {
-                    weakSelf.downloadStateDidChange(downloadIndex);
-                }
+            if (weakSelf.downloadStateDidChange) {
+                weakSelf.downloadStateDidChange([weakSelf.mutableDownloads indexOfObjectIdenticalTo:download]);
             }
         }];
 
-        // Start the download task.
+        // Associate the task with the download.
         download.task = downloadTask;
+        weakSelf.downloadsKeyedByTaskIdentifier[@(download.task.taskIdentifier)] = download;
+
+        // Start the download task.
         [download.task resume];
         download.state = TCDownloadStateRunning;
     }
@@ -153,7 +146,17 @@
     self.downloadStateDidChange = block;
 }
 
-#pragma mark - Private Mutable Download Queue
+#pragma mark - Downloads Keyed By Task Identifier Dictionary
+
+- (NSMutableDictionary *)downloadsKeyedByTaskIdentifier
+{
+    if (!_downloadsKeyedByTaskIdentifier) {
+        _downloadsKeyedByTaskIdentifier = [[NSMutableDictionary alloc] init];
+    }
+    return _downloadsKeyedByTaskIdentifier;
+}
+
+#pragma mark - Mutable Download Queue
 
 - (NSMutableArray *)mutableDownloads
 {
