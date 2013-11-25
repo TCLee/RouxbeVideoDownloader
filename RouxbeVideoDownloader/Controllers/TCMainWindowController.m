@@ -36,6 +36,14 @@
  */
 - (BOOL)validateURLString:(NSString *)URLString error:(out NSError *__autoreleasing *)error;
 
+/**
+ * Return the user's Downloads directory.
+ *
+ * @note Raises an \c NSInternalInconsistencyException, if user's Downloads 
+ *       directory could not be located.
+ */
+FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
+
 @end
 
 @implementation TCMainWindowController
@@ -74,7 +82,7 @@
 
     // Create downloads from the given URL. For each download created, add it
     // to the queue.
-    [TCDownload downloadsWithURL:theURL completionHandler:^(NSArray *downloads, NSError *error) {
+    [TCDownload downloadsWithURL:theURL downloadDirectoryURL:TCUserDownloadsDirectoryURL() completionHandler:^(NSArray *downloads, NSError *error) {
         if (downloads) {
             [self.downloadQueue addDownloads:downloads];
             [self.tableView addNumberOfRows:downloads.count];
@@ -136,7 +144,7 @@
     return cellView;
 }
 
-#pragma mark - Download Controller and Queue
+#pragma mark - Download Queue
 
 - (TCDownloadQueue *)downloadQueue
 {
@@ -154,6 +162,22 @@
         }];
     }
     return _downloadQueue;
+}
+
+#pragma mark - User Downloads Directory
+
+FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *directoryURL = [[fileManager URLsForDirectory:NSDownloadsDirectory
+                                               inDomains:NSUserDomainMask] firstObject];
+
+    if (!directoryURL) {
+        [NSException raise:NSInternalInconsistencyException
+                    format:@"%s - User's Downloads directory should exist.", __PRETTY_FUNCTION__];
+    }
+
+    return directoryURL;
 }
 
 @end

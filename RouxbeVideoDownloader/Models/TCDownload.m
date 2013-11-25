@@ -37,58 +37,7 @@
     return self;
 }
 
-- (id)initWithVideo:(TCVideo *)video
-downloadDirectoryURL:(NSURL *)downloadDirectoryURL
-        description:(NSString *)description
-{
-    self = [super init];
-    if (self) {
-        _sourceURL = [video.sourceURL copy];
-        _destinationURL = [downloadDirectoryURL URLByAppendingPathComponent:video.destinationPathComponent];
-        _description = [description copy];
-
-        // All download starts in the paused state.
-        // It will move to the running state, when it's added to
-        // the download queue.
-        _state = TCDownloadStatePaused;
-    }
-    return self;
-}
-
-#pragma mark - Download Progress
-
-- (NSProgress *)progress
-{
-    if (!_progress) {
-        _progress = [[NSProgress alloc] initWithParent:nil
-                                              userInfo:nil];
-
-        // Configure NSProgress to create a description string suitable for
-        // file downloads.
-        _progress.kind = NSProgressKindFile;
-        [_progress setUserInfoObject:NSProgressFileOperationKindDownloading
-                              forKey:NSProgressFileOperationKindKey];
-    }
-    return _progress;
-}
-
-- (AFURLConnectionByteSpeedMeasure *)speedMeasure
-{
-    if (!_speedMeasure) {
-        _speedMeasure = [[AFURLConnectionByteSpeedMeasure alloc] init];
-    }
-    return _speedMeasure;
-}
-
-#pragma mark - Create Downloads from a URL
-
-+ (void)downloadsWithURL:(NSURL *)theURL
-       completionHandler:(TCDownloadCompletionHandler)completionHandler
-{
-    [self downloadsWithURL:theURL
-      downloadDirectoryURL:[self userDownloadsDirectoryURL]
-         completionHandler:completionHandler];
-}
+#pragma mark - Create Downloads from URL
 
 + (void)downloadsWithURL:(NSURL *)theURL
     downloadDirectoryURL:(NSURL *)downloadDirectoryURL
@@ -172,17 +121,29 @@ downloadDirectoryURL:(NSURL *)downloadDirectoryURL
     return directoryCreated;
 }
 
-#pragma mark - User's Downloads Directory
+#pragma mark - Download Progress
 
-/**
- * Return the user's default Downloads directory or \c nil if not found.
- */
-+ (NSURL *)userDownloadsDirectoryURL
+- (NSProgress *)progress
 {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *directoryURL = [[fileManager URLsForDirectory:NSDownloadsDirectory
-                                               inDomains:NSUserDomainMask] firstObject];
-    return directoryURL;
+    if (!_progress) {
+        _progress = [[NSProgress alloc] initWithParent:nil
+                                              userInfo:nil];
+
+        // Configure NSProgress to create a description string suitable for
+        // file downloads.
+        _progress.kind = NSProgressKindFile;
+        [_progress setUserInfoObject:NSProgressFileOperationKindDownloading
+                              forKey:NSProgressFileOperationKindKey];
+    }
+    return _progress;
+}
+
+- (AFURLConnectionByteSpeedMeasure *)speedMeasure
+{
+    if (!_speedMeasure) {
+        _speedMeasure = [[AFURLConnectionByteSpeedMeasure alloc] init];
+    }
+    return _speedMeasure;
 }
 
 @end

@@ -9,6 +9,13 @@
 @class TCVideo;
 @class TCDownload;
 
+/**
+ * The signature for the block object that will be called when 
+ * the array of downloads have been created (or an error occured).
+ *
+ * @param downloads The array of downloads or \c nil on error.
+ * @param error     An \c NSError object on error or \c nil on success.
+ */
 typedef void(^TCDownloadCompletionHandler)(NSArray *downloads, NSError *error);
 
 /**
@@ -20,7 +27,8 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
      */
     TCDownloadStateRunning = 0,
     /**
-     * The download has been paused.
+     * The download has been paused. 
+     * All downloads start in the paused state.
      */
     TCDownloadStatePaused = 1,
     /**
@@ -34,21 +42,9 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
 };
 
 /**
- * \c TCDownload class is responsible for downloading a video.
+ * \c TCDownload class describes a video download.
  */
 @interface TCDownload : NSObject
-
-/**
- * The URL to the directory that all the video files will be saved to.
- * 
- * This directory will be decided by the user, but it cannot be \c nil.
- */
-@property (nonatomic, copy, readonly) NSURL *downloadDirectoryURL;
-
-/**
- * The string that is intended for display on a view.
- */
-@property (nonatomic, copy, readonly) NSString *description;
 
 /**
  * The source URL to download the video from.
@@ -57,18 +53,23 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
 
 /**
  * The destination URL to save the downloaded video file to.
- *
- * The destination URL is created by appending to the user provided 
- * download directory.
- *
- * @see TCDownload::downloadDirectoryURL
  */
 @property (nonatomic, copy, readonly) NSURL *destinationURL;
+
+/**
+ * The string that is intended for display on a view.
+ */
+@property (nonatomic, copy, readonly) NSString *description;
 
 /**
  * The current progress of the download.
  */
 @property (nonatomic, strong, readonly) NSProgress *progress;
+
+/**
+ * The \c NSURLSessionDownloadTask that performs the actual download.
+ */
+@property (nonatomic, strong, readonly) NSURLSessionDownloadTask *task;
 
 /**
  * The current state of the download.
@@ -83,48 +84,35 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
 @property (nonatomic, copy, readonly) NSError *error;
 
 /**
- * <#Description#>
+ * Initializes a new download with the given source URL, destination URL 
+ * and description string to display on a view.
  *
- * @param video                <#video description#>
- * @param downloadDirectoryURL <#downloadDirectoryURL description#>
- * @param description          <#description description#>
+ * @param sourceURL      The source URL.
+ * @param destinationURL The destination URL to save the downloaded file.
+ * @param description    The description string to display on a view.
  *
- * @return <#return value description#>
+ * @return An initialized \c TCDownload object.
  */
-- (id)initWithVideo:(TCVideo *)video
-downloadDirectoryURL:(NSURL *)downloadDirectoryURL
-        description:(NSString *)description;
-
 - (id)initWithSourceURL:(NSURL *)sourceURL
          destinationURL:(NSURL *)destinationURL
             description:(NSString *)description;
 
 /**
- * <#Description#>
+ * Creates and returns an array of downloads from the given URL. The downloads
+ * will be saved to the specified downloads directory.
  *
- * @param theURL            <#theURL description#>
- * @param completionHandler <#completionHandler description#>
- */
-+ (void)downloadsWithURL:(NSURL *)theURL
-       completionHandler:(TCDownloadCompletionHandler)completionHandler;
-
-/**
- * <#Description#>
+ * This method will first search for all available videos from the given
+ * URL. For each video it finds, it will create a download for the video.
+ * Finally, it will call the completion handler with the array of downloads
+ * (or an \c NSError object, if an error occured).
  *
- * @param theURL               <#theURL description#>
- * @param downloadDirectoryURL <#downloadDirectoryURL description#>
- * @param completionHandler    <#completionHandler description#>
+ * @param theURL               The URL to find videos and create downloads for.
+ * @param downloadDirectoryURL The directory URL to save the downloads to.
+ * @param completionHandler    A block object to call when downloads have 
+ *                             been created or an error occured.
  */
 + (void)downloadsWithURL:(NSURL *)theURL
     downloadDirectoryURL:(NSURL *)downloadDirectoryURL
        completionHandler:(TCDownloadCompletionHandler)completionHandler;
-
-/**
- * Return the user's default Downloads directory or \c nil if not found.
- *
- * This will be the directory used to store the downloads, if you 
- * do not specify a directory.
- */
-+ (NSURL *)userDownloadsDirectoryURL;
 
 @end

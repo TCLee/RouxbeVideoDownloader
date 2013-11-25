@@ -16,6 +16,10 @@
 
 @property (nonatomic, assign, readwrite) TCDownloadState state;
 
+/**
+ * The \c AFURLConnectionByteSpeedMeasure object to calculate download speed and 
+ * estimated completion time.
+ */
 @property (nonatomic, strong, readonly) AFURLConnectionByteSpeedMeasure *speedMeasure;
 
 @end

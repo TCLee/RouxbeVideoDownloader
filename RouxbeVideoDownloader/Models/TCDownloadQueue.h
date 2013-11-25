@@ -10,14 +10,17 @@
 
 /**
  * The signature of the block object that will be called when a download's 
- * state has changed.
+ * state or progress has changed.
  *
- * @param index The index of the download.
+ * @param index The index of the download whose state or progress has changed.
  */
 typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
 
 /**
  * \c TCDownloadQueue class coordinates a set of download operations.
+ * Each download is represented by a \c TCDownload object.
+ *
+ * @see TCDownload
  */
 @interface TCDownloadQueue : NSObject
 
@@ -27,11 +30,20 @@ typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
 @property (nonatomic, assign, readonly) NSUInteger downloadCount;
 
 /**
- * <#Description#>
+ * Initializes a new download queue with the default session manager.
  *
- * @param sessionManager <#sessionManager description#>
+ * @return A \c TCDownloadQueue object initialized with the default session manager.
+ */
+- (id)init;
+
+/**
+ * Initializes a new download queue with the given session manager that will
+ * manage the session that coordinates all download tasks.
  *
- * @return <#return value description#>
+ * @param sessionManager The \c AFURLSessionManager object or \c nil to 
+ *                       use the default session manager.
+ *
+ * @return A \c TCDownloadQueue object initialized with the given session manager.
  */
 - (id)initWithSessionManager:(AFURLSessionManager *)sessionManager;
 
@@ -39,11 +51,6 @@ typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
  * Returns the download at given index.
  */
 - (TCDownload *)downloadAtIndex:(NSUInteger)index;
-
-/**
- * Adds the given download to the end of the queue.
- */
-- (void)addDownload:(TCDownload *)download;
 
 /**
  * Adds the array of downloads to the end of the queue.

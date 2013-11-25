@@ -13,10 +13,19 @@
 
 @interface TCDownloadQueue ()
 
+/**
+ * The session manager that manages the session for all download tasks.
+ */
 @property (nonatomic, strong) AFURLSessionManager *sessionManager;
 
+/**
+ * The mutable download queue for internal use only.
+ */
 @property (nonatomic, strong, readonly) NSMutableArray *mutableDownloads;
 
+/**
+ * The block object to execute when a download's state or progress has changed.
+ */
 @property (nonatomic, copy) TCDownloadQueueDownloadStateDidChangeBlock downloadStateDidChange;
 
 @end
@@ -54,8 +63,8 @@
     __weak typeof(self)weakSelf = self;
 
     // TODO: Get the download associated with the task.
-    TCDownload *download = nil;
     // TODO: Get the index of the download object.
+    TCDownload *download = nil;
     NSUInteger downloadIndex = 0;
 
     [sessionManager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
@@ -85,14 +94,6 @@
 
 #pragma mark - Managing Downloads in the Queue
 
-- (NSMutableArray *)mutableDownloads
-{
-    if (!_mutableDownloads) {
-        _mutableDownloads = [[NSMutableArray alloc] init];
-    }
-    return _mutableDownloads;
-}
-
 - (NSUInteger)downloadCount
 {
     return self.mutableDownloads.count;
@@ -103,58 +104,20 @@
     return (TCDownload *)self.mutableDownloads[index];
 }
 
-- (void)addDownload:(TCDownload *)download
-{
-    NSParameterAssert(download);
-
-    [self.mutableDownloads addObject:download];
-
-    __weak typeof(self)weakSelf = self;
-    __weak typeof(download)weakDownload = download;
-
-    // Create the download task to perform the actual download.
-    NSURLSessionDownloadTask *downloadTask = [self.sessionManager downloadTaskWithRequest:[NSURLRequest requestWithURL:download.sourceURL] progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return download.destinationURL;
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        NSUInteger downloadIndex = [weakSelf.mutableDownloads indexOfObject:weakDownload];
-        if (NSNotFound == downloadIndex) {
-            [NSException raise:NSInternalInconsistencyException
-                        format:@"%s - Download \"%@\" should be found in queue.", __PRETTY_FUNCTION__, download.description];
-            return;
-        }
-
-        if (filePath) {
-            weakDownload.state = TCDownloadStateCompleted;
-
-            if (weakSelf.downloadStateDidChange) {
-                weakSelf.downloadStateDidChange(downloadIndex);
-            }
-        } else {
-            weakDownload.state = TCDownloadStateFailed;
-
-            if (weakSelf.downloadStateDidChange) {
-                weakSelf.downloadStateDidChange(downloadIndex);
-            }
-        }
-    }];
-
-    // Start the download task.
-    download.task = downloadTask;
-//    [download.task resume];
-//    download.state = TCDownloadStateRunning;
-}
-
 - (void)addDownloads:(NSArray *)downloads
 {
     [self.mutableDownloads addObjectsFromArray:downloads];
 
-    // Create a download task for each download object.
+    __weak typeof(self)weakSelf = self;
+
     for (TCDownload *download in downloads) {
+
+        // Create a download task for each download object.
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:download.sourceURL];
         NSURLSessionDownloadTask *downloadTask = [self.sessionManager downloadTaskWithRequest:request progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
             return download.destinationURL;
         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            NSUInteger downloadIndex = [self.mutableDownloads indexOfObject:download];
+            NSUInteger downloadIndex = [weakSelf.mutableDownloads indexOfObject:download];
             if (NSNotFound == downloadIndex) {
                 [NSException raise:NSInternalInconsistencyException
                             format:@"%s - Download \"%@\" should be found in queue.", __PRETTY_FUNCTION__, download.description];
@@ -164,21 +127,22 @@
             if (filePath) {
                 download.state = TCDownloadStateCompleted;
 
-                if (self.downloadStateDidChange) {
-                    self.downloadStateDidChange(downloadIndex);
+                if (weakSelf.downloadStateDidChange) {
+                    weakSelf.downloadStateDidChange(downloadIndex);
                 }
             } else {
                 download.state = TCDownloadStateFailed;
 
-                if (self.downloadStateDidChange) {
-                    self.downloadStateDidChange(downloadIndex);
+                if (weakSelf.downloadStateDidChange) {
+                    weakSelf.downloadStateDidChange(downloadIndex);
                 }
             }
         }];
 
+        // Start the download task.
         download.task = downloadTask;
-//        [download.task resume];
-//        download.state = TCDownloadStateRunning;
+        [download.task resume];
+        download.state = TCDownloadStateRunning;
     }
 }
 
@@ -187,6 +151,16 @@
 - (void)setDownloadStateDidChangeBlock:(TCDownloadQueueDownloadStateDidChangeBlock)block
 {
     self.downloadStateDidChange = block;
+}
+
+#pragma mark - Private Mutable Download Queue
+
+- (NSMutableArray *)mutableDownloads
+{
+    if (!_mutableDownloads) {
+        _mutableDownloads = [[NSMutableArray alloc] init];
+    }
+    return _mutableDownloads;
 }
 
 @end
