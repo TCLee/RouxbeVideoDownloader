@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
 /**
  * The \c NSURLSessionDownloadTask that performs the actual download.
  */
-@property (nonatomic, strong, readonly) NSURLSessionDownloadTask *task;
+@property (nonatomic, copy, readonly) NSURLSessionDownloadTask *task;
 
 /**
  * The current state of the download.
@@ -114,5 +114,23 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
 + (void)downloadsWithURL:(NSURL *)theURL
     downloadDirectoryURL:(NSURL *)downloadDirectoryURL
        completionHandler:(TCDownloadCompletionHandler)completionHandler;
+
+/**
+ * Temporarily suspends the download task.
+ */
+- (void)pause;
+
+/**
+ * Resumes the download task, if it is suspended.
+ */
+- (void)resume;
+
+/**
+ * Returns a localized description of the progress based on 
+ * the download's state.
+ *
+ * @see TCDownload::TCDownloadState
+ */
+- (NSString *)localizedProgressDescription;
 
 @end

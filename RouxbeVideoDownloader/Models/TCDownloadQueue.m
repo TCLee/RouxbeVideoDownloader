@@ -9,7 +9,6 @@
 #import "TCDownloadQueue.h"
 #import "TCDownload.h"
 #import "TCDownloadPrivate.h"
-#import "AFURLConnectionByteSpeedMeasure.h"
 
 @interface TCDownloadQueue ()
 
@@ -21,20 +20,24 @@
 /**
  * The mutable download queue for internal use only.
  */
-@property (nonatomic, strong, readonly) NSMutableArray *mutableDownloads;
+@property (nonatomic, strong) NSMutableArray *mutableDownloads;
+
+//@property (nonatomic, strong) NSMutableArray *mutableRunningTasks;
 
 /**
  * The block object to execute when a download's state or progress has changed.
  */
 @property (nonatomic, copy) TCDownloadQueueDownloadStateDidChangeBlock downloadStateDidChange;
 
+/**
+ * The dictionary to associate a download with its task. The key is the task's 
+ * identifier and the value is the download object.
+ */
 @property (nonatomic, strong) NSMutableDictionary *downloadsKeyedByTaskIdentifier;
 
 @end
 
 @implementation TCDownloadQueue
-
-@synthesize mutableDownloads = _mutableDownloads;
 
 #pragma mark - Initialize
 
@@ -66,26 +69,17 @@
 
     // This block will be called on the AFURLSessionManager's operation queue
     // and NOT the main queue. So, it's important for us to switch to the main
-    // queue before updating the download's properties and making a callback.
+    // queue before updating the download's progress and making a callback.
     [sessionManager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         NSDate *now = [NSDate date];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             TCDownload *download = weakSelf.downloadsKeyedByTaskIdentifier[@(downloadTask.taskIdentifier)];
 
-            // Re-calculate new average download speed.
-            [download.speedMeasure updateSpeedWithDataChunkLength:bytesWritten
-                                                   receivedAtDate:now];
-
-            // Update the download's progress.
-            download.progress.completedUnitCount = totalBytesWritten;
-            download.progress.totalUnitCount = totalBytesExpectedToWrite;
-
-            // Update the download's current speed and estimated time to finish.
-            [download.progress setUserInfoObject:@(download.speedMeasure.speed)
-                                          forKey:NSProgressThroughputKey];
-            [download.progress setUserInfoObject:@([download.speedMeasure remainingTimeOfTotalSize:totalBytesExpectedToWrite numberOfCompletedBytes:totalBytesWritten])
-                                          forKey:NSProgressEstimatedTimeRemainingKey];
+            [download setProgressWithBytesWritten:bytesWritten
+                                totalBytesWritten:totalBytesWritten
+                        totalBytesExpectedToWrite:totalBytesExpectedToWrite
+                                        timestamp:now];
 
             if (weakSelf.downloadStateDidChange) {
                 weakSelf.downloadStateDidChange([weakSelf.mutableDownloads indexOfObjectIdenticalTo:download]);
@@ -115,14 +109,19 @@
     for (TCDownload *download in downloads) {
         // Create a download task for each download object.
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:download.sourceURL];
-        NSURLSessionDownloadTask *downloadTask = [self.sessionManager downloadTaskWithRequest:request progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        download.task = [self.sessionManager downloadTaskWithRequest:request progress:NULL destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
             return download.destinationURL;
         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             // Remove completed task from dictionary.
             [weakSelf.downloadsKeyedByTaskIdentifier removeObjectForKey:@(download.task.taskIdentifier)];
 
-            // If no file path, it means that download has failed.
-            download.state = filePath ? TCDownloadStateCompleted : TCDownloadStateFailed;
+            if (filePath) {
+                download.state = TCDownloadStateCompleted;
+                download.error = error;
+            } else {
+                download.state = TCDownloadStateFailed;
+                download.error = nil;
+            }
 
             if (weakSelf.downloadStateDidChange) {
                 weakSelf.downloadStateDidChange([weakSelf.mutableDownloads indexOfObjectIdenticalTo:download]);
@@ -130,12 +129,10 @@
         }];
 
         // Associate the task with the download.
-        download.task = downloadTask;
         weakSelf.downloadsKeyedByTaskIdentifier[@(download.task.taskIdentifier)] = download;
 
         // Start the download task.
-        [download.task resume];
-        download.state = TCDownloadStateRunning;
+//        [download resume];
     }
 }
 
