@@ -17,6 +17,7 @@
 @interface TCMainWindowController ()
 
 @property (nonatomic, weak) IBOutlet NSTextField *urlTextField;
+@property (nonatomic, weak) IBOutlet NSProgressIndicator *activityIndicator;
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
 
 /**
@@ -80,9 +81,13 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 
     NSURL *theURL = [[NSURL alloc] initWithString:URLString];
 
+    [self.activityIndicator startAnimation:sender];
+
     // Create downloads from the given URL. For each download created, add it
     // to the queue.
     [TCDownload downloadsWithURL:theURL downloadDirectoryURL:TCUserDownloadsDirectoryURL() completionHandler:^(NSArray *downloads, NSError *error) {
+        [self.activityIndicator stopAnimation:sender];
+        
         if (downloads) {
             [self.downloadQueue addDownloads:downloads];
             [self.tableView addNumberOfRows:downloads.count];
@@ -142,6 +147,41 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
                                                                owner:self];
     cellView.download = [self.downloadQueue downloadAtIndex:row];
     return cellView;
+}
+
+#pragma mark - Table View Actions
+
+/**
+ * The action button of a table view's row was clicked.
+ */
+- (IBAction)actionButtonClicked:(id)sender
+{
+    NSInteger row = [self.tableView rowForView:sender];
+    TCDownload *download = [self.downloadQueue downloadAtIndex:row];
+
+    switch (download.state) {
+        case TCDownloadStateRunning:
+            [download pause];
+            break;
+
+        case TCDownloadStatePaused:
+            [download resume];
+            break;
+
+        case TCDownloadStateCompleted:
+            // Show in Finder
+            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[download.destinationURL]];
+            break;
+
+        case TCDownloadStateFailed:
+            // TODO: Restart download from where it failed.
+            break;
+
+        default:
+            break;
+    }
+
+    [self.tableView reloadDataAtRowIndex:row];
 }
 
 #pragma mark - Download Queue

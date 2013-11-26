@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TCMainWindowController">
             <connections>
+                <outlet property="activityIndicator" destination="dlF-0j-QQ6" id="xjC-P4-N1i"/>
                 <outlet property="tableView" destination="JMX-H2-f4N" id="XEa-fZ-xW2"/>
                 <outlet property="urlTextField" destination="3jO-F5-ME2" id="isY-Ck-Ue3"/>
                 <outlet property="window" destination="lrr-J4-DdU" id="Amx-7U-crW"/>
@@ -25,7 +26,7 @@
                     <textField identifier="URLTextField" appearanceType="lightContent" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3jO-F5-ME2">
                         <rect key="frame" x="20" y="278" width="488" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="e.g. http://rouxbe.com/cooking-school/lessons/170-how-to-pan-fry" drawsBackground="YES" usesSingleLineMode="YES" id="bFB-4Z-Q5X">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="e.g. http://rouxbe.com/cooking-school/lessons/170-how-to-pan-fry" drawsBackground="YES" usesSingleLineMode="YES" id="bFB-4Z-Q5X" customClass="TCPaddedTextFieldCell">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -34,6 +35,10 @@
                             <action selector="addDownloads:" target="-2" id="4zT-Mt-7Mr"/>
                         </connections>
                     </textField>
+                    <progressIndicator appearanceType="lightContent" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="dlF-0j-QQ6">
+                        <rect key="frame" x="487" y="281" width="16" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </progressIndicator>
                     <scrollView identifier="tableScrollView" appearanceType="lightContent" autohidesScrollers="YES" horizontalLineScroll="107" horizontalPageScroll="10" verticalLineScroll="107" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="dq4-Qv-CQi">
                         <rect key="frame" x="20" y="20" width="488" height="250"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -83,7 +88,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="0 MB of 0 MB" id="2VG-yL-fVi">
                                                                 <font key="font" metaFont="smallSystem"/>
-                                                                <color key="textColor" red="0.50699537630000002" green="0.50699537630000002" blue="0.50699537630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="textColor" red="0.58312739160000004" green="0.58312739160000004" blue="0.58312739160000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
@@ -94,10 +99,13 @@
                                                                 <constraint firstAttribute="height" constant="32" id="NmS-Tr-fcd"/>
                                                                 <constraint firstAttribute="width" constant="14" id="b5E-cO-L1B"/>
                                                             </constraints>
-                                                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSRefreshFreestandingTemplate" imagePosition="overlaps" alignment="center" inset="2" id="lpS-to-X6S">
+                                                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="lpS-to-X6S">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
+                                                            <connections>
+                                                                <action selector="actionButtonClicked:" target="-2" id="N7a-us-uAQ"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <constraints>
@@ -146,6 +154,8 @@
                     <constraint firstItem="3jO-F5-ME2" firstAttribute="leading" secondItem="28s-rd-IHn" secondAttribute="leading" constant="20" symbolic="YES" id="5H3-Uz-p7a"/>
                     <constraint firstAttribute="trailing" secondItem="dq4-Qv-CQi" secondAttribute="trailing" constant="20" symbolic="YES" id="GL3-uH-JJ0"/>
                     <constraint firstItem="3jO-F5-ME2" firstAttribute="top" secondItem="28s-rd-IHn" secondAttribute="top" constant="20" symbolic="YES" id="Mxi-SH-Yrb"/>
+                    <constraint firstItem="dlF-0j-QQ6" firstAttribute="centerY" secondItem="3jO-F5-ME2" secondAttribute="centerY" id="PNo-fQ-nSB"/>
+                    <constraint firstItem="dlF-0j-QQ6" firstAttribute="trailing" secondItem="3jO-F5-ME2" secondAttribute="trailing" constant="-5" id="UJZ-nW-QUt"/>
                     <constraint firstAttribute="trailing" secondItem="3jO-F5-ME2" secondAttribute="trailing" constant="20" symbolic="YES" id="auU-a2-Hep"/>
                     <constraint firstAttribute="bottom" secondItem="dq4-Qv-CQi" secondAttribute="bottom" constant="20" symbolic="YES" id="gtK-N3-Nlg"/>
                     <constraint firstItem="dq4-Qv-CQi" firstAttribute="top" secondItem="3jO-F5-ME2" secondAttribute="bottom" constant="8" symbolic="YES" id="vEf-R1-iY0"/>
@@ -157,6 +167,6 @@
         </window>
     </objects>
     <resources>
-        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
+        <image name="NSStopProgressFreestandingTemplate" width="83" height="83"/>
     </resources>
 </document>
