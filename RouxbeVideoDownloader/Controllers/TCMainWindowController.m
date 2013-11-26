@@ -51,12 +51,20 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 
 @synthesize downloadQueue = _downloadQueue;
 
-#pragma mark - Initialize From NIB
+#pragma mark - Initialize
 
 - (id)init
 {
     self = [super initWithWindowNibName:@"MainWindow" owner:self];
     return self;
+}
+
+- (void)windowDidLoad
+{
+    [super windowDidLoad];
+
+    [self.tableView setTarget:self];
+    [self.tableView setDoubleAction:@selector(tableViewDoubleClicked:)];
 }
 
 #pragma mark - URL Text Field Action
@@ -157,7 +165,28 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 - (IBAction)actionButtonClicked:(id)sender
 {
     NSInteger row = [self.tableView rowForView:sender];
-    TCDownload *download = [self.downloadQueue downloadAtIndex:row];
+    if (-1 == row) { return; }
+
+    [self performActionForDownloadAtIndex:row];
+}
+
+/**
+ * Double-clicked on a table view's row.
+ */
+- (IBAction)tableViewDoubleClicked:(id)sender
+{
+    NSInteger row = [self.tableView clickedRow];
+    if (-1 == row) { return; }
+
+    [self performActionForDownloadAtIndex:row];
+}
+
+/**
+ * Executes the action associated with the download at given index.
+ */
+- (void)performActionForDownloadAtIndex:(NSInteger)index
+{
+    TCDownload *download = [self.downloadQueue downloadAtIndex:index];
 
     switch (download.state) {
         case TCDownloadStateRunning:
@@ -181,7 +210,8 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
             break;
     }
 
-    [self.tableView reloadDataAtRowIndex:row];
+    // Reload row to update view.
+    [self.tableView reloadDataAtRowIndex:index];
 }
 
 #pragma mark - Download Queue
