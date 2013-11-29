@@ -7,15 +7,24 @@
 //
 
 #import "TCDownload.h"
-#import "TCDownloadPrivate.h"
+#import "TCDownload+TCDownloadQueueAdditions.h"
 #import "TCVideo.h"
 #import "NSURL+RouxbeAdditions.h"
 #import "AFURLConnectionByteSpeedMeasure.h"
 
+@interface TCDownload ()
+
+@property (readwrite, nonatomic, strong) NSURLSessionDownloadTask *task;
+@property (readwrite, nonatomic, copy) NSData *resumeData;
+@property (readwrite, nonatomic, strong) AFURLConnectionByteSpeedMeasure *speedMeasure;
+@property (readwrite, nonatomic, assign) TCDownloadState state;
+@property (readwrite, nonatomic, copy) NSError *error;
+
+@end
+
 @implementation TCDownload
 
 @synthesize progress = _progress;
-@synthesize speedMeasure = _speedMeasure;
 
 #pragma mark - Initialize
 
@@ -31,7 +40,7 @@
 
         // All download starts in the paused state. It will move to the
         // running state, when a resume message is sent.
-        _state = TCDownloadStatePaused;
+        _state = TCDownloadStateSuspended;
     }
     return self;
 }
@@ -120,28 +129,6 @@
     return directoryCreated;
 }
 
-#pragma mark - Session Download Task Delegate
-
-- (void)setProgressWithBytesWritten:(int64_t)bytesWritten
-                  totalBytesWritten:(int64_t)totalBytesWritten
-          totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
-                          timestamp:(NSDate *)timestamp
-{
-    // Re-calculate new average download speed.
-    [self.speedMeasure updateSpeedWithDataChunkLength:bytesWritten
-                                           receivedAtDate:timestamp];
-
-    // Update the download's progress.
-    self.progress.completedUnitCount = totalBytesWritten;
-    self.progress.totalUnitCount = totalBytesExpectedToWrite;
-
-    // Update the download's current speed and estimated time to finish.
-    [self.progress setUserInfoObject:@(self.speedMeasure.speed)
-                                  forKey:NSProgressThroughputKey];
-    [self.progress setUserInfoObject:@([self.speedMeasure remainingTimeOfTotalSize:totalBytesExpectedToWrite numberOfCompletedBytes:totalBytesWritten])
-                                  forKey:NSProgressEstimatedTimeRemainingKey];
-}
-
 #pragma mark - Download Progress
 
 - (NSProgress *)progress
@@ -168,13 +155,27 @@
     return _speedMeasure;
 }
 
-#pragma mark - Pause and Resume Download
-
-- (void)pause
+- (void)setProgressWithBytesWritten:(int64_t)bytesWritten
+                  totalBytesWritten:(int64_t)totalBytesWritten
+          totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+                          timestamp:(NSDate *)timestamp
 {
-    [self.task suspend];
-    self.state = TCDownloadStatePaused;
+    // Re-calculate new average download speed.
+    [self.speedMeasure updateSpeedWithDataChunkLength:bytesWritten
+                                       receivedAtDate:timestamp];
+
+    // Update the download's progress.
+    self.progress.completedUnitCount = totalBytesWritten;
+    self.progress.totalUnitCount = totalBytesExpectedToWrite;
+
+    // Update the download's current speed and estimated time to finish.
+    [self.progress setUserInfoObject:@(self.speedMeasure.speed)
+                              forKey:NSProgressThroughputKey];
+    [self.progress setUserInfoObject:@([self.speedMeasure remainingTimeOfTotalSize:totalBytesExpectedToWrite numberOfCompletedBytes:totalBytesWritten])
+                              forKey:NSProgressEstimatedTimeRemainingKey];
 }
+
+#pragma mark - Controlling Download State
 
 - (void)resume
 {
@@ -182,19 +183,46 @@
     self.state = TCDownloadStateRunning;
 }
 
-#pragma mark - Progress Description
+- (void)cancel
+{
+    [self.task cancelByProducingResumeData:^(NSData *resumeData) {
+        self.resumeData = resumeData;
+        self.state = TCDownloadStateCancelled;
+    }];
+    self.state = TCDownloadStateCanceling;
+}
+
+- (void)setCompletedWithFileURL:(NSURL *)fileURL error:(NSError *)error
+{
+    if (fileURL) {
+        self.state = TCDownloadStateCompleted;
+        self.error = nil;
+        self.resumeData = nil;
+    } else {
+        // A cancelled download is also treated as an error by NSURLSession.
+        // So, we must differentiate between a cancelled download and an actual
+        // failed download.
+        self.state = NSURLErrorCancelled == error.code ? TCDownloadStateCancelled : TCDownloadStateFailed;
+        self.error = error;
+        self.resumeData = self.error.userInfo[NSURLSessionDownloadTaskResumeData];
+    }
+}
+
+#pragma mark - Progress and State Description
 
 - (NSString *)localizedProgressDescription
 {
     switch (self.state) {
-        case TCDownloadStateRunning:
-            return [self.progress localizedAdditionalDescription];
+        case TCDownloadStateRunning: {
+            NSString *progressDescription = [self.progress localizedAdditionalDescription];
+            return progressDescription.length > 0 ? progressDescription : @"Waiting for turn...";
+        }
 
-        case TCDownloadStatePaused:
+        case TCDownloadStateCancelled:
             [self.progress setUserInfoObject:nil forKey:NSProgressEstimatedTimeRemainingKey];
             [self.progress setUserInfoObject:nil forKey:NSProgressThroughputKey];
             return [NSString stringWithFormat:@"%@ - %@",
-                    NSLocalizedString(@"Paused", @"Download Paused"),
+                    NSLocalizedString(@"Stopped", @"Download Stopped"),
                     [self.progress localizedAdditionalDescription]];
 
         case TCDownloadStateCompleted:
@@ -204,14 +232,12 @@
                     NSLocalizedString(@"Completed", @"Download Completed"),
                     [self.progress localizedAdditionalDescription]];
 
-
         case TCDownloadStateFailed:
             return [NSString stringWithFormat:@"%@ - %@",
                     NSLocalizedString(@"Failed", @"Download Failed"),
                     [self.error localizedDescription]];
 
         default:
-            NSAssert(NO, @"The download state value can only be one of the constants from the TCDownloadState enumeration.");
             return @"";
     }
 }

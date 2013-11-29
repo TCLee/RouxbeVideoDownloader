@@ -67,7 +67,7 @@
 		8123A18E183C6C7800A6365A /* TCVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCVideo.m; sourceTree = "<group>"; };
 		8123A190183C9DE500A6365A /* TCDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadQueue.h; sourceTree = "<group>"; };
 		8123A191183C9DE500A6365A /* TCDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadQueue.m; sourceTree = "<group>"; };
-		8123A196183DC9E600A6365A /* TCDownloadPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TCDownloadPrivate.h; sourceTree = "<group>"; };
+		8123A196183DC9E600A6365A /* TCDownload+TCDownloadQueueAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TCDownload+TCDownloadQueueAdditions.h"; sourceTree = "<group>"; };
 		8123A197183DE2C300A6365A /* NSTableView+RowAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+RowAdditions.h"; sourceTree = "<group>"; };
 		8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+RowAdditions.m"; sourceTree = "<group>"; };
 		8123A19D18432AED00A6365A /* RouxbeVideoDownloader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = RouxbeVideoDownloader.entitlements; sourceTree = "<group>"; };
@@ -256,7 +256,7 @@
 				8123A18E183C6C7800A6365A /* TCVideo.m */,
 				81EFED69182B8A8100F28B1B /* TCDownload.h */,
 				81EFED6A182B8A8200F28B1B /* TCDownload.m */,
-				8123A196183DC9E600A6365A /* TCDownloadPrivate.h */,
+				8123A196183DC9E600A6365A /* TCDownload+TCDownloadQueueAdditions.h */,
 				8123A190183C9DE500A6365A /* TCDownloadQueue.h */,
 				8123A191183C9DE500A6365A /* TCDownloadQueue.m */,
 				81EFED301829DFD600F28B1B /* TCLesson.h */,

@@ -31,17 +31,19 @@
 {
     [super setBackgroundStyle:backgroundStyle];
 
-    // Progress label text color will not be set automatically by
-    // setBackgroundStyle: because it does not use black or white color.
-    // So, we override this method to set it manually ourselves.
+    // Label text color will not be set automatically by setBackgroundStyle:
+    // when it does not use black or white color.
+    // So, we override this method to set the text color manually ourselves.
     switch (backgroundStyle) {
         case NSBackgroundStyleLight:
-            self.progressLabel.textColor = [self textColorForDownloadState:self.download.state];
+            self.titleLabel.textColor = [self textColorForLabel:self.titleLabel downloadState:_download.state];
+            self.progressLabel.textColor = [self textColorForLabel:self.progressLabel downloadState:_download.state];
             break;
 
         case NSBackgroundStyleDark:
         default:
             // Always show white text color on dark selected background.
+            self.titleLabel.textColor = [NSColor whiteColor];
             self.progressLabel.textColor = [NSColor whiteColor];
             break;
     }
@@ -58,11 +60,12 @@
     self.progressBar.doubleValue = _download.progress.fractionCompleted;
     self.progressLabel.stringValue = [_download localizedProgressDescription];
 
-    self.progressLabel.textColor = [self textColorForDownloadState:_download.state];
+    self.titleLabel.textColor = [self textColorForLabel:self.titleLabel downloadState:_download.state];
+    self.progressLabel.textColor = [self textColorForLabel:self.progressLabel downloadState:_download.state];
     self.actionButton.image = [self iconForDownloadState:_download.state];
 }
 
-- (NSColor *)textColorForDownloadState:(TCDownloadState)state
+- (NSColor *)textColorForLabel:(NSTextField *)label downloadState:(TCDownloadState)state
 {
     switch (state) {
         case TCDownloadStateCompleted:
@@ -70,12 +73,14 @@
             return [NSColor colorWithSRGBRed:0.0f green:0.5f blue:0.0f alpha:1.0f];
 
         case TCDownloadStateFailed:
-            return [NSColor redColor];
+            // Dark Red Color
+            return [NSColor colorWithSRGBRed:0.8f green:0.0f blue:0.0f alpha:1.0f];
 
         case TCDownloadStateRunning:
-        case TCDownloadStatePaused:
+        case TCDownloadStateCancelled:
         default:
-            return [NSColor grayColor];
+            // Main title uses black color. Progress subtitle uses gray color.
+            return label == self.titleLabel ? [NSColor blackColor] : [NSColor grayColor];
     }
 }
 
@@ -88,10 +93,10 @@
         case TCDownloadStateCompleted:
             return [NSImage imageNamed:NSImageNameRevealFreestandingTemplate];
 
-        case TCDownloadStatePaused:
+        case TCDownloadStateCancelled:
         case TCDownloadStateFailed:
         default:
-            return [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];;
+            return [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
     }
 }
 

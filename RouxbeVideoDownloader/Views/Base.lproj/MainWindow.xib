@@ -32,7 +32,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <action selector="addDownloads:" target="-2" id="4zT-Mt-7Mr"/>
+                            <action selector="urlTextFieldEnterPressed:" target="-2" id="RLG-e5-Fhj"/>
                         </connections>
                     </textField>
                     <progressIndicator appearanceType="lightContent" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="dlF-0j-QQ6">
@@ -163,6 +163,7 @@
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="pSv-N3-Q3C"/>
+                <outlet property="initialFirstResponder" destination="3jO-F5-ME2" id="Q4n-mt-050"/>
             </connections>
         </window>
     </objects>

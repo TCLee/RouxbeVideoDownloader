@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @interface TCAppDelegate : NSObject <NSApplicationDelegate>
 
 @end

@@ -6,9 +6,6 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-@class TCVideo;
-@class TCDownload;
-
 /**
  * The signature for the block object that will be called when 
  * the array of downloads have been created (or an error occured).
@@ -23,22 +20,33 @@ typedef void(^TCDownloadCompletionHandler)(NSArray *downloads, NSError *error);
  */
 typedef NS_ENUM(NSInteger, TCDownloadState) {
     /**
-     * The download is currently in progress.
+     * The download is currently being serviced by the queue.
      */
     TCDownloadStateRunning = 0,
     /**
-     * The download has been paused. 
-     * All downloads start in the paused state.
+     * The download has been suspended by the queue. 
+     * All downloads starts out in the suspended state.
      */
-    TCDownloadStatePaused = 1,
+    TCDownloadStateSuspended = 1,
     /**
-     * The download has failed with an error.
+     * The download has received a \c cancel message. It may or
+     * may not have the resume data to resume the download.
      */
-    TCDownloadStateFailed = 2,
+    TCDownloadStateCanceling = 2,
     /**
      * The download has completed successfully.
      */
     TCDownloadStateCompleted = 3,
+    /**
+     * The download has failed with an error.
+     * The download can be resumed using the resume data.
+     */
+    TCDownloadStateFailed = 4,
+    /**
+     * The download has been cancelled.
+     * The download can be resumed using the resume data.
+     */
+    TCDownloadStateCancelled = 5
 };
 
 /**
@@ -65,11 +73,6 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
  * The current progress of the download.
  */
 @property (nonatomic, strong, readonly) NSProgress *progress;
-
-/**
- * The \c NSURLSessionDownloadTask that performs the actual download.
- */
-@property (nonatomic, copy, readonly) NSURLSessionDownloadTask *task;
 
 /**
  * The current state of the download.
@@ -114,16 +117,6 @@ typedef NS_ENUM(NSInteger, TCDownloadState) {
 + (void)downloadsWithURL:(NSURL *)theURL
     downloadDirectoryURL:(NSURL *)downloadDirectoryURL
        completionHandler:(TCDownloadCompletionHandler)completionHandler;
-
-/**
- * Temporarily suspends the download task.
- */
-- (void)pause;
-
-/**
- * Resumes the download task, if it is suspended.
- */
-- (void)resume;
 
 /**
  * Returns a localized description of the progress based on 

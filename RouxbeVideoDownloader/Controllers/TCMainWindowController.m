@@ -14,6 +14,8 @@
 #import "TCDownloadQueue.h"
 #import "TCDownload.h"
 
+#import "TCRouxbeService.h"
+
 @interface TCMainWindowController ()
 
 @property (nonatomic, weak) IBOutlet NSTextField *urlTextField;
@@ -38,6 +40,11 @@
 - (BOOL)validateURLString:(NSString *)URLString error:(out NSError *__autoreleasing *)error;
 
 /**
+ * Return the configuration used for the download queue's session.
+ */
+- (NSURLSessionConfiguration *)downloadQueueSessionConfiguration;
+
+/**
  * Return the user's Downloads directory.
  *
  * @note Raises an \c NSInternalInconsistencyException, if user's Downloads 
@@ -59,6 +66,8 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
     return self;
 }
 
+#pragma mark - Window Events
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];
@@ -72,7 +81,7 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 /**
  * User types in a URL and presses the Return/Enter key.
  */
-- (IBAction)addDownloads:(id)sender
+- (IBAction)urlTextFieldEnterPressed:(id)sender
 {
     // Make sure the action is sent by the URL text field.
     if (sender != self.urlTextField) { return; }
@@ -175,10 +184,10 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
  */
 - (IBAction)tableViewDoubleClicked:(id)sender
 {
-    NSInteger row = [self.tableView clickedRow];
-    if (-1 == row) { return; }
-
-    [self performActionForDownloadAtIndex:row];
+    NSIndexSet *selectedRows = [self.tableView selectedRowIndexes];
+    [selectedRows enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *stop) {
+        [self performActionForDownloadAtIndex:index];
+    }];
 }
 
 /**
@@ -190,20 +199,17 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 
     switch (download.state) {
         case TCDownloadStateRunning:
-            [download pause];
+            [self.downloadQueue cancelDownloadAtIndex:index];
             break;
 
-        case TCDownloadStatePaused:
-            [download resume];
+        case TCDownloadStateCancelled:
+        case TCDownloadStateFailed:
+            [self.downloadQueue resumeDownloadAtIndex:index];
             break;
 
         case TCDownloadStateCompleted:
             // Show in Finder
             [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[download.destinationURL]];
-            break;
-
-        case TCDownloadStateFailed:
-            // TODO: Restart download from where it failed.
             break;
 
         default:
@@ -219,7 +225,8 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 - (TCDownloadQueue *)downloadQueue
 {
     if (!_downloadQueue) {
-        _downloadQueue = [[TCDownloadQueue alloc] init];
+        _downloadQueue = [[TCDownloadQueue alloc] initWithSessionConfiguration:
+                          [self downloadQueueSessionConfiguration]];
 
         __weak typeof(self)weakSelf = self;
 
@@ -234,14 +241,42 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
     return _downloadQueue;
 }
 
+- (NSURLSessionConfiguration *)downloadQueueSessionConfiguration
+{
+    // TODO: Session Configuration should be configurable from Preferences.
+
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+
+    // Limit the number of downloads that can be run at a time.
+    // TODO: Change HTTPMaximumConnectionsPerHost back to 5 after testing.
+    configuration.HTTPMaximumConnectionsPerHost = 1;
+
+    // Set a long timeout interval, so that a download task does not receive
+    // a timeout error while waiting for other download tasks to complete.
+    configuration.timeoutIntervalForRequest = 604800;
+    configuration.timeoutIntervalForResource = 604800; // 7 days
+
+    // Disable cache, since we're already downloading a file.
+    configuration.URLCache = nil;
+
+    // Disable cookies. It's never used anyway.
+    configuration.HTTPCookieStorage = nil;
+
+    // No need credentials, since it's not a secured protocol.
+    configuration.URLCredentialStorage = nil;
+
+    return configuration;
+}
+
 #pragma mark - User Downloads Directory
 
 FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
 {
+    // TODO: Downloads directory should be configurable from Preferences.
+
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *directoryURL = [[fileManager URLsForDirectory:NSDownloadsDirectory
                                                inDomains:NSUserDomainMask] firstObject];
-
     if (!directoryURL) {
         [NSException raise:NSInternalInconsistencyException
                     format:@"%s - User's Downloads directory should exist.", __PRETTY_FUNCTION__];

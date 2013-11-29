@@ -30,22 +30,15 @@ typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
 @property (nonatomic, assign, readonly) NSUInteger downloadCount;
 
 /**
- * Initializes a new download queue with the default session manager.
+ * Initializes a new download queue with the given configuration used to 
+ * create the session.
  *
- * @return A \c TCDownloadQueue object initialized with the default session manager.
+ * @param configuration The session configuration for all download tasks.
+ *
+ * @return A \c TCDownloadQueue object that uses a session with the given 
+ *         configuration.
  */
-- (id)init;
-
-/**
- * Initializes a new download queue with the given session manager that will
- * manage the session that coordinates all download tasks.
- *
- * @param sessionManager The \c AFURLSessionManager object or \c nil to 
- *                       use the default session manager.
- *
- * @return A \c TCDownloadQueue object initialized with the given session manager.
- */
-- (id)initWithSessionManager:(AFURLSessionManager *)sessionManager;
+- (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configuration;
 
 /**
  * Returns the download at given index.
@@ -58,6 +51,36 @@ typedef void(^TCDownloadQueueDownloadStateDidChangeBlock)(NSUInteger index);
  * @param downloads An array of \c TCDownload objects.
  */
 - (void)addDownloads:(NSArray *)downloads;
+
+/**
+ * Resumes the given download.
+ *
+ * If the download is currently running or has completed, this method
+ * does nothing.
+ */
+- (void)resumeDownload:(TCDownload *)download;
+
+/**
+ * Resumes a failed or cancelled download at given index.
+ *
+ * If download is currently running or has completed, this method 
+ * does nothing.
+ */
+- (void)resumeDownloadAtIndex:(NSUInteger)index;
+
+/**
+ * Cancels the given download.
+ *
+ * If download is not running, this method does nothing.
+ */
+- (void)cancelDownload:(TCDownload *)download;
+
+/**
+ * Cancels the download at given index.
+ *
+ * If download is not running, this method does nothing.
+ */
+- (void)cancelDownloadAtIndex:(NSUInteger)index;
 
 /**
  * Sets a block to be called when a download's state or progress has changed.
