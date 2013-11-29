@@ -9,8 +9,8 @@
 @class TCLesson;
 
 /**
- * The block that will be called when a lesson request has 
- * completed.
+ * The prototype of the block that will be called when a lesson 
+ * request has completed.
  *
  * @param lesson The \c TCLesson object that is returned from the 
  *               response or \c nil on error.

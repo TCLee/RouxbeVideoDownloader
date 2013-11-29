@@ -13,7 +13,7 @@
 /**
  * The string template representing the URL to a Lesson's XML.
  */
-static NSString * const TCRouxbeLessonXMLPath = @"cooking-school/lessons/%lu.xml";
+static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
 
 @interface TCLesson ()
 
@@ -26,8 +26,8 @@ static NSString * const TCRouxbeLessonXMLPath = @"cooking-school/lessons/%lu.xml
  * @param completionHandler A block object to be called when the request is done
  *                          or an error occured.
  */
-+ (void)fetchVideoURLsForLesson:(TCLesson *)lesson
-              completionHandler:(TCLessonCompletionHandler)completionHandler;
+//+ (void)fetchVideoURLsForLesson:(TCLesson *)lesson
+//              completionHandler:(TCLessonCompletionHandler)completionHandler;
 
 @end
 
@@ -35,68 +35,57 @@ static NSString * const TCRouxbeLessonXMLPath = @"cooking-school/lessons/%lu.xml
 
 #pragma mark - Class Methods
 
-+ (NSURLSessionDataTask *)lessonWithID:(NSUInteger)lessonID
-                     completionHandler:(TCLessonCompletionHandler)completionHandler;
++ (AFHTTPRequestOperation *)lessonWithID:(NSUInteger)lessonID completionHandler:(TCLessonCompletionHandler)completionHandler
 {
-    return [[TCRouxbeService sharedService] getXML:[NSString stringWithFormat:TCRouxbeLessonXMLPath, lessonID] success:^(NSURLSessionDataTask *task, NSData *data) {
-        TCLesson *lesson = [[TCLesson alloc] initWithXMLData:data];
-        [self fetchVideoURLsForLesson:lesson completionHandler:completionHandler];
+    TCRouxbeService *service = [TCRouxbeService sharedService];
 
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    return [service GET:[NSString stringWithFormat:TCLessonXMLPath, lessonID] parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *data) {
+        TCLesson *lesson = [[TCLesson alloc] initWithXMLData:data];
+
+        NSMutableArray *mutableOperations = [[NSMutableArray alloc] initWithCapacity:lesson.steps.count];
+        for (TCLessonStep *step in lesson.steps) {
+            // Skip lesson steps that already have a video URL.
+            if (step.videoURL) { continue; }
+
+            // Create an operation for each video URL request.
+            AFHTTPRequestOperation *operation =[step videoURLRequestOperationWithCompletionHandler:^(NSURL *videoURL, NSError *error) {
+                if (error && completionHandler) {
+                    completionHandler(nil, error);
+                }
+            }];
+            [mutableOperations addObject:operation];
+        }
+
+        // The completion handler will be called when all video URLs have been fetched.
+        NSArray *operations = [AFURLConnectionOperation batchOfRequestOperations:mutableOperations progressBlock:nil completionBlock:^(NSArray *operations) {
+            if (completionHandler) {
+                completionHandler(lesson, nil);
+            }
+        }];
+        [service.operationQueue addOperations:operations waitUntilFinished:NO];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Error - Failed to fetch Lesson object.
         if (completionHandler) {
-            completionHandler(nil, error);
+            completionHandler(nil, [self lessonErrorWithUnderlyingError:error]);
         }
     }];
 }
 
-+ (void)fetchVideoURLsForLesson:(TCLesson *)lesson
-              completionHandler:(TCLessonCompletionHandler)completionHandler
+/**
+ * Returns a more detailed error object specific to the Lesson object.
+ */
++ (NSError *)lessonErrorWithUnderlyingError:(NSError *)error
 {
-    NSMutableArray *runningDataTasks = [[NSMutableArray alloc] init];
-    NSMutableArray *stepsWithoutVideoURL = [lesson.steps mutableCopy];
+    NSString *localizedDescription = [[NSString alloc] initWithFormat:
+                                      @"Lesson XML: %@\n"
+                                      "Error: %@",
+                                      error.userInfo[NSURLErrorFailingURLStringErrorKey],
+                                      error.localizedDescription];
 
-    for (TCLessonStep *step in lesson.steps) {
-        // If step already has a video URL, then we can skip that step.
-        if (step.videoURL) {
-            [stepsWithoutVideoURL removeObjectIdenticalTo:step];
-            continue;
-        }
-
-        // Must use the __block storage type because we're using the dataTask
-        // variable inside the block before it's initialized.
-        // See Also: http://www.friday.com/bbum/2009/08/29/blocks-tips-tricks/ [Section: 7) Recursive Block]
-
-        __block NSURLSessionDataTask *dataTask = [step videoURLWithCompletionHandler:^(NSURL *videoURL, NSError *error) {
-            // This data task has completed, so remove it from the list.
-            [runningDataTasks removeObjectIdenticalTo:dataTask];
-
-            if (videoURL) {
-                // This step has a video URL now, so remove it from the list.
-                [stepsWithoutVideoURL removeObjectIdenticalTo:step];
-
-                // When all steps have a video URL, we can callback with the result.
-                if (0 == stepsWithoutVideoURL.count) {
-                    if (completionHandler) {
-                        completionHandler(lesson, nil);
-                    }
-                }
-            } else {
-                // If one of the Lesson's step video URL could not be
-                // retrieved, we consider the entire Lesson request as failed.
-
-                // Cancels all remaining running tasks.
-                [runningDataTasks enumerateObjectsUsingBlock:^(NSURLSessionDataTask *dataTask, NSUInteger index, BOOL *stop) {
-                    [dataTask cancel];
-                }];
-
-                if (completionHandler) {
-                    completionHandler(nil, error);
-                }
-            }
-        }];
-        [runningDataTasks addObject:dataTask];
-    }
+    NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
+    mutableUserInfo[NSLocalizedDescriptionKey] = localizedDescription;
+    return [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:[mutableUserInfo copy]];
 }
 
 #pragma mark - Instance Methods

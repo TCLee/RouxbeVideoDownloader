@@ -32,21 +32,16 @@ static NSString * const TCRouxbeBaseURLString = @"http://rouxbe.com/";
     return _sharedService;
 }
 
-- (NSURLSessionDataTask *)getXML:(NSString *)path
-                         success:(TCRouxbeServiceSuccessBlock)success
-                         failure:(TCRouxbeServiceFailureBlock)failure
+- (AFHTTPRequestOperation *)HTTPRequestOperationWithPath:(NSString *)path
+                                                 success:(TCRouxbeServiceSuccessBlock)success
+                                                 failure:(TCRouxbeServiceFailureBlock)failure
 {
-    NSParameterAssert(path);
-
-    return [self GET:path parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        if (success) {
-            success(task, responseObject);
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (failure) {
-            failure(task, error);
-        }
-    }];
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET"
+                                                                   URLString:[[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString]
+                                                                  parameters:nil];
+    return [self HTTPRequestOperationWithRequest:request
+                                         success:success
+                                         failure:failure];
 }
 
 @end

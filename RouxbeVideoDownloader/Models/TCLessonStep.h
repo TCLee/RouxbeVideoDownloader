@@ -62,11 +62,12 @@ typedef void(^TCLessonStepVideoURLBlock)(NSURL *videoURL, NSError *error);
        lessonName:(NSString *)lessonName;
 
 /**
- * Fetches the video URL for this lesson step.
+ * Creates an \c AFHTTPRequestOperation object that will fetch the lesson 
+ * step's video URL.
  *
  * @param completionHandler The completion handler to call when the video
  *                          URL is fetched or there is an error.
  */
-- (NSURLSessionDataTask *)videoURLWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler;
+- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler;
 
 @end
