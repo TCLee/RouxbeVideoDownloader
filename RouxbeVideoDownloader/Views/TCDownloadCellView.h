@@ -7,10 +7,10 @@
 //
 
 @class TCDownload;
+@class TCDownloadOperation;
 
 /**
- * A \c TCDownloadCellView class is a table cell view that displays the
- * download progress.
+ * A table cell view that renders a download model's state and progress.
  */
 @interface TCDownloadCellView : NSTableCellView
 
@@ -19,6 +19,9 @@
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *progressBar;
 @property (nonatomic, weak) IBOutlet NSButton *actionButton;
 
-@property (nonatomic, strong) TCDownload *download;
+/**
+ * The \c TCDownloadOperation object that will be rendered by this cell view.
+ */
+@property (nonatomic, strong) TCDownloadOperation *downloadOperation;
 
 @end

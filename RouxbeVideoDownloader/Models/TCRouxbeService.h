@@ -24,19 +24,4 @@ typedef void(^TCRouxbeServiceFailureBlock)(AFHTTPRequestOperation *operation , N
  */
 + (instancetype)sharedService;
 
-/**
- * Creates an \c AFHTTPRequestOperation with its request contructed from the 
- * given relative path to the base URL.
- *
- * @see AFHTTPRequestOperationManager::HTTPRequestOperationWithRequest:success:failure:
- *
- * @param path    The relative path to the base URL.
- * @param success A block object to be executed when the request operation finishes successfully.
- * @param failure A block object to be executed when the request operation failed with an error.
- *
- * @return An \c AFHTTPRequestOperation object
- */
-- (AFHTTPRequestOperation *)HTTPRequestOperationWithPath:(NSString *)path
-                                                 success:(TCRouxbeServiceSuccessBlock)success
-                                                 failure:(TCRouxbeServiceFailureBlock)failure;
 @end

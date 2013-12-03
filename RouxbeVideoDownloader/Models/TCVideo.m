@@ -15,6 +15,8 @@
 
 @synthesize destinationPathComponent = _destinationPathComponent;
 
+#pragma mark - Initialize
+
 - (id)initWithSourceURL:(NSURL *)sourceURL
                   group:(NSString *)group
                   title:(NSString *)title
@@ -38,6 +40,8 @@
                           position:NSNotFound];
 }
 
+#pragma mark - Destination Path Component
+
 - (NSString *)destinationPathComponent
 {
     if (!_destinationPathComponent) {
@@ -56,15 +60,18 @@
     return _destinationPathComponent;
 }
 
-+ (void)videosWithURL:(NSURL *)aURL
-    completionHandler:(TCVideoSearchCompletionHandler)completionHandler
+#pragma mark - Find Videos from URL
+
++ (void)findVideosFromURL:(NSURL *)aURL
+            completeBlock:(TCVideoCompleteBlock)completeBlock
 {
     NSParameterAssert(aURL);
 
+    // Determine the resource category from the URL.
     switch ([aURL rouxbeCategory]) {
         case TCRouxbeCategoryLesson:
-            [self videosWithLessonURL:aURL
-                    completionHandler:completionHandler];
+            [self findVideosFromLessonURL:aURL
+                            completeBlock:completeBlock];
             break;
 
         case TCRouxbeCategoryRecipe:
@@ -73,39 +80,40 @@
         case TCRouxbeCategoryTip:
             break;
 
+        case TCRouxbeCategoryUnknown:
         default: {
-            // Error - Unknown Category
+            // Error - Invalid Rouxbe URL
             NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
-                                                        code:NSURLErrorBadURL
-                                                    userInfo:@{NSLocalizedDescriptionKey: @"Unknown Rouxbe Category",
-                                                               NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:@"Unknown Category for URL: %@", [aURL absoluteString]]}];
-            completionHandler(nil, error);
+                                                        code:NSURLErrorUnsupportedURL
+                                                    userInfo:@{NSLocalizedDescriptionKey: @"The URL is not a valid rouxbe.com URL.",
+                                                               NSLocalizedRecoverySuggestionErrorKey: @"Examples of valid rouxbe.com URL:\n- http://rouxbe.com/cooking-school/lessons/198-how-to-make-veal-beef-stock\n- http://rouxbe.com/recipes/63-red-pepper-eggplant-confit"}];
+            if (completeBlock) {
+                completeBlock(nil, error);
+            }
             break;
         }
     }
 }
 
-#pragma mark - Lesson Videos
-
-+ (void)videosWithLessonURL:(NSURL *)lessonURL
-          completionHandler:(TCVideoSearchCompletionHandler)completionHandler
++ (void)findVideosFromLessonURL:(NSURL *)lessonURL
+                  completeBlock:(TCVideoCompleteBlock)completeBlock
 {
-    [TCLesson lessonWithID:[lessonURL rouxbeID] completionHandler:^(TCLesson *lesson, NSError *error) {
+    [TCLesson getLessonWithID:[lessonURL rouxbeID] completeBlock:^(TCLesson *lesson, NSError *error) {
+        NSMutableArray *mutableVideos = nil;
         if (lesson) {
-            NSMutableArray *videos = [[NSMutableArray alloc] initWithCapacity:lesson.steps.count];
-
             // Create a video for each Lesson's step.
+            mutableVideos = [[NSMutableArray alloc] initWithCapacity:lesson.steps.count];
             for (TCLessonStep *step in lesson.steps) {
                 TCVideo *video = [[TCVideo alloc] initWithSourceURL:step.videoURL
                                                               group:step.lessonName
                                                               title:step.name
                                                            position:step.position];
-                [videos addObject:video];
-            }            
-            completionHandler(videos, nil);
-        } else {
-            // Error - Failed to fetch Lesson.
-            completionHandler(nil, error);
+                [mutableVideos addObject:video];
+            }
+        }
+
+        if (completeBlock) {
+            completeBlock(mutableVideos, error);
         }
     }];
 }

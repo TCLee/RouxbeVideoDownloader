@@ -7,7 +7,7 @@
 //
 
 #import "TCDownloadCellView.h"
-#import "TCDownload.h"
+#import "TCDownloadOperation.h"
 
 @interface TCDownloadCellView ()
 
@@ -31,13 +31,13 @@
 {
     [super setBackgroundStyle:backgroundStyle];
 
-    // Label text color will not be set automatically by setBackgroundStyle:
+    // Label text colors will not be set automatically by setBackgroundStyle:
     // when it does not use black or white color.
     // So, we override this method to set the text color manually ourselves.
     switch (backgroundStyle) {
         case NSBackgroundStyleLight:
-            self.titleLabel.textColor = [self textColorForLabel:self.titleLabel downloadState:_download.state];
-            self.progressLabel.textColor = [self textColorForLabel:self.progressLabel downloadState:_download.state];
+            self.titleLabel.textColor = [self textColorForLabel:self.titleLabel downloadOperation:_downloadOperation];
+            self.progressLabel.textColor = [self textColorForLabel:self.progressLabel downloadOperation:_downloadOperation];
             break;
 
         case NSBackgroundStyleDark:
@@ -50,54 +50,50 @@
     [[self.progressLabel cell] setBackgroundStyle:backgroundStyle];
 }
 
-#pragma mark - Update View for Download
+#pragma mark - Update Cell View with Download Operation
 
-- (void)setDownload:(TCDownload *)download
+- (void)setDownloadOperation:(TCDownloadOperation *)operation
 {
-    _download = download;
+    _downloadOperation = operation;
 
-    self.titleLabel.stringValue = _download.description;
-    self.progressBar.doubleValue = _download.progress.fractionCompleted;
-    self.progressLabel.stringValue = [_download localizedProgressDescription];
+    self.titleLabel.stringValue = _downloadOperation.title;
+    self.progressBar.doubleValue = _downloadOperation.progress.fractionCompleted;
+    self.progressLabel.stringValue = [_downloadOperation localizedProgressDescription];
 
-    self.titleLabel.textColor = [self textColorForLabel:self.titleLabel downloadState:_download.state];
-    self.progressLabel.textColor = [self textColorForLabel:self.progressLabel downloadState:_download.state];
-    self.actionButton.image = [self iconForDownloadState:_download.state];
+    self.titleLabel.textColor = [self textColorForLabel:self.titleLabel downloadOperation:_downloadOperation];
+    self.progressLabel.textColor = [self textColorForLabel:self.progressLabel downloadOperation:_downloadOperation];
+    self.actionButton.image = [self iconForDownloadOperation:_downloadOperation];
 }
 
-- (NSColor *)textColorForLabel:(NSTextField *)label downloadState:(TCDownloadState)state
+/**
+ * Returns the label's text color for the given download operation's state.
+ */
+- (NSColor *)textColorForLabel:(NSTextField *)label downloadOperation:(TCDownloadOperation *)downloadOperation
 {
-    switch (state) {
-        case TCDownloadStateCompleted:
-            // Dark Green Color
-            return [NSColor colorWithSRGBRed:0.0f green:0.5f blue:0.0f alpha:1.0f];
-
-        case TCDownloadStateFailed:
-            // Dark Red Color
-            return [NSColor colorWithSRGBRed:0.8f green:0.0f blue:0.0f alpha:1.0f];
-
-        case TCDownloadStateRunning:
-        case TCDownloadStateCancelled:
-        default:
-            // Main title uses black color. Progress subtitle uses gray color.
-            return label == self.titleLabel ? [NSColor blackColor] : [NSColor grayColor];
+    if (downloadOperation.isFinished) {
+        // Download Failed = Dark Red Color, Download Finished = Dark Green Color
+        return downloadOperation.error ? [NSColor colorWithSRGBRed:0.8f green:0.0f blue:0.0f alpha:1.0f] : [NSColor colorWithSRGBRed:0.0f green:0.5f blue:0.0f alpha:1.0f];
+    } else {
+        // Main title uses black color. Progress subtitle uses gray color.
+        return label == self.titleLabel ? [NSColor blackColor] : [NSColor grayColor];
     }
 }
 
-- (NSImage *)iconForDownloadState:(TCDownloadState)state
+/**
+ * Returns the action button icon for the given download operation's state.
+ */
+- (NSImage *)iconForDownloadOperation:(TCDownloadOperation *)downloadOperation
 {
-    switch (state) {
-        case TCDownloadStateRunning:
-            return [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
-
-        case TCDownloadStateCompleted:
-            return [NSImage imageNamed:NSImageNameRevealFreestandingTemplate];
-
-        case TCDownloadStateCancelled:
-        case TCDownloadStateFailed:
-        default:
-            return [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
+    if (downloadOperation.isFinished) {
+        return downloadOperation.error ? [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate] : [NSImage imageNamed:NSImageNameRevealFreestandingTemplate];
+    } else if (downloadOperation.isPaused) {
+        return [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
+    } else if (downloadOperation.isExecuting) {
+        return [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
     }
+
+    // Download operation is added to the operation queue, but is not executing yet.
+    return nil;
 }
 
 @end

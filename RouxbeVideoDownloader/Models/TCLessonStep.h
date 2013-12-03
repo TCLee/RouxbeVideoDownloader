@@ -7,8 +7,8 @@
 //
 
 /**
- * The block that will be called when a lesson step's video URL 
- * request has completed.
+ * The prototype of the block that will be called when a lesson step's 
+ * video URL request has completed.
  *
  * @param videoURL The URL to the video or \c nil on error.
  * @param error    The \c NSError object describing the error, if any.
@@ -45,7 +45,7 @@ typedef void(^TCLessonStepVideoURLBlock)(NSURL *videoURL, NSError *error);
  * The URL to this lesson step's video.
  *
  * The video URL may return \c nil, if the video URL has not been fetched
- * yet with a call to TCLesson::videoURLWithCompletionHandler:
+ * yet.
  */
 @property (nonatomic, copy, readonly) NSURL *videoURL;
 
@@ -62,12 +62,17 @@ typedef void(^TCLessonStepVideoURLBlock)(NSURL *videoURL, NSError *error);
        lessonName:(NSString *)lessonName;
 
 /**
- * Creates an \c AFHTTPRequestOperation object that will fetch the lesson 
- * step's video URL.
+ * Creates an \c AFHTTPRequestOperation with a \c GET request to 
+ * fetch the lesson step's video URL.
  *
- * @param completionHandler The completion handler to call when the video
- *                          URL is fetched or there is an error.
+ * After you create this \c AFHTTPRequestOperation, you must start it by
+ * calling its \c start method or adding it to a \c NSOperationQueue.
+ *
+ * @param completeBlock The completion handler to call when the video
+ *                      URL is fetched or there is an error.
+ *
+ * @return An \c AFHTTPRequestOperation object with a \c GET request
  */
-- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler;
+- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLBlock)completeBlock;
 
 @end

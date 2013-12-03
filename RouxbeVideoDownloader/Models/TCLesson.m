@@ -33,41 +33,61 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
 
 @implementation TCLesson
 
-#pragma mark - Class Methods
+#pragma mark - Fetch Lesson Object
 
-+ (AFHTTPRequestOperation *)lessonWithID:(NSUInteger)lessonID completionHandler:(TCLessonCompletionHandler)completionHandler
++ (AFHTTPRequestOperation *)getLessonWithID:(NSUInteger)lessonID
+                              completeBlock:(TCLessonCompleteBlock)completeBlock
 {
     TCRouxbeService *service = [TCRouxbeService sharedService];
+    __weak typeof(service) weakService = service;
 
     return [service GET:[NSString stringWithFormat:TCLessonXMLPath, lessonID] parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *data) {
         TCLesson *lesson = [[TCLesson alloc] initWithXMLData:data];
 
+        // The most recent error encountered while fetching a video URL or
+        // nil if everything went smoothly.
+        NSError *__block videoURLError = nil;
+
+        // Create a HTTP request operation for each lesson step's video URL that
+        // we need to fetch.
         NSMutableArray *mutableOperations = [[NSMutableArray alloc] initWithCapacity:lesson.steps.count];
         for (TCLessonStep *step in lesson.steps) {
             // Skip lesson steps that already have a video URL.
             if (step.videoURL) { continue; }
 
-            // Create an operation for each video URL request.
-            AFHTTPRequestOperation *operation =[step videoURLRequestOperationWithCompletionHandler:^(NSURL *videoURL, NSError *error) {
-                if (error && completionHandler) {
-                    completionHandler(nil, error);
+            AFHTTPRequestOperation *operation = [step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
+                if (error) {
+                    videoURLError = error;
+
+                    // Fail to fetch one of the lesson step's video URL, so
+                    // we cancel all remaining request operations.
+                    [mutableOperations enumerateObjectsUsingBlock:^(AFHTTPRequestOperation *requestOperation, NSUInteger index, BOOL *stop) {
+                        [requestOperation cancel];
+                    }];
                 }
             }];
             [mutableOperations addObject:operation];
         }
 
-        // The completion handler will be called when all video URLs have been fetched.
+        // Execute the HTTP request operations as a single batch.
+        // The completion block will only be called when all the request
+        // operations have completed or when any one of the request operation
+        // encountered an error.
         NSArray *operations = [AFURLConnectionOperation batchOfRequestOperations:mutableOperations progressBlock:nil completionBlock:^(NSArray *operations) {
-            if (completionHandler) {
-                completionHandler(lesson, nil);
+            if (completeBlock) {
+                if (videoURLError) {
+                    completeBlock(nil, videoURLError);
+                } else {
+                    completeBlock(lesson, nil);
+                }
             }
         }];
-        [service.operationQueue addOperations:operations waitUntilFinished:NO];
-        
+        [weakService.operationQueue addOperations:operations waitUntilFinished:NO];
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Error - Failed to fetch Lesson object.
-        if (completionHandler) {
-            completionHandler(nil, [self lessonErrorWithUnderlyingError:error]);
+        if (completeBlock) {
+            completeBlock(nil, [self lessonErrorWithUnderlyingError:error]);
         }
     }];
 }
@@ -77,15 +97,16 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
  */
 + (NSError *)lessonErrorWithUnderlyingError:(NSError *)error
 {
-    NSString *localizedDescription = [[NSString alloc] initWithFormat:
-                                      @"Lesson XML: %@\n"
-                                      "Error: %@",
-                                      error.userInfo[NSURLErrorFailingURLStringErrorKey],
-                                      error.localizedDescription];
-
     NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
-    mutableUserInfo[NSLocalizedDescriptionKey] = localizedDescription;
-    return [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:[mutableUserInfo copy]];
+    mutableUserInfo[NSLocalizedDescriptionKey] = [[NSString alloc] initWithFormat:
+                                                  @"Lesson XML: %@\n"
+                                                  "Error: %@",
+                                                  error.userInfo[NSURLErrorFailingURLStringErrorKey],
+                                                  error.localizedDescription];
+
+    return [[NSError alloc] initWithDomain:error.domain
+                                      code:error.code
+                                  userInfo:[mutableUserInfo copy]];
 }
 
 #pragma mark - Instance Methods

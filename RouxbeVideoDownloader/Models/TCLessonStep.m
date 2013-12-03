@@ -19,14 +19,6 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
 
 @property (nonatomic, copy, readwrite) NSURL *videoURL;
 
-/**
- * Set the MP4 video URL from the given string representing the
- * Flash video URL.
- *
- * @param URLString The string representing the video URL.
- */
-- (void)setVideoURLWithString:(NSString *)URLString;
-
 @end
 
 @implementation TCLessonStep
@@ -49,22 +41,35 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
 
 #pragma mark - Fetch Video URL
 
-- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompletionHandler:(TCLessonStepVideoURLBlock)completionHandler
+- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLBlock)completeBlock
 {
-    return [[TCRouxbeService sharedService] HTTPRequestOperationWithPath:[NSString stringWithFormat:TCLessonVideoPlayerPath, self.ID] success:^(AFHTTPRequestOperation *operation, NSData *data) {
+    TCRouxbeService *service = [TCRouxbeService sharedService];
+
+    NSString *path = [NSString stringWithFormat:TCLessonVideoPlayerPath, self.ID];
+    NSMutableURLRequest *request = [service.requestSerializer requestWithMethod:@"GET"
+                                                                      URLString:[[NSURL URLWithString:path relativeToURL:service.baseURL] absoluteString]
+                                                                     parameters:nil];
+
+    return [service HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, NSData *data) {
         RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
         [self setVideoURLWithString:[[rootXML child:@"video"] attribute:@"url"]];
 
-        if (completionHandler) {
-            completionHandler(self.videoURL, nil);
+        if (completeBlock) {
+            completeBlock(self.videoURL, nil);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (completionHandler) {
-            completionHandler(nil, [self stepErrorWithUnderlyingError:error]);
+        if (completeBlock) {
+            completeBlock(nil, [self stepErrorWithUnderlyingError:error]);
         }
     }];
 }
 
+/**
+ * Set the MP4 video URL from the given string representing the
+ * Flash video URL.
+ *
+ * @param URLString The string representing the video URL.
+ */
 - (void)setVideoURLWithString:(NSString *)URLString
 {
     _videoURL = [TCMP4VideoURL MP4VideoURLWithString:URLString];

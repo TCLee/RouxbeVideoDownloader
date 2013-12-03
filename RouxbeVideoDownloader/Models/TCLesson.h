@@ -16,7 +16,7 @@
  *               response or \c nil on error.
  * @param error  A \c NSError object describing the error, if any.
  */
-typedef void(^TCLessonCompletionHandler)(TCLesson *lesson, NSError *error);
+typedef void(^TCLessonCompleteBlock)(TCLesson *lesson, NSError *error);
 
 /**
  * \c TCLesson object describes a lesson in Rouxbe's Cooking School.
@@ -40,14 +40,16 @@ typedef void(^TCLessonCompletionHandler)(TCLesson *lesson, NSError *error);
 @property (nonatomic, copy, readonly) NSArray *steps;
 
 /**
- * Fetches a Lesson with the given ID and calls the completion 
- * handler when request is done.
+ * Creates and runs an \c AFHTTPRequestOperation to fetch a lesson with
+ * the given ID. The completion block will be called when request is done.
  *
- * @param lessonID          The unique ID of the lesson.
- * @param completionHandler The handler to be called when request is done.
+ * @param lessonID       The unique ID of the lesson.
+ * @param completeBlock  The block object to be called when request is done.
+ *
+ * @return An \c AFHTTPRequestOperation object with a \c GET request.
  */
-+ (NSURLSessionDataTask *)lessonWithID:(NSUInteger)lessonID
-                     completionHandler:(TCLessonCompletionHandler)completionHandler;
++ (AFHTTPRequestOperation *)getLessonWithID:(NSUInteger)lessonID
+                              completeBlock:(TCLessonCompleteBlock)completeBlock;
 
 /**
  * Initializes a new lesson object from the given XML data.

@@ -32,16 +32,4 @@ static NSString * const TCRouxbeBaseURLString = @"http://rouxbe.com/";
     return _sharedService;
 }
 
-- (AFHTTPRequestOperation *)HTTPRequestOperationWithPath:(NSString *)path
-                                                 success:(TCRouxbeServiceSuccessBlock)success
-                                                 failure:(TCRouxbeServiceFailureBlock)failure
-{
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"GET"
-                                                                   URLString:[[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString]
-                                                                  parameters:nil];
-    return [self HTTPRequestOperationWithRequest:request
-                                         success:success
-                                         failure:failure];
-}
-
 @end

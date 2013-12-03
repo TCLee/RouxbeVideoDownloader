@@ -11,10 +11,9 @@
 #import "NSTableView+RowAdditions.h"
 #import "TCDownloadCellView.h"
 
-#import "TCDownloadQueue.h"
-#import "TCDownload.h"
-
-#import "TCRouxbeService.h"
+#import "TCDownloadConfiguration.h"
+#import "TCDownloadOperationManager.h"
+#import "TCDownloadOperation.h"
 
 @interface TCMainWindowController ()
 
@@ -22,41 +21,11 @@
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *activityIndicator;
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
 
-/**
- * The download queue coordinates a set of download operations.
- */
-@property (nonatomic, strong, readonly) TCDownloadQueue *downloadQueue;
-
-/**
- * Returns a Boolean value that indicates whether the URL string is a
- * valid URL or not.
- *
- * @param URLString The string representing the URL.
- * @param error     The error object will contain the description of the error or
- *                  \c nil if there's no error.
- *
- * @return \c YES if \c URLString is valid; \c NO otherwise.
- */
-- (BOOL)validateURLString:(NSString *)URLString error:(out NSError *__autoreleasing *)error;
-
-/**
- * Return the configuration used for the download queue's session.
- */
-- (NSURLSessionConfiguration *)downloadQueueSessionConfiguration;
-
-/**
- * Return the user's Downloads directory.
- *
- * @note Raises an \c NSInternalInconsistencyException, if user's Downloads 
- *       directory could not be located.
- */
-FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
+@property (nonatomic, strong) TCDownloadOperationManager *downloadManager;
 
 @end
 
 @implementation TCMainWindowController
-
-@synthesize downloadQueue = _downloadQueue;
 
 #pragma mark - Initialize
 
@@ -66,12 +35,11 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
     return self;
 }
 
-#pragma mark - Window Events
-
 - (void)windowDidLoad
 {
     [super windowDidLoad];
 
+    // Perform an action when user double-clicks a row in the table view.
     [self.tableView setTarget:self];
     [self.tableView setDoubleAction:@selector(tableViewDoubleClicked:)];
 }
@@ -98,24 +66,39 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 
     NSURL *theURL = [[NSURL alloc] initWithString:URLString];
 
+    // Show the spinning activity indicator on the text field until the
+    // download operations have been added to the queue.
     [self.activityIndicator startAnimation:sender];
 
-    // Create downloads from the given URL. For each download created, add it
-    // to the queue.
-    [TCDownload downloadsWithURL:theURL downloadDirectoryURL:TCUserDownloadsDirectoryURL() completionHandler:^(NSArray *downloads, NSError *error) {
-        [self.activityIndicator stopAnimation:sender];
-        
-        if (downloads) {
-            [self.downloadQueue addDownloads:downloads];
-            [self.tableView addNumberOfRows:downloads.count];
+    __weak typeof(self) weakSelf = self;
+
+    // Create the download operations from the URL and add it to the operation queue.
+    [self.downloadManager addDownloadOperationsWithURL:theURL completeBlock:^(NSArray *newDownloadOperations, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) { return; }
+
+        [strongSelf.activityIndicator stopAnimation:sender];
+
+        if (newDownloadOperations) {
+            [strongSelf.tableView addNumberOfRows:newDownloadOperations.count];
         } else {
-            // Error - Failed to create a download.
+            // Error - Failed to add download operations to the queue.
             NSAlert *alert= [NSAlert alertWithError:error];
-            [alert beginSheetModalForWindow:self.window completionHandler:nil];
+            [alert beginSheetModalForWindow:strongSelf.window completionHandler:nil];
         }
     }];
 }
 
+/**
+ * Returns a Boolean value that indicates whether the URL string is a
+ * valid URL or not.
+ *
+ * @param URLString The string representing the URL.
+ * @param error     The error object will contain the description of the error or
+ *                  \c nil if there's no error.
+ *
+ * @return \c YES if \c URLString is valid; \c NO otherwise.
+ */
 - (BOOL)validateURLString:(NSString *)URLString
                     error:(out NSError *__autoreleasing *)error
 {
@@ -151,7 +134,7 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return self.downloadQueue.downloadCount;
+    return self.downloadManager.downloadOperationCount;
 }
 
 - (NSView *)tableView:(NSTableView *)tableView
@@ -162,8 +145,20 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
     
     TCDownloadCellView *cellView = [tableView makeViewWithIdentifier:kCellIdentifier
                                                                owner:self];
-    cellView.download = [self.downloadQueue downloadAtIndex:row];
+    cellView.downloadOperation = [self.downloadManager downloadOperationAtIndex:row];
     return cellView;
+}
+
+/**
+ * Reloads the cell view at the given row with the corresponding download 
+ * operation object.
+ */
+- (void)reloadDownloadOperationAtRow:(NSUInteger)row
+{
+    TCDownloadCellView *cellView = [self.tableView viewAtColumn:0 row:row makeIfNecessary:NO];
+    if (cellView) {
+        cellView.downloadOperation = [self.downloadManager downloadOperationAtIndex:row];
+    }
 }
 
 #pragma mark - Table View Actions
@@ -174,115 +169,68 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL();
 - (IBAction)actionButtonClicked:(id)sender
 {
     NSInteger row = [self.tableView rowForView:sender];
-    if (-1 == row) { return; }
-
-    [self performActionForDownloadAtIndex:row];
+    if (row != -1) {
+        [self performActionForRow:row];
+    }
 }
 
 /**
- * Double-clicked on a table view's row.
+ * Double-clicked on a table view's row. This will perform the action for
+ * all currently selected rows in the table view.
  */
 - (IBAction)tableViewDoubleClicked:(id)sender
 {
     NSIndexSet *selectedRows = [self.tableView selectedRowIndexes];
     [selectedRows enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *stop) {
-        [self performActionForDownloadAtIndex:index];
+        [self performActionForRow:index];
     }];
 }
 
 /**
- * Executes the action associated with the download at given index.
+ * Executes the action associated with the download at given 
+ * table view's row index.
  */
-- (void)performActionForDownloadAtIndex:(NSInteger)index
+- (void)performActionForRow:(NSInteger)row
 {
-    TCDownload *download = [self.downloadQueue downloadAtIndex:index];
+    TCDownloadOperation *downloadOperation = [self.downloadManager downloadOperationAtIndex:row];
 
-    switch (download.state) {
-        case TCDownloadStateRunning:
-            [self.downloadQueue cancelDownloadAtIndex:index];
-            break;
-
-        case TCDownloadStateCancelled:
-        case TCDownloadStateFailed:
-            [self.downloadQueue resumeDownloadAtIndex:index];
-            break;
-
-        case TCDownloadStateCompleted:
-            // Show in Finder
-            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[download.destinationURL]];
-            break;
-
-        default:
-            break;
+    if (downloadOperation.isReady) {
+        // Download operation has been added to operation queue, but
+        // it's not running yet. No action is associated with this state.
+        return;
+    } else if (downloadOperation.isExecuting) {
+        [downloadOperation pause];
+    } else if (downloadOperation.isPaused) {
+        [downloadOperation resume];
+    } else if (downloadOperation.isFinished) {
+        if (downloadOperation.error) {
+            // Download Failed - Resume download from where it failed.
+            [self.downloadManager resumeFailedDownloadOperationAtIndex:row];
+        } else {
+            // Download Completed - Show in Finder.
+            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[downloadOperation.destinationURL]];
+        }
     }
 
-    // Reload row to update view.
-    [self.tableView reloadDataAtRowIndex:index];
+    // Update the cell view at given row.
+    [self reloadDownloadOperationAtRow:row];
 }
 
-#pragma mark - Download Queue
+#pragma mark - Download Operation Manager
 
-- (TCDownloadQueue *)downloadQueue
+- (TCDownloadOperationManager *)downloadManager
 {
-    if (!_downloadQueue) {
-        _downloadQueue = [[TCDownloadQueue alloc] initWithSessionConfiguration:
-                          [self downloadQueueSessionConfiguration]];
+    if (!_downloadManager) {
+        TCDownloadConfiguration *configuration = [TCDownloadConfiguration defaultConfiguration];
+        _downloadManager = [[TCDownloadOperationManager alloc] initWithConfiguration:configuration];
 
-        __weak typeof(self)weakSelf = self;
+        __weak typeof(self) weakSelf = self;
 
-        // Everytime the download's state change, we just reload the
-        // table view's row to update the view.
-        [_downloadQueue setDownloadStateDidChangeBlock:^(NSUInteger index) {
-            if (NSNotFound != index) {
-                [weakSelf.tableView reloadDataAtRowIndex:index];
-            }
+        [_downloadManager setDownloadOperationProgressBlock:^(NSUInteger index) {
+            [weakSelf reloadDownloadOperationAtRow:index];
         }];
     }
-    return _downloadQueue;
-}
-
-- (NSURLSessionConfiguration *)downloadQueueSessionConfiguration
-{
-    // TODO: Session Configuration should be configurable from Preferences.
-
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-
-    // Limit the number of downloads that can be run at a time.
-    // TODO: Change HTTPMaximumConnectionsPerHost back to 5 after testing.
-    configuration.HTTPMaximumConnectionsPerHost = 1;
-
-    // Set a long timeout interval, so that a download task does not receive
-    // a timeout error while waiting for other download tasks to complete.
-    configuration.timeoutIntervalForRequest = 604800;
-    configuration.timeoutIntervalForResource = 604800; // 7 days
-
-    // Disable cache, since we're already downloading a file.
-    configuration.URLCache = nil;
-
-    // Disable cookies. It's never used anyway.
-    configuration.HTTPCookieStorage = nil;
-
-    // No need credentials, since it's not a secured protocol.
-    configuration.URLCredentialStorage = nil;
-
-    return configuration;
-}
-
-#pragma mark - User Downloads Directory
-
-FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
-{
-    // TODO: Downloads directory should be configurable from Preferences.
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *directoryURL = [[fileManager URLsForDirectory:NSDownloadsDirectory
-                                               inDomains:NSUserDomainMask] firstObject];
-    if (!directoryURL) {
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"%s - User's Downloads directory should exist.", __PRETTY_FUNCTION__];
-    }
-
-    return directoryURL;
+    return _downloadManager;
 }
 
 @end
