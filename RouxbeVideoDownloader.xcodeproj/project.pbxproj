@@ -30,6 +30,9 @@
 		819887E31834DD5700FE21BB /* TCMP4VideoURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887E21834DD5700FE21BB /* TCMP4VideoURL.m */; };
 		81AEE0101838B9A800FD2B4C /* TCMockXMLService.m in Sources */ = {isa = PBXBuildFile; fileRef = 81AEE00F1838B9A800FD2B4C /* TCMockXMLService.m */; };
 		81BADD18184892FE006FDA6D /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BADD17184892FE006FDA6D /* AFDownloadRequestOperation.m */; };
+		81BADD2118489E98006FDA6D /* TCDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BADD2018489E98006FDA6D /* TCDownloadOperation.m */; };
+		81BADD241849F361006FDA6D /* TCDownloadOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BADD231849F361006FDA6D /* TCDownloadOperationManager.m */; };
+		81BADD27184ACDB7006FDA6D /* TCDownloadConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BADD26184ACDB7006FDA6D /* TCDownloadConfiguration.m */; };
 		81EFED321829DFD600F28B1B /* TCLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED311829DFD600F28B1B /* TCLesson.m */; };
 		81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED341829E1D400F28B1B /* TCLessonStep.m */; };
 		81EFED371829E77600F28B1B /* TCLessonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED361829E77600F28B1B /* TCLessonTests.m */; };
@@ -71,7 +74,6 @@
 		8123A196183DC9E600A6365A /* TCDownload+TCDownloadQueueAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TCDownload+TCDownloadQueueAdditions.h"; sourceTree = "<group>"; };
 		8123A197183DE2C300A6365A /* NSTableView+RowAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+RowAdditions.h"; sourceTree = "<group>"; };
 		8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+RowAdditions.m"; sourceTree = "<group>"; };
-		8123A19D18432AED00A6365A /* RouxbeVideoDownloader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = RouxbeVideoDownloader.entitlements; sourceTree = "<group>"; };
 		81310AE11828948E00327AFF /* TCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMainWindowController.h; sourceTree = "<group>"; };
 		81310AE21828948E00327AFF /* TCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMainWindowController.m; sourceTree = "<group>"; };
 		81310AE71828950700327AFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
@@ -105,6 +107,12 @@
 		81AEE00F1838B9A800FD2B4C /* TCMockXMLService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMockXMLService.m; sourceTree = "<group>"; };
 		81BADD16184892FE006FDA6D /* AFDownloadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDownloadRequestOperation.h; sourceTree = "<group>"; };
 		81BADD17184892FE006FDA6D /* AFDownloadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDownloadRequestOperation.m; sourceTree = "<group>"; };
+		81BADD1F18489E98006FDA6D /* TCDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadOperation.h; sourceTree = "<group>"; };
+		81BADD2018489E98006FDA6D /* TCDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadOperation.m; sourceTree = "<group>"; };
+		81BADD221849F361006FDA6D /* TCDownloadOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadOperationManager.h; sourceTree = "<group>"; };
+		81BADD231849F361006FDA6D /* TCDownloadOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadOperationManager.m; sourceTree = "<group>"; };
+		81BADD25184ACDB6006FDA6D /* TCDownloadConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadConfiguration.h; sourceTree = "<group>"; };
+		81BADD26184ACDB7006FDA6D /* TCDownloadConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadConfiguration.m; sourceTree = "<group>"; };
 		81EFED301829DFD600F28B1B /* TCLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLesson.h; sourceTree = "<group>"; };
 		81EFED311829DFD600F28B1B /* TCLesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLesson.m; sourceTree = "<group>"; };
 		81EFED331829E1D400F28B1B /* TCLessonStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLessonStep.h; sourceTree = "<group>"; };
@@ -206,7 +214,6 @@
 		8163287A182770120070914E /* RouxbeVideoDownloader */ = {
 			isa = PBXGroup;
 			children = (
-				8123A19D18432AED00A6365A /* RouxbeVideoDownloader.entitlements */,
 				81632886182770120070914E /* TCAppDelegate.h */,
 				81632887182770120070914E /* TCAppDelegate.m */,
 				81F7B75B183B09FD0086F408 /* Vendor */,
@@ -266,6 +273,12 @@
 				81EFED311829DFD600F28B1B /* TCLesson.m */,
 				81EFED331829E1D400F28B1B /* TCLessonStep.h */,
 				81EFED341829E1D400F28B1B /* TCLessonStep.m */,
+				81BADD221849F361006FDA6D /* TCDownloadOperationManager.h */,
+				81BADD231849F361006FDA6D /* TCDownloadOperationManager.m */,
+				81BADD1F18489E98006FDA6D /* TCDownloadOperation.h */,
+				81BADD2018489E98006FDA6D /* TCDownloadOperation.m */,
+				81BADD25184ACDB6006FDA6D /* TCDownloadConfiguration.h */,
+				81BADD26184ACDB7006FDA6D /* TCDownloadConfiguration.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -430,7 +443,7 @@
 					81632870182770120070914E = {
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -558,6 +571,7 @@
 				81880EA6184440F7009387AB /* TCPaddedTextFieldCell.m in Sources */,
 				81EFED351829E1D400F28B1B /* TCLessonStep.m in Sources */,
 				81BADD18184892FE006FDA6D /* AFDownloadRequestOperation.m in Sources */,
+				81BADD27184ACDB7006FDA6D /* TCDownloadConfiguration.m in Sources */,
 				81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */,
 				81F7B762183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m in Sources */,
 				816328BA18277F3F0070914E /* main.m in Sources */,
@@ -567,6 +581,8 @@
 				81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */,
 				81632888182770120070914E /* TCAppDelegate.m in Sources */,
 				81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */,
+				81BADD2118489E98006FDA6D /* TCDownloadOperation.m in Sources */,
+				81BADD241849F361006FDA6D /* TCDownloadOperationManager.m in Sources */,
 				81EFED321829DFD600F28B1B /* TCLesson.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,7 +737,6 @@
 			baseConfigurationReference = EA621434EFAA40278656A5D5 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = RouxbeVideoDownloader/RouxbeVideoDownloader.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -737,7 +752,6 @@
 			baseConfigurationReference = EA621434EFAA40278656A5D5 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = RouxbeVideoDownloader/RouxbeVideoDownloader.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
