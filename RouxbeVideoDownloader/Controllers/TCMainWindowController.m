@@ -82,7 +82,6 @@
         if (newDownloadOperations) {
             [strongSelf.tableView addNumberOfRows:newDownloadOperations.count];
         } else {
-            // Error - Failed to add download operations to the queue.
             NSAlert *alert= [NSAlert alertWithError:error];
             [alert beginSheetModalForWindow:strongSelf.window completionHandler:nil];
         }
@@ -149,18 +148,6 @@
     return cellView;
 }
 
-/**
- * Reloads the cell view at the given row with the corresponding download 
- * operation object.
- */
-- (void)reloadDownloadOperationAtRow:(NSUInteger)row
-{
-    TCDownloadCellView *cellView = [self.tableView viewAtColumn:0 row:row makeIfNecessary:NO];
-    if (cellView) {
-        cellView.downloadOperation = [self.downloadManager downloadOperationAtIndex:row];
-    }
-}
-
 #pragma mark - Table View Actions
 
 /**
@@ -194,18 +181,13 @@
 {
     TCDownloadOperation *downloadOperation = [self.downloadManager downloadOperationAtIndex:row];
 
-    if (downloadOperation.isReady) {
-        // Download operation has been added to operation queue, but
-        // it's not running yet. No action is associated with this state.
-        return;
-    } else if (downloadOperation.isExecuting) {
-        [downloadOperation pause];
-    } else if (downloadOperation.isPaused) {
-        [downloadOperation resume];
+    // TODO: Cancelling the operation before it's started by the operation queue is a programmer error!
+    if (downloadOperation.isReady || downloadOperation.isExecuting) {
+        [self.downloadManager cancelDownloadOperationAtIndex:row];
     } else if (downloadOperation.isFinished) {
         if (downloadOperation.error) {
-            // Download Failed - Resume download from where it failed.
-            [self.downloadManager resumeFailedDownloadOperationAtIndex:row];
+            // Download Failed (or Cancelled) - Resume download from where it stopped.
+            [self.downloadManager resumeDownloadOperationAtIndex:row];
         } else {
             // Download Completed - Show in Finder.
             [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[downloadOperation.destinationURL]];
@@ -213,7 +195,7 @@
     }
 
     // Update the cell view at given row.
-    [self reloadDownloadOperationAtRow:row];
+    [self.tableView reloadDataAtRowIndex:row];
 }
 
 #pragma mark - Download Operation Manager
@@ -225,9 +207,10 @@
         _downloadManager = [[TCDownloadOperationManager alloc] initWithConfiguration:configuration];
 
         __weak typeof(self) weakSelf = self;
-
-        [_downloadManager setDownloadOperationProgressBlock:^(NSUInteger index) {
-            [weakSelf reloadDownloadOperationAtRow:index];
+        [_downloadManager setDownloadOperationDidChangeBlock:^(NSUInteger index) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            
+            [strongSelf.tableView reloadDataAtRowIndex:index];
         }];
     }
     return _downloadManager;

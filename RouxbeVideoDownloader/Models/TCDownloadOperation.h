@@ -1,5 +1,5 @@
 //
-//  TCDownloadV2.h
+//  TCDownloadOperation.h
 //  RouxbeVideoDownloader
 //
 //  Created by Lee Tze Cheun on 11/29/13.
@@ -10,7 +10,13 @@
 
 @class TCDownloadOperation;
 
-typedef void(^TCDownloadOperationProgressChangedBlock)(TCDownloadOperation *operation);
+/**
+ * The prototype of the block that will be called when a download
+ * operation's state or progress has changed.
+ *
+ * @param operation The download operation whose state or progress has changed.
+ */
+typedef void(^TCDownloadOperationDidChangeBlock)(TCDownloadOperation *operation);
 
 /**
  * \c TCDownloadOperation class represents a download operation that will be 
@@ -21,24 +27,43 @@ typedef void(^TCDownloadOperationProgressChangedBlock)(TCDownloadOperation *oper
 /**
  * The destination URL to save the downloaded file to.
  */
-@property (nonatomic, copy, readonly) NSURL *destinationURL;
+@property (readonly, nonatomic, copy) NSURL *destinationURL;
 
 /**
  * The title of the download to be displayed on a view.
  */
-@property (nonatomic, copy, readonly) NSString *title;
+@property (readonly, nonatomic, copy) NSString *title;
 
 /**
- * A copy of the \c NSProgress object that reports the download progress.
+ * The \c NSProgress object that reports the download progress.
  */
-@property (nonatomic, copy, readonly) NSProgress *progress;
+@property (readonly, nonatomic, strong) NSProgress *progress;
 
-- (instancetype)initWithSourceURL:(NSURL *)sourceURL
-                   destinationURL:(NSURL *)destinationURL
-                            title:(NSString *)title;
+/**
+ * <#Description#>
+ *
+ * @param theRequest     <#theRequest description#>
+ * @param destinationURL <#destinationURL description#>
+ * @param title          <#title description#>
+ *
+ * @return \c nil if the download operation could not be created.
+ */
+- (instancetype)initWithRequest:(NSURLRequest *)theRequest
+                 destinationURL:(NSURL *)destinationURL
+                          title:(NSString *)title;
 
+/**
+ * Returns a localized description of the download operation's 
+ * progress and state.
+ *
+ * Returns an empty string, if it fails to generate the description string.
+ */
 - (NSString *)localizedProgressDescription;
 
-- (void)setProgressChangedBlock:(TCDownloadOperationProgressChangedBlock)block;
+/**
+ * Sets the block to be called when this download operation's 
+ * state or progress has changed.
+ */
+- (void)setDownloadOperationDidChange:(TCDownloadOperationDidChangeBlock)block;
 
 @end

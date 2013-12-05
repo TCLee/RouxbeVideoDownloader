@@ -9,11 +9,13 @@
 @class TCDownloadConfiguration;
 @class TCDownloadOperation;
 
-typedef void(^TCDownloadOperationManagerAddDownloadsCompleteBlock)(NSArray *newDownloadOperations, NSError *error);
-typedef void(^TCDownloadOperationManagerAddDownloadsErrorBlock)(NSError *error);
+typedef void(^TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)(NSArray *newDownloadOperations, NSError *error);
+typedef void(^TCDownloadOperationManagerDownloadOperationDidChangeBlock)(NSUInteger index);
 
-typedef void(^TCDownloadOperationManagerDownloadProgressBlock)(NSUInteger index);
-
+/**
+ * \c TCDownloadOperationManager manages a operation queue that coordinates
+ * and schedules a set of \c TCDownloadOperation objects.
+ */
 @interface TCDownloadOperationManager : NSObject
 
 /**
@@ -34,15 +36,43 @@ typedef void(^TCDownloadOperationManagerDownloadProgressBlock)(NSUInteger index)
 - (NSUInteger)downloadOperationCount;
 
 /**
- * Returns the download operation at the specified index.
+ * Returns the download operation at the given index.
  */
 - (TCDownloadOperation *)downloadOperationAtIndex:(NSUInteger)index;
 
+/**
+ * Adds one or more download operations from the given URL to the 
+ * operation queue. The completion block will be called when the 
+ * download operations have been added to the operation queue
+ * (or an error occured).
+ *
+ * This method will search the given URL for video resources. 
+ * For each video that it finds, it will create a download operation 
+ * for the video and add it to the operation queue.
+ *
+ * @param aURL          The URL to create download operations from.
+ * @param completeBlock The block to be called when the download operations have been added to the operation queue (or an error occured).
+ */
 - (void)addDownloadOperationsWithURL:(NSURL *)aURL
-                       completeBlock:(TCDownloadOperationManagerAddDownloadsCompleteBlock)completeBlock;
+                       completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock;
 
-- (void)resumeFailedDownloadOperationAtIndex:(NSUInteger)index;
+/**
+ * Resumes a failed download operation at the given index.
+ *
+ * This method does nothing if the download operation has not failed.
+ * A download operation that has been cancelled is also treated as failed.
+ */
+- (void)resumeDownloadOperationAtIndex:(NSUInteger)index;
 
-- (void)setDownloadOperationProgressBlock:(TCDownloadOperationManagerDownloadProgressBlock)block;
+/**
+ * Cancels a download operation at the given index.
+ */
+- (void)cancelDownloadOperationAtIndex:(NSUInteger)index;
+
+/**
+ * Sets the block to be called when a download operation in the operation 
+ * queue has changed its state or progress.
+ */
+- (void)setDownloadOperationDidChangeBlock:(TCDownloadOperationManagerDownloadOperationDidChangeBlock)block;
 
 @end

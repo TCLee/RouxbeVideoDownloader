@@ -57,8 +57,15 @@
     _downloadOperation = operation;
 
     self.titleLabel.stringValue = _downloadOperation.title;
-    self.progressBar.doubleValue = _downloadOperation.progress.fractionCompleted;
     self.progressLabel.stringValue = [_downloadOperation localizedProgressDescription];
+
+    BOOL isIndeterminate = _downloadOperation.progress.isIndeterminate;
+    [self.progressBar setIndeterminate:isIndeterminate];
+    if (isIndeterminate) {
+        [self.progressBar startAnimation:self];
+    } else {
+        self.progressBar.doubleValue = _downloadOperation.progress.fractionCompleted;
+    }
 
     self.titleLabel.textColor = [self textColorForLabel:self.titleLabel downloadOperation:_downloadOperation];
     self.progressLabel.textColor = [self textColorForLabel:self.progressLabel downloadOperation:_downloadOperation];
@@ -86,14 +93,9 @@
 {
     if (downloadOperation.isFinished) {
         return downloadOperation.error ? [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate] : [NSImage imageNamed:NSImageNameRevealFreestandingTemplate];
-    } else if (downloadOperation.isPaused) {
-        return [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate];
-    } else if (downloadOperation.isExecuting) {
+    } else {
         return [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
     }
-
-    // Download operation is added to the operation queue, but is not executing yet.
-    return nil;
 }
 
 @end

@@ -20,18 +20,22 @@
  *
  * Unlike the operation queue, download operations that have finished are
  * not removed.
+ *
+ * @see TCDownloadOperationManager::operationQueue
  */
 @property (nonatomic, strong) NSMutableArray *mutableDownloadOperations;
 
 /**
  * The operation queue that coordinates the set of download operations.
+ *
+ * @see TCDownloadOperationManager::mutableDownloadOperations
  */
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 
 /**
- * The block object to execute when a download operation's progress has changed.
+ * The block object to execute when a download operation's progress or state has changed.
  */
-@property (nonatomic, copy) TCDownloadOperationManagerDownloadProgressBlock downloadOperationProgress;
+@property (readwrite, nonatomic, copy) TCDownloadOperationManagerDownloadOperationDidChangeBlock downloadOperationDidChange;
 
 @end
 
@@ -48,9 +52,10 @@
         _configuration = [theConfiguration copy];
 
         _mutableDownloadOperations = [[NSMutableArray alloc] init];
-
         _operationQueue = [[NSOperationQueue alloc] init];
-        _operationQueue.maxConcurrentOperationCount = _configuration.maxConcurrentDownloadCount;
+        //TODO: Uncomment after testing!
+//        _operationQueue.maxConcurrentOperationCount = _configuration.maxConcurrentDownloadCount;
+        _operationQueue.maxConcurrentOperationCount = 1;
     }
     return self;
 }
@@ -58,7 +63,7 @@
 #pragma mark - Add Download Operations
 
 - (void)addDownloadOperationsWithURL:(NSURL *)aURL
-                       completeBlock:(TCDownloadOperationManagerAddDownloadsCompleteBlock)completeBlock
+                       completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock
 {
     __weak typeof(self) weakSelf = self;
 
@@ -72,12 +77,14 @@
             mutableOperations = [[NSMutableArray alloc] initWithCapacity:videos.count];
             for (TCVideo *video in videos) {
                 TCDownloadOperation *operation = [strongSelf downloadOperationWithVideo:video];
-                [mutableOperations addObject:operation];
+                if (operation) {
+                    [mutableOperations addObject:operation];
+                }
             }
 
             // Add the download operations to the operation queue.
-            [strongSelf.operationQueue addOperations:mutableOperations waitUntilFinished:NO];
             [strongSelf.mutableDownloadOperations addObjectsFromArray:mutableOperations];
+            [strongSelf.operationQueue addOperations:mutableOperations waitUntilFinished:NO];
         }
 
         if (completeBlock) {
@@ -87,18 +94,18 @@
 }
 
 /**
- * Creates and returns a download operation from the given video.
+ * Creates and returns a download operation for the given video.
  */
 - (TCDownloadOperation *)downloadOperationWithVideo:(TCVideo *)video
 {
     NSURL *destinationURL = [self.configuration.downloadsDirectoryURL URLByAppendingPathComponent:video.destinationPathComponent];
-    TCDownloadOperation *operation = [[TCDownloadOperation alloc] initWithSourceURL:video.sourceURL
-                                                                     destinationURL:destinationURL
-                                                                              title:video.destinationPathComponent];
+    TCDownloadOperation *downloadOperation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:video.sourceURL]
+                                                                   destinationURL:destinationURL
+                                                                            title:video.destinationPathComponent];
 
     __weak typeof(self) weakSelf = self;
 
-    [operation setProgressChangedBlock:^(TCDownloadOperation *operation) {
+    [downloadOperation setDownloadOperationDidChange:^(TCDownloadOperation *operation) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) { return; }
 
@@ -108,15 +115,15 @@
                         format:@"Download operation should exist because it is never removed."];
         }
 
-        if (strongSelf.downloadOperationProgress) {
-            strongSelf.downloadOperationProgress(index);
+        if (strongSelf.downloadOperationDidChange) {
+            strongSelf.downloadOperationDidChange(index);
         }
     }];
 
-    return operation;
+    return downloadOperation;
 }
 
-#pragma mark - Getting Download Operation Info
+#pragma mark - Download Operation Queue
 
 - (NSUInteger)downloadOperationCount
 {
@@ -128,35 +135,41 @@
     return (TCDownloadOperation *)self.mutableDownloadOperations[index];
 }
 
-#pragma mark - Resume Failed Download
+#pragma mark - Resume/Cancel Download
 
-- (void)resumeFailedDownloadOperationAtIndex:(NSUInteger)index
+- (void)resumeDownloadOperationAtIndex:(NSUInteger)index
 {
     TCDownloadOperation *downloadOperation = self.mutableDownloadOperations[index];
 
+    // Only resume download operations that have failed or cancelled.
+    // A cancelled download operation is treated as an error.
     if (downloadOperation.isFinished && downloadOperation.error) {
+        
         // Create a copy of the failed download operation.
         // The original failed download operation cannot be added back
         // to the operation queue.
-        TCDownloadOperation *downloadOperationCopy = [downloadOperation copy];
+        TCDownloadOperation *operationCopy = [downloadOperation copy];
 
-        // Add the copy to the operation queue. The original failed download
-        // operation has been removed from the operation queue.
-        [self.operationQueue addOperation:downloadOperationCopy];
+        // Add the copy to the operation queue. The original download
+        // operation has been removed from the operation queue when it failed.
+        [self.operationQueue addOperation:operationCopy];
 
         // Replace the original failed download operation with the copy.
-        self.mutableDownloadOperations[index] = downloadOperationCopy;
-    } else {
-        [NSException raise:NSInvalidArgumentException
-                    format:@"This method should only be called on failed download operations."];
+        self.mutableDownloadOperations[index] = operationCopy;
     }
 }
 
-#pragma mark - Set Download Progress Callbacks
-
-- (void)setDownloadOperationProgressBlock:(TCDownloadOperationManagerDownloadProgressBlock)block
+- (void)cancelDownloadOperationAtIndex:(NSUInteger)index
 {
-    self.downloadOperationProgress = block;
+    TCDownloadOperation *downloadOperation = self.mutableDownloadOperations[index];
+    [downloadOperation cancel];
+}
+
+#pragma mark - Set Download Operation Callback
+
+- (void)setDownloadOperationDidChangeBlock:(TCDownloadOperationManagerDownloadOperationDidChangeBlock)block
+{
+    self.downloadOperationDidChange = block;
 }
 
 @end
