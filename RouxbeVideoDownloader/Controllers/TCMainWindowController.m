@@ -181,8 +181,11 @@
 {
     TCDownloadOperation *downloadOperation = [self.downloadManager downloadOperationAtIndex:row];
 
-    // TODO: Cancelling the operation before it's started by the operation queue is a programmer error!
-    if (downloadOperation.isReady || downloadOperation.isExecuting) {
+    // Download operation is waiting for its turn in the operation queue.
+    // No need to perform any action in this state.
+    if (downloadOperation.isReady) { return; }
+
+    if (downloadOperation.isExecuting) {
         [self.downloadManager cancelDownloadOperationAtIndex:row];
     } else if (downloadOperation.isFinished) {
         if (downloadOperation.error) {
@@ -208,9 +211,7 @@
 
         __weak typeof(self) weakSelf = self;
         [_downloadManager setDownloadOperationDidChangeBlock:^(NSUInteger index) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            
-            [strongSelf.tableView reloadDataAtRowIndex:index];
+            [weakSelf.tableView reloadDataAtRowIndex:index];
         }];
     }
     return _downloadManager;
