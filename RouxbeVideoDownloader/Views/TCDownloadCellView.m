@@ -93,9 +93,13 @@
 {
     if (downloadOperation.isFinished) {
         return downloadOperation.error ? [NSImage imageNamed:NSImageNameRefreshFreestandingTemplate] : [NSImage imageNamed:NSImageNameRevealFreestandingTemplate];
-    } else {
+    } else if (downloadOperation.isExecuting) {
         return [NSImage imageNamed:NSImageNameStopProgressFreestandingTemplate];
     }
+
+    // Download operation is waiting in the operation queue.
+    // No need to perform any action, so no icon.
+    return nil;
 }
 
 @end
