@@ -64,7 +64,7 @@
     }
 
     // Search for videos from the given URL.
-    [TCVideo videosWithURL:theURL completionHandler:^(NSArray *videos, NSError *error) {
+    [TCVideo findVideosFromURL:theURL completeBlock:^(NSArray *videos, NSError *error) {
         if (videos) {
             // Create a download for each video found.
             [self downloadsWithVideos:videos
