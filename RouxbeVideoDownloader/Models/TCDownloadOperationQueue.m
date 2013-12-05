@@ -81,9 +81,10 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
         // Get the operation's executing state before it is paused.
         BOOL downloadOperationWasRunning = downloadOperation.isExecuting;
 
-        // Pause download operation and add to waiting list.
+        // Paused download operations are not added to the waiting list.
+        // This is because only a user can pause a download and we should
+        // not automatically resume a download the user wanted to pause.
         [downloadOperation pause];
-        [self.waitingOperations addObject:downloadOperation];
 
         // Remove download operation from running list, if it was running
         // before it was paused.
@@ -91,7 +92,8 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
             [self.runningOperations removeObject:downloadOperation];
         }
 
-        // Attempt to start the next available operation in the waiting list.
+        // Attempt to start the next operation in the waiting list,
+        // since we now have an available slot.
         [self startNextWaitingDownloadOperation];
     }
 }
@@ -109,9 +111,8 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
         self.runningOperations.count <= self.maxConcurrentDownloadCount) {
         [downloadOperation resume];
 
-        // Transfer from waiting list to running list.
         [self.runningOperations addObject:downloadOperation];
-        [self.waitingOperations removeObject:downloadOperation];
+        // Paused operations are not added to the waiting list.
     }
 }
 
@@ -143,17 +144,13 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
  */
 - (void)startOrSuspendDownloadOperation:(TCDownloadOperation *)downloadOperation
 {
-    NSAssert(downloadOperation.isReady || downloadOperation.isPaused,
-             @"Should only be called when download operation in Ready or Paused state.");
+    NSAssert(downloadOperation.isReady,
+             @"Should only be called when download operation is in Ready state.");
 
-    if (downloadOperation.isReady || downloadOperation.isPaused) {
+    if (downloadOperation.isReady) {
         if (self.runningOperations.count <= self.maxConcurrentDownloadCount) {
-            // Start/Resume the download operation, since we have an available slot.
-            if (downloadOperation.isReady) {
-                [downloadOperation start];
-            } else if (downloadOperation.isPaused) {
-                [downloadOperation resume];
-            }
+            // There is an available slot, so start the download operation.
+            [downloadOperation start];
 
             // Transfer operation from waiting list to running list.
             [self.runningOperations addObject:downloadOperation];
@@ -222,18 +219,14 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
         TCDownloadOperation *downloadOperation = (TCDownloadOperation *)object;
 
         if (downloadOperation.isFinished) {
-            if (downloadOperation.error) {
-                // Download operation has been cancelled or failed.
-                // Do not remove from the operation queue because we want to
-                // retry the failed operation again later.
-                [self.runningOperations removeObject:downloadOperation];
-                [self.waitingOperations addObject:downloadOperation];
-            } else {
-                // Download operation has finished successfully.
-                // Start the next download operation in the waiting list.
-                [self.runningOperations removeObject:downloadOperation];
-                [self startNextWaitingDownloadOperation];
-            }
+            // Removed the finished download operation from the running and
+            // waiting list.
+            [self.runningOperations removeObject:downloadOperation];
+            [self.waitingOperations removeObject:downloadOperation];
+
+            // Now we have an available slot, so attempt to start the
+            // next operation in the waiting list.
+            [self startNextWaitingDownloadOperation];
         }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
