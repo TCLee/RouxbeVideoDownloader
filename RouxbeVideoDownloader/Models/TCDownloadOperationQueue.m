@@ -18,6 +18,7 @@ static NSString * const TCDownloadOperationPausedKeyPath = @"isPaused";
 static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
 
 @interface TCDownloadOperationQueue ()
+@property (readwrite, nonatomic, assign) NSUInteger maxConcurrentDownloadCount;
 
 @property (readwrite, nonatomic, strong) NSMutableOrderedSet *allOperations;
 @property (readwrite, nonatomic, strong) NSMutableOrderedSet *runningOperations;
@@ -54,6 +55,8 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
 
 - (void)addDownloadOperations:(NSArray *)operations
 {
+    NSParameterAssert(operations);
+
     for (TCDownloadOperation *operation in operations) {
         [self addDownloadOperation:operation];
     }
@@ -81,25 +84,21 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
     TCDownloadOperation *downloadOperation = self.allOperations[index];
 
     NSAssert(downloadOperation.isReady || downloadOperation.isExecuting,
-             @"Should only be called when download operation is in Ready or Executing state.");
+             @"Should only pause a download operation that is in Ready or Executing state.");
 
-    if (downloadOperation.isReady || downloadOperation.isExecuting) {
-        // Get the operation's executing state before it is paused.
-        BOOL downloadOperationWasRunning = downloadOperation.isExecuting;
+    // After calling pause, isExecuting == NO. So, we save the initial state first.
+    BOOL operationWasRunning = downloadOperation.isExecuting;
 
-        // Paused download operations are not added to the waiting list.
-        // This is because only a user can pause a download and we should
-        // not automatically start a download the user wanted to pause.
-        [downloadOperation pause];
+    // A paused download operation is NOT added to the waiting list.
+    // This is because only the user can pause a download. We do not want
+    // to automatically start a download that the user wanted to pause.
+    [downloadOperation pause];
 
-        // Remove download operation from running list, if it was running
-        // before it was paused.
-        if (downloadOperationWasRunning) {
-            [self.runningOperations removeObject:downloadOperation];
-        }
-
-        // Attempt to start the next operation in the waiting list,
-        // since we now have an available slot.
+    // If download operation was running prior to being paused,
+    // we remove it from the running list and start the next download
+    // operation in the waiting list.
+    if (operationWasRunning) {
+        [self.runningOperations removeObject:downloadOperation];
         [self startNextDownloadOperationInWaitingList];
     }
 }
@@ -109,11 +108,9 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
     TCDownloadOperation *downloadOperation = self.allOperations[index];
 
     NSAssert(downloadOperation.isPaused,
-             @"Should only be called when download operation is in Paused state.");
+             @"Should only resume a download operation that is in Paused state.");
 
-    if (downloadOperation.isPaused) {
-        [self startOrSuspendDownloadOperation:downloadOperation];
-    }
+    [self startOrSuspendDownloadOperation:downloadOperation];
 }
 
 - (void)retryFailedDownloadOperationAtIndex:(NSUInteger)index
@@ -121,20 +118,18 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
     TCDownloadOperation *operation = self.allOperations[index];
 
     NSAssert(operation.isFinished && operation.error,
-             @"Should only be called when download operation has failed.");
+             @"Should only retry a failed download operation.");
 
-    if (operation.isFinished && operation.error) {
-        // Make a copy of the failed operation so that its state is Ready.
-        // The original failed operation's state is Finished and we can't do
-        // anything with it.
-        TCDownloadOperation *operationCopy = [operation copy];
+    // Make a copy of the failed operation so that its state is Ready.
+    // The original failed operation's state is Finished and we can't do
+    // anything with it.
+    TCDownloadOperation *operationCopy = [operation copy];
 
-        // Replace the failed operation with the new copy.
-        self.allOperations[index] = operationCopy;
+    // Replace the failed operation with the new copy.
+    self.allOperations[index] = operationCopy;
 
-        // Start the new copy of the operation.
-        [self startOrSuspendDownloadOperation:operationCopy];
-    }
+    // Start the new copy of the operation.
+    [self startOrSuspendDownloadOperation:operationCopy];
 }
 
 #pragma mark - Private Queue Management Methods
@@ -191,11 +186,13 @@ static NSString * const TCDownloadOperationCancelledKeyPath = @"isCancelled";
 }
 
 /**
- * Marks the given download operation as finished and removes it from 
- * both the running and waiting list. 
+ * Marks the given download operation as finished. 
  *
- * Note that the download operation is still in the queue. It is just removed
- * from the running and waiting list.
+ * Download operation is removed from both the running list and waiting list.
+ * Also removes \c self as observer to the download operation's state.
+ *
+ * @note The download operation is still in the queue. It is just removed
+ * from the running list and waiting list.
  */
 - (void)downloadOperationDidFinish:(TCDownloadOperation *)downloadOperation
 {

@@ -10,8 +10,6 @@
 
 @interface TCDownloadOperationQueue : NSObject
 
-@property (nonatomic, assign) NSUInteger maxConcurrentDownloadCount;
-
 - (id)initWithMaxConcurrentDownloadCount:(NSUInteger)maxConcurrentDownloadCount;
 
 - (void)addDownloadOperation:(TCDownloadOperation *)operation;
