@@ -16,7 +16,7 @@
  *
  * @param operation The download operation whose state or progress has changed.
  */
-typedef void(^TCDownloadOperationDidChangeBlock)(TCDownloadOperation *operation);
+typedef void(^TCDownloadOperationBlock)(TCDownloadOperation *operation);
 
 /**
  * \c TCDownloadOperation class represents a download operation that will be 
@@ -40,13 +40,16 @@ typedef void(^TCDownloadOperationDidChangeBlock)(TCDownloadOperation *operation)
 @property (readonly, nonatomic, strong) NSProgress *progress;
 
 /**
- * <#Description#>
+ * Initializes a newly allocated download operation with the given 
+ * URL request, destination URL and title.
  *
- * @param theRequest     <#theRequest description#>
- * @param destinationURL <#destinationURL description#>
- * @param title          <#title description#>
+ * @param theRequest     The URL request to load.
+ * @param destinationURL The file URL to save the downloaded file to.
+ * @param title          The title of the download to be presented on a view.
  *
- * @return \c nil if the download operation could not be created.
+ * @return A \c TCDownloadOperation object or \c nil if the download operation
+ *         could not create the destination directory to contain the 
+ *         downloaded file.
  */
 - (instancetype)initWithRequest:(NSURLRequest *)theRequest
                  destinationURL:(NSURL *)destinationURL
@@ -61,9 +64,25 @@ typedef void(^TCDownloadOperationDidChangeBlock)(TCDownloadOperation *operation)
 - (NSString *)localizedProgressDescription;
 
 /**
- * Sets the block to be called when this download operation's 
- * state or progress has changed.
+ * Sets the block to be called when this download operation has started.
  */
-- (void)setDownloadOperationDidChange:(TCDownloadOperationDidChangeBlock)block;
+- (void)setDidStartBlock:(TCDownloadOperationBlock)block;
+
+/**
+ * Sets the block to be called when this download operation has updated 
+ * its progress.
+ */
+- (void)setDidUpdateProgressBlock:(TCDownloadOperationBlock)block;
+
+/**
+ * Sets the block to be called when this download operation has finished.
+ */
+- (void)setDidFinishBlock:(TCDownloadOperationBlock)block;
+
+/**
+ * Sets the block to be called when this download operation has failed 
+ * with an error.
+ */
+- (void)setDidFailBlock:(TCDownloadOperationBlock)block;
 
 @end

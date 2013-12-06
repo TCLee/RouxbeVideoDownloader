@@ -105,11 +105,11 @@
 
     __weak typeof(self) weakSelf = self;
 
-    [downloadOperation setDownloadOperationDidChange:^(TCDownloadOperation *operation) {
+    void(^callback)(TCDownloadOperation *) = ^(TCDownloadOperation *operation) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) { return; }
 
-        NSUInteger index = [strongSelf.allDownloadOperations indexOfObjectIdenticalTo:operation];
+        NSUInteger index = [strongSelf.allDownloadOperations indexOfObject:operation];
         if (NSNotFound == index) {
             [NSException raise:NSInternalInconsistencyException
                         format:@"Download operation should exist because it is never removed."];
@@ -118,7 +118,13 @@
         if (strongSelf.downloadOperationDidChange) {
             strongSelf.downloadOperationDidChange(index);
         }
-    }];
+    };
+
+    // We only care whether the download operation has changed.
+    [downloadOperation setDidStartBlock:callback];
+    [downloadOperation setDidUpdateProgressBlock:callback];
+    [downloadOperation setDidFinishBlock:callback];
+    [downloadOperation setDidFailBlock:callback];
 
     return downloadOperation;
 }

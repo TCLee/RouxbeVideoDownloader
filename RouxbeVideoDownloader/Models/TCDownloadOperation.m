@@ -22,13 +22,12 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
  */
 @property (readwrite, nonatomic, strong) AFURLConnectionByteSpeedMeasure *speedMeasure;
 
-/**
- * The block object to execute when this download operation's progress or state has changed.
- */
-@property (readwrite, nonatomic, copy) TCDownloadOperationDidChangeBlock downloadOperationDidChange;
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didStartCallback;
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didUpdateProgressCallback;
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFailCallback;
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFinishCallback;
 
 @property (readwrite, nonatomic, strong) id downloadOperationDidStartObserver;
-@property (readwrite, nonatomic, strong) id downloadOperationDidFinishObserver;
 
 @end
 
@@ -47,31 +46,34 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
                        targetPath:[destinationURL path]
                      shouldResume:YES];
     if (self) {
+        // Create the directory (or directories) to contain the downloaded file.
+        // If directory could not be created, then there is no point starting the download.
+        BOOL directoryCreated = [self createDirectoryForDestinationURL:destinationURL];
+        if (!directoryCreated) { return nil; }
+
         _title = [title copy];
         _destinationURL = [destinationURL copy];
 
-        // Create the directory (or directories) to contain the downloaded file.
-        // If directory could not be created, then there is no point starting the download.
-        BOOL directoryCreated = [self createDirectoryForDestinationURL:_destinationURL];
-        if (!directoryCreated) { return nil; }
+        [self initializeProgressProperties];
 
-        [self initializeProgress];
-
-        // Create and activate the download speed and estimated time remaining measurement.
-        _speedMeasure = [[AFURLConnectionByteSpeedMeasure alloc] init];
-        _speedMeasure.active = YES;
-
-        [self configureProgressiveDownloadProgressBlock];
-        [self registerForDownloadOperationNotifications];
+        // Combine the various notifications and callbacks into a unified
+        // simpler callback for client classes.
+        [self registerForDownloadStartNotification];
+        [self registerForDownloadProgressCallback];
+        [self registerForDownloadCompletionCallback];
     }
     return self;
 }
 
 /**
- * Create and initialize the \c NSProgress object used for tracking 
+ * Create and initialize the properties used for tracking
  * this download operation's progress.
+ *
+ * - \c NSProgress object for keeping track of the downloaded bytes 
+ * - \c AFURLConnectionByteSpeedMeasure object for measuring download speed
+ *   and estimated time remaining.
  */
-- (void)initializeProgress
+- (void)initializeProgressProperties
 {
     // Configure NSProgress to track the progress of file downloads.
     _progress = [[NSProgress alloc] initWithParent:nil
@@ -82,6 +84,11 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
     // some response data.
     _progress.completedUnitCount = -1;
     _progress.totalUnitCount = -1;
+
+    // Create and activate the download speed and estimated time remaining
+    // measurement.
+    _speedMeasure = [[AFURLConnectionByteSpeedMeasure alloc] init];
+    _speedMeasure.active = YES;
 }
 
 /**
@@ -95,7 +102,6 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 - (BOOL)createDirectoryForDestinationURL:(NSURL *)destinationURL
 {
     NSURL *destinationDirectoryURL = [destinationURL URLByDeletingLastPathComponent];
-
 
     NSError *__autoreleasing error = nil;
     BOOL directoryCreated = [[NSFileManager defaultManager] createDirectoryAtURL:destinationDirectoryURL
@@ -111,10 +117,24 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 }
 
 /**
- * Configures the progressive download progress block to update our
- * download operation's progress.
+ * Register an observer to be notified when the download operation has started.
  */
-- (void)configureProgressiveDownloadProgressBlock
+- (void)registerForDownloadStartNotification
+{
+    self.downloadOperationDidStartObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidStartNotification object:self queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        TCDownloadOperation *downloadOperation = notification.object;
+
+        if (downloadOperation.didStartCallback) {
+            downloadOperation.didStartCallback(downloadOperation);
+        }
+    }];
+}
+
+/**
+ * Register a block object to be called when the download operation has 
+ * made some progress.
+ */
+- (void)registerForDownloadProgressCallback
 {
     __weak typeof(self) weakSelf = self;
 
@@ -137,37 +157,33 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
                                         forKey:NSProgressEstimatedTimeRemainingKey];
 
         // Callback to notify of progress updates.
-        if (strongSelf.downloadOperationDidChange) {
-            strongSelf.downloadOperationDidChange(strongSelf);
+        if (strongSelf.didUpdateProgressCallback) {
+            strongSelf.didUpdateProgressCallback(strongSelf);
         }
     }];
 }
 
 /**
- * Register our observers to be notified when this download operation has
- * started or finished.
+ * Register a block object to be called when the download operation has 
+ * completed.
  */
-- (void)registerForDownloadOperationNotifications
+- (void)registerForDownloadCompletionCallback
 {
     __weak typeof(self) weakSelf = self;
 
-    void(^notificationBlock)(NSNotification *) = ^(NSNotification *notification) {
+    [self setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        // Callback to notify when download operation has started or finished.
-        if (strongSelf.downloadOperationDidChange) {
-            strongSelf.downloadOperationDidChange(strongSelf);
+        if (strongSelf.didFinishCallback) {
+            strongSelf.didFinishCallback(strongSelf);
         }
-    };
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
-    self.downloadOperationDidStartObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidStartNotification
-                                                                                               object:self
-                                                                                                queue:[NSOperationQueue mainQueue]
-                                                                                           usingBlock:notificationBlock];
-    self.downloadOperationDidFinishObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidFinishNotification
-                                                                                                object:self
-                                                                                                 queue:[NSOperationQueue mainQueue]
-                                                                                            usingBlock:notificationBlock];
+        if (strongSelf.didFailCallback) {
+            strongSelf.didFailCallback(strongSelf);
+        }
+    }];
 }
 
 /**
@@ -176,7 +192,6 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.downloadOperationDidStartObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.downloadOperationDidFinishObserver];
 }
 
 #pragma mark - AFDownloadRequestOperation: Temporary File Path
@@ -187,14 +202,29 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
     return [self.targetPath stringByAppendingPathExtension:TCTemporaryFileExtension];
 }
 
-#pragma mark - Download Operation Did Change Callback
+#pragma mark - Download Operation Callbacks
 
-- (void)setDownloadOperationDidChangeBlock:(TCDownloadOperationDidChangeBlock)block
+- (void)setDidStartBlock:(TCDownloadOperationBlock)block
 {
-    self.downloadOperationDidChange = block;
+    self.didStartCallback = block;
 }
 
-#pragma mark - Download Operation Progress Description
+- (void)setDidUpdateProgressBlock:(TCDownloadOperationBlock)block
+{
+    self.didUpdateProgressCallback = block;
+}
+
+- (void)setDidFinishBlock:(TCDownloadOperationBlock)block
+{
+    self.didFinishCallback = block;
+}
+
+- (void)setDidFailBlock:(TCDownloadOperationBlock)block
+{
+    self.didFailCallback = block;
+}
+
+#pragma mark - Progress Description String
 
 - (NSString *)localizedProgressDescription
 {
@@ -259,8 +289,11 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
                                                                          destinationURL:self.destinationURL
                                                                                   title:self.title];
 
-    // Make a copy of the download operation's block.
-    operation.downloadOperationDidChange = self.downloadOperationDidChange;
+    // Make a copy of all the download operation's blocks.
+    operation.didStartCallback = self.didStartCallback;
+    operation.didUpdateProgressCallback = self.didUpdateProgressCallback;
+    operation.didFinishCallback = self.didFinishCallback;
+    operation.didFailCallback = self.didFailCallback;
 
     return operation;
 }
