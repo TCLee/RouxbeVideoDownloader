@@ -226,6 +226,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 
 #pragma mark - Progress Description String
 
+//TODO: Simplify this code. It's too complex and repetitive.
 - (NSString *)localizedProgressDescription
 {
     // Empty string will be returned, if we cannot create the description.
@@ -233,7 +234,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 
     if (self.isExecuting) {
         if (self.progress.isIndeterminate) {
-            localizedProgressDescription = NSLocalizedString(@"Running...", @"Download operation is executing, but has no progress yet.");
+g            localizedProgressDescription = NSLocalizedString(@"Starting...", @"Download operation is executing, but has no progress yet.");
         } else {
             localizedProgressDescription = [self.progress localizedAdditionalDescription];
         }
