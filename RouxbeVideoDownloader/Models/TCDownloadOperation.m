@@ -22,15 +22,16 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
  */
 @property (readwrite, nonatomic, strong) AFURLConnectionByteSpeedMeasure *speedMeasure;
 
+/**
+ * The object that acts as an observer to this download operation's
+ * start notification.
+ */
+@property (readwrite, nonatomic, strong) id downloadOperationDidStartObserver;
+
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didStartCallback;
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didUpdateProgressCallback;
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFailCallback;
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFinishCallback;
-
-/**
- * <#Description#>
- */
-@property (readwrite, nonatomic, strong) id downloadOperationDidStartObserver;
 
 @end
 
