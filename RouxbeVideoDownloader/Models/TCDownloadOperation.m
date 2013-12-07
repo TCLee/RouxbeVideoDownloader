@@ -27,6 +27,9 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFailCallback;
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFinishCallback;
 
+/**
+ * <#Description#>
+ */
 @property (readwrite, nonatomic, strong) id downloadOperationDidStartObserver;
 
 @end
@@ -172,26 +175,32 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
     __weak typeof(self) weakSelf = self;
 
     [self setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [weakSelf operationDidFinishWithError:nil];
+        [weakSelf operationDidCompleteWithSuccess:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [weakSelf operationDidFinishWithError:error];
+        [weakSelf operationDidCompleteWithSuccess:NO];
     }];
 }
 
-- (void)operationDidFinishWithError:(NSError *)error
+/**
+ * This method is only called when this download operation has finished.
+ *
+ * @param success Pass in \c YES to indicate that operation completed 
+ *                successfully; \c NO to indicate failure.
+ */
+- (void)operationDidCompleteWithSuccess:(BOOL)success
 {
     // The download speed and estimated time remaining values are
     // no longer needed when download operation has finished.
     [self.progress setUserInfoObject:nil forKey:NSProgressEstimatedTimeRemainingKey];
     [self.progress setUserInfoObject:nil forKey:NSProgressThroughputKey];
 
-    if (error) {
-        if (self.didFailCallback) {
-            self.didFailCallback(self);
-        }
-    } else {
+    if (success) {
         if (self.didFinishCallback) {
             self.didFinishCallback(self);
+        }
+    } else {
+        if (self.didFailCallback) {
+            self.didFailCallback(self);
         }
     }
 }
@@ -204,7 +213,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
     [[NSNotificationCenter defaultCenter] removeObserver:self.downloadOperationDidStartObserver];
 }
 
-#pragma mark - AFDownloadRequestOperation: Temporary File Path
+#pragma mark - AFDownloadRequestOperation Override
 
 - (NSString *)tempPath
 {
