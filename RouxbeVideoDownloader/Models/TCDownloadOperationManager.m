@@ -53,9 +53,7 @@
 
         _allDownloadOperations = [[NSMutableArray alloc] init];
         _operationQueue = [[NSOperationQueue alloc] init];
-        //TODO: Uncomment after testing!
-//        _operationQueue.maxConcurrentOperationCount = _configuration.maxConcurrentDownloadCount;
-        _operationQueue.maxConcurrentOperationCount = 1;
+        _operationQueue.maxConcurrentOperationCount = _configuration.maxConcurrentDownloadCount;
     }
     return self;
 }

@@ -10,7 +10,7 @@
 #import "AFURLConnectionByteSpeedMeasure.h"
 
 /**
- * The file extension to append to a temporary file used for 
+ * The file extension to append to a temporary file used for
  * resumable downloads.
  */
 static NSString * const TCTemporaryFileExtension = @"tcdownload";
@@ -69,7 +69,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
  * Create and initialize the properties used for tracking
  * this download operation's progress.
  *
- * - \c NSProgress object for keeping track of the downloaded bytes 
+ * - \c NSProgress object for keeping track of the downloaded bytes
  * - \c AFURLConnectionByteSpeedMeasure object for measuring download speed
  *   and estimated time remaining.
  */
@@ -96,7 +96,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
  *
  * @param destinationURL The URL where the downloaded file should be saved to.
  *
- * @return \c YES if directory (or directories) was created; \c NO otherwise. 
+ * @return \c YES if directory (or directories) was created; \c NO otherwise.
  *         If the directory already exists, it will also return \c YES.
  */
 - (BOOL)createDirectoryForDestinationURL:(NSURL *)destinationURL
@@ -131,7 +131,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 }
 
 /**
- * Register a block object to be called when the download operation has 
+ * Register a block object to be called when the download operation has
  * made some progress.
  */
 - (void)registerForDownloadProgressCallback
@@ -164,7 +164,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 }
 
 /**
- * Register a block object to be called when the download operation has 
+ * Register a block object to be called when the download operation has
  * completed.
  */
 - (void)registerForDownloadCompletionCallback
@@ -172,18 +172,28 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
     __weak typeof(self) weakSelf = self;
 
     [self setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        if (strongSelf.didFinishCallback) {
-            strongSelf.didFinishCallback(strongSelf);
-        }
+        [weakSelf operationDidFinishWithError:nil];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        if (strongSelf.didFailCallback) {
-            strongSelf.didFailCallback(strongSelf);
-        }
+        [weakSelf operationDidFinishWithError:error];
     }];
+}
+
+- (void)operationDidFinishWithError:(NSError *)error
+{
+    // The download speed and estimated time remaining values are
+    // no longer needed when download operation has finished.
+    [self.progress setUserInfoObject:nil forKey:NSProgressEstimatedTimeRemainingKey];
+    [self.progress setUserInfoObject:nil forKey:NSProgressThroughputKey];
+
+    if (error) {
+        if (self.didFailCallback) {
+            self.didFailCallback(self);
+        }
+    } else {
+        if (self.didFinishCallback) {
+            self.didFinishCallback(self);
+        }
+    }
 }
 
 /**
@@ -226,60 +236,92 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 
 #pragma mark - Progress Description String
 
-//TODO: Simplify this code. It's too complex and repetitive.
 - (NSString *)localizedProgressDescription
 {
-    // Empty string will be returned, if we cannot create the description.
-    NSString *localizedProgressDescription = @"";
-
     if (self.isExecuting) {
-        if (self.progress.isIndeterminate) {
-g            localizedProgressDescription = NSLocalizedString(@"Starting...", @"Download operation is executing, but has no progress yet.");
-        } else {
-            localizedProgressDescription = [self.progress localizedAdditionalDescription];
-        }
+        return [self descriptionWithTitle:NSLocalizedString(@"Starting...", @"Download Operation is Executing")
+                                 progress:self.progress
+                                exclusive:YES];
     } else if (self.isReady) {
-        NSString *statusString = NSLocalizedString(@"Waiting...", @"Download operation is ready and waiting in the queue to be executed.");
-        if (self.progress.isIndeterminate) {
-            localizedProgressDescription = statusString;
-        } else {
-            localizedProgressDescription = [NSString stringWithFormat:@"%@ - %@",
-                                            statusString, [self.progress localizedAdditionalDescription]];
-        }
+        return [self descriptionWithTitle:NSLocalizedString(@"Waiting...", @"Download Operation is Ready but not Executing")
+                                 progress:self.progress
+                                exclusive:NO];
     } else if (self.isFinished) {
-        // The download speed and estimated time remaining values are
-        // no longer needed when download operation has finished.
-        [self.progress setUserInfoObject:nil forKey:NSProgressEstimatedTimeRemainingKey];
-        [self.progress setUserInfoObject:nil forKey:NSProgressThroughputKey];
-
         if (self.error) {
             if (NSURLErrorCancelled == self.error.code) {
-                NSString *statusString = NSLocalizedString(@"Cancelled", @"Download Cancelled");
-                if (self.progress.isIndeterminate) {
-                    localizedProgressDescription = statusString;
-                } else {
-                    localizedProgressDescription = [NSString stringWithFormat:@"%@ - %@",
-                                                    statusString,
-                                                    [self.progress localizedAdditionalDescription]];
-                }
+                return [self descriptionWithTitle:NSLocalizedString(@"Cancelled", @"Download Operation Finished as Cancelled.")
+                                         progress:self.progress
+                                        exclusive:NO];
             } else {
-                localizedProgressDescription = [NSString stringWithFormat:@"%@ - %@",
-                                                NSLocalizedString(@"Error", @"Download Error"),
-                                                [self.error localizedDescription]];
+                return [self descriptionWithTitle:NSLocalizedString(@"Error", @"Download Operation Finished with Error")
+                                            error:self.error];
             }
         } else {
-            NSString *statusString = NSLocalizedString(@"Completed", @"Download Completed");
-            if (self.progress.isIndeterminate) {
-                localizedProgressDescription = statusString;
+            return [self descriptionWithTitle:NSLocalizedString(@"Completed", @"Download Operation Finished Successfully")
+                                     progress:self.progress
+                                    exclusive:NO];
+        }
+    }
+
+    // Return empty string if we fail to generate the progress description.
+    return @"";
+}
+
+/**
+ * Returns a string describing the download operation's error.
+ *
+ * @see TCDownloadOperation::localizedProgressDescription
+ *
+ * @param title The title string to prepend before the error description.
+ * @param error The \c NSError object that contains the error description.
+ */
+- (NSString *)descriptionWithTitle:(NSString *)title
+                             error:(NSError *)error
+{
+    NSMutableString *description = [[NSMutableString alloc] initWithString:title];
+
+    if (error) {
+        NSString *errorDescription = error.localizedDescription;
+
+        if (errorDescription.length > 0) {
+            [description appendFormat:@" - %@", error.localizedDescription];
+        }
+    }
+
+    return description;
+}
+
+/**
+ * Returns a string describing the download operation's progress.
+ *
+ * @see TCDownloadOperation::localizedProgressDescription
+ *
+ * @param title     The title string to prepend before the progress description.
+ * @param progress  The \c NSProgress object representing the download 
+ *                  operation's progress. The NSProgress \c localizedAdditionalDescription 
+                    string will only be used, if the NSProgress \c isIndeterminate returns \c NO.
+ * @param exclusive Set to \c YES to display either title \b or progress description.
+ *                  Set to \c NO to display both title \b and progress description.
+ */
+- (NSString *)descriptionWithTitle:(NSString *)title
+                          progress:(NSProgress *)progress
+                         exclusive:(BOOL)exclusive
+{
+    NSMutableString *description = [[NSMutableString alloc] initWithString:title];
+
+    if (progress && !progress.isIndeterminate) {
+        NSString *progressString = [progress localizedAdditionalDescription];
+
+        if (progressString.length > 0) {
+            if (exclusive) {
+                [description setString:progressString];
             } else {
-                localizedProgressDescription = [NSString stringWithFormat:@"%@ - %@",
-                                                statusString,
-                                                [self.progress localizedAdditionalDescription]];
+                [description appendFormat:@" - %@", progressString];
             }
         }
     }
 
-    return localizedProgressDescription;
+    return description;
 }
 
 #pragma mark - NSCopying
@@ -295,7 +337,7 @@ g            localizedProgressDescription = NSLocalizedString(@"Starting...", @"
     operation.didUpdateProgressCallback = self.didUpdateProgressCallback;
     operation.didFinishCallback = self.didFinishCallback;
     operation.didFailCallback = self.didFailCallback;
-
+    
     return operation;
 }
 
