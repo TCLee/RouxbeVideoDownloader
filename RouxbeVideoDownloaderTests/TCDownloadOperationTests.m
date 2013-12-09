@@ -10,6 +10,24 @@
 
 #import "TCDownloadOperation.h"
 
+typedef void(^AFHTTPRequestOperationSuccessBlock)(AFHTTPRequestOperation *operation, id responseObject);
+typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadRequestOperation *operation, NSInteger bytes, long long totalBytes, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile);
+
+@interface AFDownloadRequestOperation (UnitTest)
+
+@property (readwrite, nonatomic, copy) AFURLConnectionProgressiveOperationProgressBlock progressiveDownloadProgress;
+
+@end
+
+@interface TCDownloadOperation (UnitTest)
+
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didStartCallback;
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didUpdateProgressCallback;
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFinishCallback;
+@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFailCallback;
+
+@end
+
 @interface TCDownloadOperationTests : XCTestCase
 
 @property (readwrite, nonatomic, strong) TCDownloadOperation *downloadOperation;
@@ -22,7 +40,11 @@
 {
     [super setUp];
 
-    self.downloadOperation = [[TCDownloadOperation alloc] init];
+//    id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:YES];
+//    self.downloadOperation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
+//                                                           destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
+//                                                                    title:@"Whatever Title"];
+//    [mockFileManager stopMocking];
 }
 
 - (void)tearDown
@@ -50,17 +72,121 @@
 {
     id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:NO];
 
-    TCDownloadOperation *operation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]]
-                                                                   destinationURL:[NSURL fileURLWithPath:@"/Test.mp4" isDirectory:NO]
+    TCDownloadOperation *operation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
+                                                                   destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
                                                                             title:@"Whatever Title"];
     XCTAssertNil(operation, @"Should be nil.");
 
     [mockFileManager stopMocking];
 }
 
+- (void)testShouldRaiseExceptionIfRequestIsNil
+{
+    XCTAssertThrows([[TCDownloadOperation alloc] initWithRequest:nil
+                                                  destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
+                                                           title:@"Whatever"], @"Should raise an exception.");
+}
+
+- (void)testShouldRaiseExceptionIfDestinationURLIsNil
+{
+    XCTAssertThrows([[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
+                                                  destinationURL:nil
+                                                           title:@"Whatever"], @"Should raise an exception.");
+}
+
+- (void)testProgressShouldBeIndeterminateAfterInitialize
+{
+    id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:YES];
+
+    TCDownloadOperation *operation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
+                                                                   destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
+                                                                            title:@"Whatever Title"];
+
+    XCTAssertTrue(operation.progress.isIndeterminate, @"Progress should be indeterminate.");
+
+    [mockFileManager stopMocking];
+}
+
+#pragma mark - Notification/Callback Tests
+
+/**
+ * Creates and returns a ready to use \c TCDownloadOperation object for testing.
+ */
+- (TCDownloadOperation *)downloadOperationForTesting
+{
+    // Mock the NSFileManager so we don't actually end up creating a directory.
+    id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:YES];
+
+    TCDownloadOperation *downloadOperation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
+                                                                           destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
+                                                                                    title:@"Whatever Title"];
+
+    [mockFileManager stopMocking];
+
+    return downloadOperation;
+}
+
+- (void)testShouldExecuteDidStartBlockWhenDownloadOperationHasStarted
+{
+    TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
+    id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
+    [[[mockOperation stub] andPost:[NSNotification notificationWithName:AFNetworkingOperationDidStartNotification object:downloadOperation]] start];
+    [[mockOperation expect] didStartCallback];
+
+    [mockOperation start];
+
+    [mockOperation verify];
+
+    [mockOperation stopMocking];
+}
+
+- (void)testShouldExecuteDidUpdateProgressBlockWhenDownloadOperationHasMadeProgress
+{
+    TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
+    id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
+    [[mockOperation expect] didUpdateProgressCallback];
+
+    // Calling AFDownloadRequestOperation's progressiveDownloadProgress block,
+    // should execute TCDownloadOperation didUpdateProgressCallback block.
+    downloadOperation.progressiveDownloadProgress(self.downloadOperation, 0, 0, 0, 0, 0);
+
+    [mockOperation verify];
+
+    [mockOperation stopMocking];
+}
+
+- (void)testShouldExecuteDidFinishBlockWhenDownloadOperationHasFinished
+{
+    TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
+    id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
+    [[mockOperation expect] didFinishCallback];
+
+    XCTFail(@"Must use expecta to test asycnhronous result.");
+
+    [mockOperation verify];
+
+    [mockOperation stopMocking];
+}
+
+- (void)testShouldExecuteDidFailBlockWhenDownloadOperationHasFailed
+{
+    TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
+    id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
+    [[mockOperation expect] didFailCallback];
+
+    XCTFail(@"Must use expecta to test asycnhronous result.");
+
+    [mockOperation verify];
+
+    [mockOperation stopMocking];
+}
+
 #pragma mark - Localized Progress Description Tests
 
-- (NSProgress *)mockIndeterminateProgress
+/**
+ * Returns an indeterminate \c NSProgress for testing.
+ */
+- (NSProgress *)fakeIndeterminateProgress
 {
     NSProgress *progress = [[NSProgress alloc] initWithParent:nil
                                                          userInfo:@{NSProgressFileOperationKindKey: NSProgressFileOperationKindDownloading}];
@@ -71,16 +197,22 @@
     return progress;
 }
 
-- (NSProgress *)mockProgress
+/**
+ * Returns a determinate \c NSProgress for testing.
+ */
+- (NSProgress *)fakeProgress
 {
-    NSProgress *progress = [self mockIndeterminateProgress];
+    NSProgress *progress = [self fakeIndeterminateProgress];
     progress.completedUnitCount = 1024 * 1024;
     progress.totalUnitCount = 10 * 1024 * 1024;
 
     return progress;
 }
 
-- (NSError *)mockErrorWithCode:(NSInteger)code
+/**
+ * Returns a \c NSProgress with the given error code for testing.
+ */
+- (NSError *)fakeErrorWithCode:(NSInteger)code
 {
     return [NSError errorWithDomain:NSURLErrorDomain
                                code:code
@@ -89,125 +221,116 @@
 
 - (void)testProgressDescriptionForReadyStateWithIndeterminateProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isReady];
-    [[[mockOperation stub] andReturn:[self mockIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
 
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:NSLocalizedString(@"Waiting...", @"")],
-                  @"Should be equals to given string.");
+    expect([mockOperation localizedProgressDescription]).to.equal(NSLocalizedString(@"Waiting...", @""));
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForReadyStateWithProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isReady];
 
-    NSProgress *mockProgress = [self mockProgress];
-    [[[mockOperation stub] andReturn:mockProgress] progress];
+    NSProgress *fakeProgress = [self fakeProgress];
+    [[[mockOperation stub] andReturn:fakeProgress] progress];
 
-    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Waiting...", @""), mockProgress.localizedAdditionalDescription];
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:expectedString],
-                  @"Should be equals to given string.");
+    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Waiting...", @""), fakeProgress.localizedAdditionalDescription];
+    expect([mockOperation localizedProgressDescription]).to.equal(expectedString);
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForExecutingStateWithIndeterminateProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isExecuting];
-    [[[mockOperation stub] andReturn:[self mockIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
 
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:NSLocalizedString(@"Starting...", @"")],
-                  @"Should be equals to given string.");
+    expect([mockOperation localizedProgressDescription]).to.equal(NSLocalizedString(@"Starting...", @""));
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForExecutingStateWithProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isExecuting];
 
-    NSProgress *mockProgress = [self mockProgress];
-    [[[mockOperation stub] andReturn:mockProgress] progress];
+    NSProgress *fakeProgress = [self fakeProgress];
+    [[[mockOperation stub] andReturn:fakeProgress] progress];
 
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:mockProgress.localizedAdditionalDescription],
-                  @"Should be equals to given string.");
+    expect([mockOperation localizedProgressDescription]).to.equal(fakeProgress.localizedAdditionalDescription);
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForFinishedStateWithError
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
 
-    NSError *mockError = [self mockErrorWithCode:NSURLErrorTimedOut];
-    [[[mockOperation stub] andReturn:mockError] error];
+    NSError *fakeError = [self fakeErrorWithCode:NSURLErrorTimedOut];
+    [[[mockOperation stub] andReturn:fakeError] error];
 
-    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Error", @""), mockError.localizedDescription];
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:expectedString],
-                  @"Should be equals to given string.");
+    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Error", @""), fakeError.localizedDescription];
+    expect([mockOperation localizedProgressDescription]).to.equal(expectedString);
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForCancelledStateWithIndeterminateProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
-    [[[mockOperation stub] andReturn:[self mockIndeterminateProgress]] progress];
-    [[[mockOperation stub] andReturn:[self mockErrorWithCode:NSURLErrorCancelled]] error];
+    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self fakeErrorWithCode:NSURLErrorCancelled]] error];
 
     NSString *expectedString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"Cancelled", @"")];
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:expectedString],
-                  @"Should be equals to given string.");
+    expect([mockOperation localizedProgressDescription]).to.equal(expectedString);
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForCancelledStateWithProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
-    [[[mockOperation stub] andReturn:[self mockErrorWithCode:NSURLErrorCancelled]] error];
+    [[[mockOperation stub] andReturn:[self fakeErrorWithCode:NSURLErrorCancelled]] error];
 
-    NSProgress *mockProgress = [self mockProgress];
-    [[[mockOperation stub] andReturn:mockProgress] progress];
+    NSProgress *fakeProgress = [self fakeProgress];
+    [[[mockOperation stub] andReturn:fakeProgress] progress];
 
-    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Cancelled", @""), mockProgress.localizedAdditionalDescription];
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:expectedString],
-                  @"Should be equals to given string.");
+    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Cancelled", @""), fakeProgress.localizedAdditionalDescription];
+    expect([mockOperation localizedProgressDescription]).to.equal(expectedString);
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForFinishedStateWithIndeterminateProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
-    [[[mockOperation stub] andReturn:[self mockIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
 
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:NSLocalizedString(@"Completed",@"")],
-                  @"Should be equals to given string.");
+    expect([mockOperation localizedProgressDescription]).to.equal(NSLocalizedString(@"Completed",@""));
 
     [mockOperation stopMocking];
 }
 
 - (void)testProgressDescriptionForFinishedStateWithProgress
 {
-    id mockOperation = [OCMockObject partialMockForObject:self.downloadOperation];
+    id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
 
-    NSProgress *mockProgress = [self mockProgress];
-    [[[mockOperation stub] andReturn:mockProgress] progress];
+    NSProgress *fakeProgress = [self fakeProgress];
+    [[[mockOperation stub] andReturn:fakeProgress] progress];
 
-    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Completed",@""), mockProgress.localizedAdditionalDescription];
-    XCTAssertTrue([[mockOperation localizedProgressDescription] isEqualToString:expectedString],
-                  @"Should be equals to given string.");
+    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Completed",@""), fakeProgress.localizedAdditionalDescription];
+    expect([mockOperation localizedProgressDescription]).to.equal(expectedString);
 
     [mockOperation stopMocking];
 }

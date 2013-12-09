@@ -12,7 +12,11 @@
 
 #import <AFNetworking/AFNetworking.h>
 #import <RaptureXML/RXMLElement.h>
+
 #import <OCMock/OCMock.h>
 #import <OCMock/NSInvocation+OCMAdditions.h>
+
+#define EXP_SHORTHAND
+#import <Expecta/Expecta.h>
 
 #endif
