@@ -73,9 +73,9 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
 
     mutableUserInfo[NSLocalizedDescriptionKey] = [[NSString alloc] initWithFormat:
                                                   @"Lesson: %@\n"
-                                                  "Step: ID = %lu, Position = %lu, Name = %@"
-                                                  "Embedded Video Player XML: %@"
-                                                  "Error: %@",
+                                                  "Step: ID = %lu, Position = %lu, Name = %@\n"
+                                                  "Embedded Video Player XML: %@\n"
+                                                  "Error: %@\n",
                                                   self.lessonName,
                                                   self.ID, self.position, self.name,
                                                   error.userInfo[NSURLErrorFailingURLStringErrorKey],

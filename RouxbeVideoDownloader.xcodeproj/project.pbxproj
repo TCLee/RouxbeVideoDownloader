@@ -247,18 +247,18 @@
 			children = (
 				81F7B7581839EF7B0086F408 /* TCRouxbeService.h */,
 				81F7B7591839EF7B0086F408 /* TCRouxbeService.m */,
-				8123A18D183C6C7800A6365A /* TCVideo.h */,
-				8123A18E183C6C7800A6365A /* TCVideo.m */,
-				81EFED301829DFD600F28B1B /* TCLesson.h */,
-				81EFED311829DFD600F28B1B /* TCLesson.m */,
-				81EFED331829E1D400F28B1B /* TCLessonStep.h */,
-				81EFED341829E1D400F28B1B /* TCLessonStep.m */,
 				81BADD221849F361006FDA6D /* TCDownloadOperationManager.h */,
 				81BADD231849F361006FDA6D /* TCDownloadOperationManager.m */,
 				81BADD1F18489E98006FDA6D /* TCDownloadOperation.h */,
 				81BADD2018489E98006FDA6D /* TCDownloadOperation.m */,
 				81BADD25184ACDB6006FDA6D /* TCDownloadConfiguration.h */,
 				81BADD26184ACDB7006FDA6D /* TCDownloadConfiguration.m */,
+				8123A18D183C6C7800A6365A /* TCVideo.h */,
+				8123A18E183C6C7800A6365A /* TCVideo.m */,
+				81EFED301829DFD600F28B1B /* TCLesson.h */,
+				81EFED311829DFD600F28B1B /* TCLesson.m */,
+				81EFED331829E1D400F28B1B /* TCLessonStep.h */,
+				81EFED341829E1D400F28B1B /* TCLessonStep.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
