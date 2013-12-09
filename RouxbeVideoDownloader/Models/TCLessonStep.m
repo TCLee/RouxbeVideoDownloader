@@ -8,7 +8,6 @@
 
 #import "TCLessonStep.h"
 #import "TCRouxbeService.h"
-#import "TCMP4VideoURL.h"
 
 /**
  * The string template representing the URL to a Lesson's video player XML.
@@ -34,7 +33,7 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
         _ID = [[stepXML attribute:@"id"] integerValue];
         _position = [[stepXML attribute:@"position"] integerValue];
         _name = [stepXML attribute:@"name"];
-        [self setVideoURLWithString:[stepXML attribute:@"url"]];
+        _videoURL = [NSURL URLWithString:[stepXML attribute:@"url"]];
     }
     return self;
 }
@@ -51,8 +50,9 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
                                                                      parameters:nil];
 
     return [service HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, NSData *data) {
-        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
-        [self setVideoURLWithString:[[rootXML child:@"video"] attribute:@"url"]];
+        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];        
+        NSString *urlString = [[rootXML child:@"video"] attribute:@"url"];
+        self.videoURL = urlString ? [NSURL URLWithString:urlString] : nil;
 
         if (completeBlock) {
             completeBlock(self.videoURL, nil);
@@ -62,17 +62,6 @@ static NSString * const TCLessonVideoPlayerPath = @"embedded_player/settings_sec
             completeBlock(nil, [self stepErrorWithUnderlyingError:error]);
         }
     }];
-}
-
-/**
- * Set the MP4 video URL from the given string representing the
- * Flash video URL.
- *
- * @param URLString The string representing the video URL.
- */
-- (void)setVideoURLWithString:(NSString *)URLString
-{
-    _videoURL = [TCMP4VideoURL MP4VideoURLWithString:URLString];
 }
 
 /**

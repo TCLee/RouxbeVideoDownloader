@@ -11,6 +11,25 @@
 #import "TCLesson.h"
 #import "TCLessonStep.h"
 
+#pragma mark Flash to MP4 Video URL
+
+/**
+ * URL to get the MP4 version of the video rather than the default Flash video.
+ * Downloading the video in MP4 makes it compatible with iOS devices.
+ */
+static NSString * const kMP4VideoURLString = @"http://media.rouxbe.com/itouch/mp4/%@.mp4";
+
+FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoURL)
+{
+    if (!flashVideoURL) { return nil; }
+
+    // Delete the ".f4v" (Flash) file extension. We just want the file name only.
+    NSString *videoName = [[flashVideoURL lastPathComponent] stringByDeletingPathExtension];
+
+    // Create the URL from the template string and return the URL to the MP4 video.
+    return [NSURL URLWithString:[NSString stringWithFormat:kMP4VideoURLString, videoName]];
+}
+
 @implementation TCVideo
 
 @synthesize destinationPathComponent = _destinationPathComponent;
@@ -24,7 +43,7 @@
 {
     self = [super init];
     if (self) {
-        _sourceURL = [sourceURL copy];
+        _sourceURL = MP4VideoURLFromFlashVideoURL(sourceURL);
         _group = [group copy];
         _title = [title copy];
         _position = position;
