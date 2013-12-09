@@ -6,6 +6,13 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
+/**
+ * The prototype of the block that will be called when the videos have 
+ * been found or an error was encountered.
+ *
+ * @param videos The array of videos found or \c nil on error.
+ * @param error  The \c NSError object describing the error or \c nil on success.
+ */
 typedef void(^TCVideoCompleteBlock)(NSArray *videos, NSError *error);
 
 /**
@@ -44,18 +51,28 @@ typedef void(^TCVideoCompleteBlock)(NSArray *videos, NSError *error);
  */
 @property (nonatomic, copy, readonly) NSString *destinationPathComponent;
 
+/**
+ * Returns an initialized video that does not belong to a group.
+ *
+ * If video belongs to a group, use TCVideo::initWithSourceURL:group:title:position:
+ * instead.
+ *
+ * @param sourceURL The URL to this video.
+ * @param title     The title of this video.
+ */
 - (id)initWithSourceURL:(NSURL *)sourceURL
                   title:(NSString *)title;
 
 /**
- * <#Description#>
+ * Returns an initialized video that belongs to the given group.
  *
- * @param sourceURL <#sourceURL description#>
- * @param group     <#group description#>
- * @param title     <#title description#>
- * @param position  <#position description#>
+ * If video does not belong to a group, use TCVideo::initWithSourceURL:title:
+ * instead.
  *
- * @return <#return value description#>
+ * @param sourceURL The URL to this video.
+ * @param group     The group that this video belongs to.
+ * @param title     The title of this video.
+ * @param position  The position of this video in a group.
  */
 - (id)initWithSourceURL:(NSURL *)sourceURL
                   group:(NSString *)group

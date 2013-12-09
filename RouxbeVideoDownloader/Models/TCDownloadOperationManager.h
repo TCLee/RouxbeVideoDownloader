@@ -13,8 +13,8 @@
  * The prototype of the block that will be called when the \c TCDownloadOperationManager
  * has added the download operations to the operation queue.
  *
- * @param newDownloadOperations The array of \c TCDownloadOperation objects added to the operation queue or \c nil on error.
- * @param error                 The \c NSError object describing the error, if any.
+ * @param newDownloadOperations The array of new \c TCDownloadOperation objects added to the operation queue or \c nil on error.
+ * @param error                 The \c NSError object describing the error or \c nil on success.
  */
 typedef void(^TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)(NSArray *newDownloadOperations, NSError *error);
 
@@ -27,7 +27,7 @@ typedef void(^TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)(NSAr
 typedef void(^TCDownloadOperationManagerDownloadOperationDidChangeBlock)(NSUInteger index);
 
 /**
- * \c TCDownloadOperationManager manages a operation queue that coordinates
+ * \c TCDownloadOperationManager manages an operation queue that coordinates
  * and schedules a set of \c TCDownloadOperation objects.
  */
 @interface TCDownloadOperationManager : NSObject
@@ -73,8 +73,8 @@ typedef void(^TCDownloadOperationManagerDownloadOperationDidChangeBlock)(NSUInte
 /**
  * Resumes a failed or cancelled download operation at the given index.
  *
- * This method does nothing if the download operation has not failed.
- * A download operation that has been cancelled is also treated as failed.
+ * This method does nothing if the download operation has not failed or 
+ * been cancelled.
  */
 - (void)resumeDownloadOperationAtIndex:(NSUInteger)index;
 

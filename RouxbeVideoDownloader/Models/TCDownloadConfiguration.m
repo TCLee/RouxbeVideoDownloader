@@ -8,6 +8,24 @@
 
 #import "TCDownloadConfiguration.h"
 
+/**
+ * Return the user's Downloads directory.
+ *
+ * @note Raises an \c NSInternalInconsistencyException, if user's Downloads
+ *       directory could not be located.
+ */
+FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
+{
+    NSURL *directoryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDownloadsDirectory
+                                                                  inDomains:NSUserDomainMask] firstObject];
+    if (!directoryURL) {
+        [NSException raise:NSInternalInconsistencyException
+                    format:@"%s - User's Downloads directory should exist.", __PRETTY_FUNCTION__];
+    }
+
+    return directoryURL;
+}
+
 @implementation TCDownloadConfiguration
 
 #pragma mark - Initialize
@@ -37,26 +55,6 @@
     configuration.maxConcurrentDownloadCount = self.maxConcurrentDownloadCount;
 
     return configuration;
-}
-
-#pragma mark - Functions
-
-/**
- * Return the user's Downloads directory.
- *
- * @note Raises an \c NSInternalInconsistencyException, if user's Downloads
- *       directory could not be located.
- */
-FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
-{
-    NSURL *directoryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDownloadsDirectory
-                                                                  inDomains:NSUserDomainMask] firstObject];
-    if (!directoryURL) {
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"%s - User's Downloads directory should exist.", __PRETTY_FUNCTION__];
-    }
-
-    return directoryURL;
 }
 
 @end
