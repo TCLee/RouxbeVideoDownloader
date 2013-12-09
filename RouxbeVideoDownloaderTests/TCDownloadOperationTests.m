@@ -10,7 +10,6 @@
 
 #import "TCDownloadOperation.h"
 
-typedef void(^AFHTTPRequestOperationSuccessBlock)(AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadRequestOperation *operation, NSInteger bytes, long long totalBytes, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile);
 
 @interface AFDownloadRequestOperation (UnitTest)
