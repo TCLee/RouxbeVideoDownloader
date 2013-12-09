@@ -17,13 +17,6 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 @property (readwrite, nonatomic, copy) AFURLConnectionProgressiveOperationProgressBlock progressiveDownloadProgress;
 @end
 
-@interface TCDownloadOperation (UnitTest)
-@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didStartCallback;
-@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didUpdateProgressCallback;
-@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFinishCallback;
-@property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFailCallback;
-@end
-
 @interface TCDownloadOperationTests : XCTestCase
 
 @property (readonly, nonatomic, copy) NSURLRequest *dummyRequest;
