@@ -8,15 +8,13 @@
 
 @import XCTest;
 
-#import "TCTestDataLoader.h"
-#import "TCMockXMLService.h"
 #import "TCLessonStep.h"
-#import "TCMP4VideoURL.h"
+#import "TCRouxbeService.h"
+#import "TCTestDataLoader.h"
 
-/**
- * @test
- * Tests to verify the interfaces of \c TCLessonStep class.
- */
+typedef void (^AFHTTPRequestOperationSuccessBlock)(AFHTTPRequestOperation *operation, NSData *data);
+typedef void (^AFHTTPRequestOperationFailureBlock)(AFHTTPRequestOperation *operation, NSError *error);
+
 @interface TCLessonStepTests : XCTestCase
 
 @property (nonatomic, copy) NSString *lessonName;
@@ -63,89 +61,62 @@
                                   lessonName:self.lessonName];
 }
 
-/**
- * @test
- * Test that we can create a \c TCLessonStep object from the XML data.
- */
-- (void)testInitWithXMLData
+- (void)testCreateLessonStepFromXMLData
 {
     TCLessonStep *step = [self lessonStepWithIndex:0];
 
-    // Verify that this lesson step is created properly from the XML.
-    XCTAssert(step.ID == 105, @"The step ID was not parsed properly from the XML.");
-    XCTAssert(step.position == 0, @"The step position was not parsed properly from the XML.");
-    XCTAssertEqualObjects(step.lessonName, @"How to Cut Using a Chef's Knife", @"The lesson name was not parsed properly from the XML.");
-    XCTAssertEqualObjects(step.name, @"Intro to How to Use a Chef's Knife", @"The step name was not parsed properly from the XML.");
-    XCTAssertEqualObjects(step.videoURL, [TCMP4VideoURL MP4VideoURLWithString:@"PB_Chef_Knife_Cut_L3_T1c.f4v"], @"The step video URL was not parsed properly from the XML.");
+    expect(step.ID).to.equal(105);
+    expect(step.position).to.equal(0);
+    expect(step.lessonName).to.equal(@"How to Cut Using a Chef's Knife");
+    expect(step.name).to.equal(@"Intro to How to Use a Chef's Knife");
+    expect(step.videoURL.absoluteString).to.equal(@"http://media.rouxbe.com/h264/PB_Chef_Knife_Cut_L3_T1c.f4v");
 }
 
-/**
- * @test
- * Test that the lesson step's video player XML URL is the correct format.
- */
-- (void) testLessonStepVideoXMLURL
+- (void)testEmbeddedVideoXMLURLFormatIsCorrect
 {
-    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
-        XCTAssertEqualObjects(requestURL, [NSURL URLWithString:@"http://rouxbe.com/embedded_player/settings_section/106.xml"],
-                              @"Request URL does not match the expected rouxbe.com URL.");
-    }];
-
     TCLessonStep *step = [self lessonStepWithIndex:1];
-    [step videoURLWithCompletionHandler:^(NSURL *videoURL, NSError *error) {}];
+    AFHTTPRequestOperation *requestOperation = [step videoURLRequestOperationWithCompleteBlock:nil];
 
-    [mock stopMocking];
+    expect(requestOperation.request.URL.absoluteString).to.equal(@"http://rouxbe.com/embedded_player/settings_section/106.xml");
 }
 
-/**
- * @test
- * Test fetching a video URL with a success case.
- */
-- (void) testFetchVideoURLSuccess
+- (void)testCompletionBlockOnSuccess
 {
-    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
-        NSError *error = nil;
-        NSData *data = [TCTestDataLoader XMLDataWithName:@"LessonStepVideo"
-                                                   error:&error];
-        NSAssert(data, @"%@", [error localizedDescription]);
-        
-        completionBlock(data, nil);
-    }];
+    id mockService = [OCMockObject niceMockForClass:[TCRouxbeService class]];
+    [[[mockService stub] andReturn:mockService] sharedService];
+
+    [[[mockService stub] andDo:^(NSInvocation *invocation) {
+        AFHTTPRequestOperationSuccessBlock successBlock = [invocation getArgumentAtIndexAsObject:3];
+        successBlock(nil, [TCTestDataLoader XMLDataWithName:@"LessonStepVideo" error:nil]);
+    }] HTTPRequestOperationWithRequest:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
 
     TCLessonStep *step = [self lessonStepWithIndex:1];
-    [step videoURLWithCompletionHandler:^(NSURL *videoURL, NSError *error) {
-        XCTAssertEqualObjects(videoURL, [TCMP4VideoURL MP4VideoURLWithString:@"CS_Knives_L3_T02.f4v"],
-                              @"Returned video URL does not match the expected URL.");
-        XCTAssertEqualObjects(videoURL, step.videoURL, @"Lesson step's video URL should be set upon return.");
-        XCTAssertNil(error, @"Error object should be nil, on success.");
+    [step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
+        expect(error).to.beNil();
+        expect(step.videoURL).to.equal(videoURL);
+        expect(videoURL.absoluteString).to.equal(@"http://media.rouxbe.com/h264/CS_Knives_L3_T02.f4v");
     }];
 
-    [mock stopMocking];
+    [mockService stopMocking];
 }
 
-/**
- * @test
- * Test fetching a video URL with an error case.
- */
-- (void) testFetchVideoURLError
+- (void)testCompletionBlockOnFailure
 {
-    id mock = [TCMockXMLService mockXMLServiceWithRequestXMLBlock:^(NSURL *requestURL, TCXMLServiceBlock completionBlock) {
-        NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
-                                                    code:NSURLErrorCannotParseResponse
-                                                userInfo:nil];
-        completionBlock(nil, error);
-    }];
+    id mockService = [OCMockObject niceMockForClass:[TCRouxbeService class]];
+    [[[mockService stub] andReturn:mockService] sharedService];
+
+    [[[mockService stub] andDo:^(NSInvocation *invocation) {
+        AFHTTPRequestOperationFailureBlock failureBlock = [invocation getArgumentAtIndexAsObject:4];
+        failureBlock(nil, [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:nil]);
+    }] HTTPRequestOperationWithRequest:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
 
     TCLessonStep *step = [self lessonStepWithIndex:1];
-    [step videoURLWithCompletionHandler:^(NSURL *videoURL, NSError *error) {
-        XCTAssertNil(videoURL, @"Video URL should be nil, on error.");
-        XCTAssertNil(step.videoURL, @"Lesson step's video URL should not be set on error.");
-
-        XCTAssertNotNil(error, @"NSError object should have a value, on an error.");
-        XCTAssertEqualObjects(error.domain, NSURLErrorDomain, @"NSError object should have the correct error domain.");
-        XCTAssertTrue(error.code == NSURLErrorCannotParseResponse, @"NSError object should have the correct error code.");
+    [step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
+        expect(videoURL).to.beNil();
+        expect(error).notTo.beNil();
     }];
 
-    [mock stopMocking];
+    [mockService stopMocking];
 }
 
 @end
