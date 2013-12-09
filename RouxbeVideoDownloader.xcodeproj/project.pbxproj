@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0AE2511D957F42A2A5C56E3B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A88F10E1FF4F3499023017 /* libPods.a */; };
 		8123A18F183C6C7800A6365A /* TCVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A18E183C6C7800A6365A /* TCVideo.m */; };
-		8123A192183C9DE500A6365A /* TCDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A191183C9DE500A6365A /* TCDownloadQueue.m */; };
 		8123A199183DE2C300A6365A /* NSTableView+RowAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */; };
 		81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81310AE21828948E00327AFF /* TCMainWindowController.m */; };
 		81310AE81828950700327AFF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81310AE61828950700327AFF /* MainWindow.xib */; };
@@ -40,7 +39,6 @@
 		81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED391829E83200F28B1B /* InfoPlist.strings */; };
 		81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED3F1829F6BC00F28B1B /* Lesson.xml */; };
 		81EFED50182A3FA800F28B1B /* TCMP4VideoURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */; };
-		81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED6A182B8A8200F28B1B /* TCDownload.m */; };
 		81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */; };
 		81F7B7551839B4950086F408 /* TCMockAFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */; };
 		81F7B75A1839EF7B0086F408 /* TCRouxbeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7B7591839EF7B0086F408 /* TCRouxbeService.m */; };
@@ -67,9 +65,6 @@
 		4A76EA7428D7480B80D1F390 /* libPods-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8123A18D183C6C7800A6365A /* TCVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCVideo.h; sourceTree = "<group>"; };
 		8123A18E183C6C7800A6365A /* TCVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCVideo.m; sourceTree = "<group>"; };
-		8123A190183C9DE500A6365A /* TCDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadQueue.h; sourceTree = "<group>"; };
-		8123A191183C9DE500A6365A /* TCDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadQueue.m; sourceTree = "<group>"; };
-		8123A196183DC9E600A6365A /* TCDownload+TCDownloadQueueAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TCDownload+TCDownloadQueueAdditions.h"; sourceTree = "<group>"; };
 		8123A197183DE2C300A6365A /* NSTableView+RowAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+RowAdditions.h"; sourceTree = "<group>"; };
 		8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+RowAdditions.m"; sourceTree = "<group>"; };
 		81310AE11828948E00327AFF /* TCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMainWindowController.h; sourceTree = "<group>"; };
@@ -119,8 +114,6 @@
 		81EFED3B1829E83200F28B1B /* RouxbeVideoDownloaderTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RouxbeVideoDownloaderTests-Info.plist"; sourceTree = "<group>"; };
 		81EFED3F1829F6BC00F28B1B /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
 		81EFED4F182A3FA800F28B1B /* TCMP4VideoURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMP4VideoURLTests.m; sourceTree = "<group>"; };
-		81EFED69182B8A8100F28B1B /* TCDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownload.h; sourceTree = "<group>"; };
-		81EFED6A182B8A8200F28B1B /* TCDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownload.m; sourceTree = "<group>"; };
 		81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LessonStepVideo.xml; sourceTree = "<group>"; };
 		81F7B7531839B4950086F408 /* TCMockAFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMockAFHTTPSessionManager.h; sourceTree = "<group>"; };
 		81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMockAFHTTPSessionManager.m; sourceTree = "<group>"; };
@@ -256,11 +249,6 @@
 				81F7B7591839EF7B0086F408 /* TCRouxbeService.m */,
 				8123A18D183C6C7800A6365A /* TCVideo.h */,
 				8123A18E183C6C7800A6365A /* TCVideo.m */,
-				81EFED69182B8A8100F28B1B /* TCDownload.h */,
-				81EFED6A182B8A8200F28B1B /* TCDownload.m */,
-				8123A196183DC9E600A6365A /* TCDownload+TCDownloadQueueAdditions.h */,
-				8123A190183C9DE500A6365A /* TCDownloadQueue.h */,
-				8123A191183C9DE500A6365A /* TCDownloadQueue.m */,
 				81EFED301829DFD600F28B1B /* TCLesson.h */,
 				81EFED311829DFD600F28B1B /* TCLesson.m */,
 				81EFED331829E1D400F28B1B /* TCLessonStep.h */,
@@ -565,9 +553,7 @@
 				81F7B762183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m in Sources */,
 				816328BA18277F3F0070914E /* main.m in Sources */,
 				81F99D61182DDD92006E561B /* NSURL+RouxbeAdditions.m in Sources */,
-				8123A192183C9DE500A6365A /* TCDownloadQueue.m in Sources */,
 				8123A199183DE2C300A6365A /* NSTableView+RowAdditions.m in Sources */,
-				81EFED6B182B8A8200F28B1B /* TCDownload.m in Sources */,
 				81632888182770120070914E /* TCAppDelegate.m in Sources */,
 				81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */,
 				81BADD2118489E98006FDA6D /* TCDownloadOperation.m in Sources */,
