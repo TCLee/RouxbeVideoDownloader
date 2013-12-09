@@ -14,23 +14,21 @@ typedef void(^AFHTTPRequestOperationSuccessBlock)(AFHTTPRequestOperation *operat
 typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadRequestOperation *operation, NSInteger bytes, long long totalBytes, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile);
 
 @interface AFDownloadRequestOperation (UnitTest)
-
 @property (readwrite, nonatomic, copy) AFURLConnectionProgressiveOperationProgressBlock progressiveDownloadProgress;
-
 @end
 
 @interface TCDownloadOperation (UnitTest)
-
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didStartCallback;
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didUpdateProgressCallback;
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFinishCallback;
 @property (readwrite, nonatomic, copy) TCDownloadOperationBlock didFailCallback;
-
 @end
 
 @interface TCDownloadOperationTests : XCTestCase
 
-@property (readwrite, nonatomic, strong) TCDownloadOperation *downloadOperation;
+@property (readonly, nonatomic, copy) NSURLRequest *dummyRequest;
+@property (readonly, nonatomic, copy) NSURL *dummyDestinationURL;
+@property (readonly, nonatomic, copy) NSString *dummyTitle;
 
 @end
 
@@ -40,22 +38,28 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 {
     [super setUp];
 
-//    id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:YES];
-//    self.downloadOperation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
-//                                                           destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
-//                                                                    title:@"Whatever Title"];
-//    [mockFileManager stopMocking];
+    _dummyRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]];
+    _dummyDestinationURL = [NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO];
+    _dummyTitle = @"Whatever Title";
 }
 
 - (void)tearDown
 {
-    self.downloadOperation = nil;
+    _dummyRequest = nil;
+    _dummyDestinationURL = nil;
+    _dummyTitle = nil;
 
     [super tearDown];
 }
 
-#pragma mark - Initialize Tests
+#pragma mark - Init Download Operation Tests
 
+/**
+ * Creates and return a mock \c NSFileManager object.
+ *
+ * @param success The \c BOOL value that should be returned from stubbed method 
+ *                \c createDirectoryAtURL:withIntermediateDirectories:attributes:error:.
+ */
 - (id)mockFileManagerWithCreateDirectorySuccess:(BOOL)success
 {
     id mockFileManager = [OCMockObject niceMockForClass:[NSFileManager class]];
@@ -68,43 +72,70 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
     return mockFileManager;
 }
 
-- (void)testShouldReturnNilIfFailToCreateDestinationDirectory
+- (void)testShouldCreateDestinationDirectoryAfterInitialize
 {
-    id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:NO];
+    id mockFileManager = [OCMockObject niceMockForClass:[NSFileManager class]];
+    [[[[mockFileManager stub] classMethod] andReturn:mockFileManager] defaultManager];
 
-    TCDownloadOperation *operation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
-                                                                   destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
-                                                                            title:@"Whatever Title"];
-    XCTAssertNil(operation, @"Should be nil.");
+    [[[mockFileManager expect] ignoringNonObjectArgs] createDirectoryAtURL:OCMOCK_ANY
+                                               withIntermediateDirectories:YES
+                                                                attributes:OCMOCK_ANY
+                                                                     error:[OCMArg setTo:nil]];
+
+    __unused id operation = [[TCDownloadOperation alloc] initWithRequest:self.dummyRequest
+                                                          destinationURL:self.dummyDestinationURL
+                                                                   title:self.dummyTitle];
+
+    [mockFileManager verify];
 
     [mockFileManager stopMocking];
-}
-
-- (void)testShouldRaiseExceptionIfRequestIsNil
-{
-    XCTAssertThrows([[TCDownloadOperation alloc] initWithRequest:nil
-                                                  destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
-                                                           title:@"Whatever"], @"Should raise an exception.");
-}
-
-- (void)testShouldRaiseExceptionIfDestinationURLIsNil
-{
-    XCTAssertThrows([[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
-                                                  destinationURL:nil
-                                                           title:@"Whatever"], @"Should raise an exception.");
 }
 
 - (void)testProgressShouldBeIndeterminateAfterInitialize
 {
     id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:YES];
 
-    TCDownloadOperation *operation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
-                                                                   destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
-                                                                            title:@"Whatever Title"];
+    TCDownloadOperation *operation = [[TCDownloadOperation alloc] initWithRequest:self.dummyRequest
+                                                                   destinationURL:self.dummyDestinationURL
+                                                                            title:self.dummyTitle];
 
-    XCTAssertTrue(operation.progress.isIndeterminate, @"Progress should be indeterminate.");
+    expect(operation.progress.isIndeterminate).to.beTruthy();
 
     [mockFileManager stopMocking];
+}
+
+- (void)testShouldReturnNilIfFailToCreateDestinationDirectory
+{
+    id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:NO];
+    TCDownloadOperation *downloadOperation = [[TCDownloadOperation alloc] initWithRequest:self.dummyRequest
+                                                                           destinationURL:self.dummyDestinationURL
+                                                                                    title:self.dummyTitle];
+
+    expect(downloadOperation).to.beNil();
+
+    [mockFileManager stopMocking];
+}
+
+- (void)testShouldRaiseExceptionIfRequestIsNil
+{
+    void(^blockToTest)() = ^() {
+        __unused id operation = [[TCDownloadOperation alloc] initWithRequest:nil
+                                                              destinationURL:self.dummyDestinationURL
+                                                                       title:self.dummyTitle];
+    };
+
+    expect(blockToTest).to.raise(NSInternalInconsistencyException);
+}
+
+- (void)testShouldRaiseExceptionIfDestinationURLIsNil
+{
+    void(^blockToTest)() = ^() {
+        __unused id operation = [[TCDownloadOperation alloc] initWithRequest:self.dummyRequest
+                                                              destinationURL:nil
+                                                                       title:self.dummyTitle];
+    };
+
+    expect(blockToTest).to.raise(NSInternalInconsistencyException);
 }
 
 #pragma mark - Notification/Callback Tests
@@ -117,66 +148,82 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
     // Mock the NSFileManager so we don't actually end up creating a directory.
     id mockFileManager = [self mockFileManagerWithCreateDirectorySuccess:YES];
 
-    TCDownloadOperation *downloadOperation = [[TCDownloadOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.example.com"]]
-                                                                           destinationURL:[NSURL fileURLWithPath:@"/TestDirectory/Test.mp4" isDirectory:NO]
-                                                                                    title:@"Whatever Title"];
+    TCDownloadOperation *downloadOperation = [[TCDownloadOperation alloc] initWithRequest:self.dummyRequest
+                                                                           destinationURL:self.dummyDestinationURL
+                                                                                    title:self.dummyTitle];
 
     [mockFileManager stopMocking];
 
     return downloadOperation;
 }
 
-- (void)testShouldExecuteDidStartBlockWhenDownloadOperationHasStarted
+- (void)testShouldCallDidStartBlockWhenDownloadOperationHasStarted
 {
     TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
     id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
     [[[mockOperation stub] andPost:[NSNotification notificationWithName:AFNetworkingOperationDidStartNotification object:downloadOperation]] start];
-    [[mockOperation expect] didStartCallback];
 
-    [mockOperation start];
+    __block BOOL isBlockCalled = NO;
+    [downloadOperation setDidStartBlock:^(TCDownloadOperation *operation) {
+        isBlockCalled = YES;
+    }];
 
-    [mockOperation verify];
+    [downloadOperation start];
+
+    expect(isBlockCalled).will.beTruthy();
 
     [mockOperation stopMocking];
 }
 
-- (void)testShouldExecuteDidUpdateProgressBlockWhenDownloadOperationHasMadeProgress
+- (void)testShouldCallDidUpdateProgressBlockWhenDownloadOperationHasMadeProgress
 {
     TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
-    id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
-    [[mockOperation expect] didUpdateProgressCallback];
+
+    __block BOOL isBlockCalled = NO;
+    [downloadOperation setDidUpdateProgressBlock:^(TCDownloadOperation *operation) {
+        isBlockCalled = YES;
+    }];
 
     // Calling AFDownloadRequestOperation's progressiveDownloadProgress block,
-    // should execute TCDownloadOperation didUpdateProgressCallback block.
-    downloadOperation.progressiveDownloadProgress(self.downloadOperation, 0, 0, 0, 0, 0);
+    // should execute TCDownloadOperation's didUpdateProgressCallback block.
+    downloadOperation.progressiveDownloadProgress(downloadOperation, 0, 0, 0, 0, 0);
 
-    [mockOperation verify];
-
-    [mockOperation stopMocking];
+    expect(isBlockCalled).will.beTruthy();
 }
 
 - (void)testShouldExecuteDidFinishBlockWhenDownloadOperationHasFinished
 {
     TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
-    id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
-    [[mockOperation expect] didFinishCallback];
 
-    XCTFail(@"Must use expecta to test asycnhronous result.");
+    __block BOOL isBlockCalled = NO;
+    [downloadOperation setDidFinishBlock:^(TCDownloadOperation *operation) {
+        isBlockCalled = YES;
+    }];
 
-    [mockOperation verify];
+    // Calling NSOperation's completionBlock with no error should call
+    // TCDownloadOperation's didFinishCallback block.
+    downloadOperation.completionBlock();
 
-    [mockOperation stopMocking];
+    expect(isBlockCalled).will.beTruthy();
 }
 
 - (void)testShouldExecuteDidFailBlockWhenDownloadOperationHasFailed
 {
     TCDownloadOperation *downloadOperation = [self downloadOperationForTesting];
     id mockOperation = [OCMockObject partialMockForObject:downloadOperation];
-    [[mockOperation expect] didFailCallback];
+    [[[mockOperation stub]
+      andReturn:[self dummyErrorWithCode:NSURLErrorTimedOut]] error];
 
-    XCTFail(@"Must use expecta to test asycnhronous result.");
+    __block BOOL isBlockCalled = NO;
+    [downloadOperation setDidFailBlock:^(TCDownloadOperation *operation) {
+        isBlockCalled = YES;
+    }];
 
-    [mockOperation verify];
+    // Calling NSOperation's completionBlock with an error should call
+    // TCDownloadOperation's didFailCallback block.
+    downloadOperation.completionBlock();
+
+    expect(isBlockCalled).will.beTruthy();
 
     [mockOperation stopMocking];
 }
@@ -186,7 +233,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 /**
  * Returns an indeterminate \c NSProgress for testing.
  */
-- (NSProgress *)fakeIndeterminateProgress
+- (NSProgress *)dummyIndeterminateProgress
 {
     NSProgress *progress = [[NSProgress alloc] initWithParent:nil
                                                          userInfo:@{NSProgressFileOperationKindKey: NSProgressFileOperationKindDownloading}];
@@ -200,9 +247,9 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 /**
  * Returns a determinate \c NSProgress for testing.
  */
-- (NSProgress *)fakeProgress
+- (NSProgress *)dummyProgress
 {
-    NSProgress *progress = [self fakeIndeterminateProgress];
+    NSProgress *progress = [self dummyIndeterminateProgress];
     progress.completedUnitCount = 1024 * 1024;
     progress.totalUnitCount = 10 * 1024 * 1024;
 
@@ -212,7 +259,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 /**
  * Returns a \c NSProgress with the given error code for testing.
  */
-- (NSError *)fakeErrorWithCode:(NSInteger)code
+- (NSError *)dummyErrorWithCode:(NSInteger)code
 {
     return [NSError errorWithDomain:NSURLErrorDomain
                                code:code
@@ -223,7 +270,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 {
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isReady];
-    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self dummyIndeterminateProgress]] progress];
 
     expect([mockOperation localizedProgressDescription]).to.equal(NSLocalizedString(@"Waiting...", @""));
 
@@ -235,10 +282,10 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isReady];
 
-    NSProgress *fakeProgress = [self fakeProgress];
-    [[[mockOperation stub] andReturn:fakeProgress] progress];
+    NSProgress *dummyProgress = [self dummyProgress];
+    [[[mockOperation stub] andReturn:dummyProgress] progress];
 
-    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Waiting...", @""), fakeProgress.localizedAdditionalDescription];
+    NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Waiting...", @""), dummyProgress.localizedAdditionalDescription];
     expect([mockOperation localizedProgressDescription]).to.equal(expectedString);
 
     [mockOperation stopMocking];
@@ -248,7 +295,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 {
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isExecuting];
-    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self dummyIndeterminateProgress]] progress];
 
     expect([mockOperation localizedProgressDescription]).to.equal(NSLocalizedString(@"Starting...", @""));
 
@@ -260,7 +307,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isExecuting];
 
-    NSProgress *fakeProgress = [self fakeProgress];
+    NSProgress *fakeProgress = [self dummyProgress];
     [[[mockOperation stub] andReturn:fakeProgress] progress];
 
     expect([mockOperation localizedProgressDescription]).to.equal(fakeProgress.localizedAdditionalDescription);
@@ -273,7 +320,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
 
-    NSError *fakeError = [self fakeErrorWithCode:NSURLErrorTimedOut];
+    NSError *fakeError = [self dummyErrorWithCode:NSURLErrorTimedOut];
     [[[mockOperation stub] andReturn:fakeError] error];
 
     NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Error", @""), fakeError.localizedDescription];
@@ -286,8 +333,8 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 {
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
-    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
-    [[[mockOperation stub] andReturn:[self fakeErrorWithCode:NSURLErrorCancelled]] error];
+    [[[mockOperation stub] andReturn:[self dummyIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self dummyErrorWithCode:NSURLErrorCancelled]] error];
 
     NSString *expectedString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"Cancelled", @"")];
     expect([mockOperation localizedProgressDescription]).to.equal(expectedString);
@@ -299,9 +346,9 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 {
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
-    [[[mockOperation stub] andReturn:[self fakeErrorWithCode:NSURLErrorCancelled]] error];
+    [[[mockOperation stub] andReturn:[self dummyErrorWithCode:NSURLErrorCancelled]] error];
 
-    NSProgress *fakeProgress = [self fakeProgress];
+    NSProgress *fakeProgress = [self dummyProgress];
     [[[mockOperation stub] andReturn:fakeProgress] progress];
 
     NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Cancelled", @""), fakeProgress.localizedAdditionalDescription];
@@ -314,7 +361,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 {
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
-    [[[mockOperation stub] andReturn:[self fakeIndeterminateProgress]] progress];
+    [[[mockOperation stub] andReturn:[self dummyIndeterminateProgress]] progress];
 
     expect([mockOperation localizedProgressDescription]).to.equal(NSLocalizedString(@"Completed",@""));
 
@@ -326,7 +373,7 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
     id mockOperation = [OCMockObject partialMockForObject:[[TCDownloadOperation alloc] init]];
     [[[mockOperation stub] andReturnValue:@(YES)] isFinished];
 
-    NSProgress *fakeProgress = [self fakeProgress];
+    NSProgress *fakeProgress = [self dummyProgress];
     [[[mockOperation stub] andReturn:fakeProgress] progress];
 
     NSString *expectedString = [NSString stringWithFormat:@"%@ - %@", NSLocalizedString(@"Completed",@""), fakeProgress.localizedAdditionalDescription];
