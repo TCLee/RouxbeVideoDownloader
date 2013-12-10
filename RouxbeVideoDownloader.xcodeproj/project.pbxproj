@@ -38,6 +38,7 @@
 		81CD43111855D251006D9DE9 /* TCRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD43101855D251006D9DE9 /* TCRecipe.m */; };
 		81CD431A1856ED52006D9DE9 /* TCGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD43191856ED52006D9DE9 /* TCGroup.m */; };
 		81CD431D1856EE9B006D9DE9 /* TCStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD431C1856EE9B006D9DE9 /* TCStep.m */; };
+		81CD432018571F3F006D9DE9 /* TCTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD431F18571F3F006D9DE9 /* TCTip.m */; };
 		81EFED321829DFD600F28B1B /* TCLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EFED311829DFD600F28B1B /* TCLesson.m */; };
 		81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED391829E83200F28B1B /* InfoPlist.strings */; };
 		81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED3F1829F6BC00F28B1B /* Lesson.xml */; };
@@ -115,6 +116,8 @@
 		81CD43191856ED52006D9DE9 /* TCGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCGroup.m; sourceTree = "<group>"; };
 		81CD431B1856EE9B006D9DE9 /* TCStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCStep.h; sourceTree = "<group>"; };
 		81CD431C1856EE9B006D9DE9 /* TCStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCStep.m; sourceTree = "<group>"; };
+		81CD431E18571F3F006D9DE9 /* TCTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTip.h; sourceTree = "<group>"; };
+		81CD431F18571F3F006D9DE9 /* TCTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTip.m; sourceTree = "<group>"; };
 		81EFED301829DFD600F28B1B /* TCLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLesson.h; sourceTree = "<group>"; };
 		81EFED311829DFD600F28B1B /* TCLesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLesson.m; sourceTree = "<group>"; };
 		81EFED3A1829E83200F28B1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -264,6 +267,8 @@
 				81EFED311829DFD600F28B1B /* TCLesson.m */,
 				81CD430F1855D251006D9DE9 /* TCRecipe.h */,
 				81CD43101855D251006D9DE9 /* TCRecipe.m */,
+				81CD431E18571F3F006D9DE9 /* TCTip.h */,
+				81CD431F18571F3F006D9DE9 /* TCTip.m */,
 				81CD43181856ED52006D9DE9 /* TCGroup.h */,
 				81CD43191856ED52006D9DE9 /* TCGroup.m */,
 				81CD431B1856EE9B006D9DE9 /* TCStep.h */,
@@ -551,6 +556,7 @@
 			files = (
 				81F7B75A1839EF7B0086F408 /* TCRouxbeService.m in Sources */,
 				81CD431A1856ED52006D9DE9 /* TCGroup.m in Sources */,
+				81CD432018571F3F006D9DE9 /* TCTip.m in Sources */,
 				8123A18F183C6C7800A6365A /* TCVideo.m in Sources */,
 				81F7B761183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure.m in Sources */,
 				81880EA6184440F7009387AB /* TCPaddedTextFieldCell.m in Sources */,

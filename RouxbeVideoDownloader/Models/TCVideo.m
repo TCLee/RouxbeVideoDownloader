@@ -12,6 +12,7 @@
 #import "TCStep.h"
 #import "TCLesson.h"
 #import "TCRecipe.h"
+#import "TCTip.h"
 
 
 #pragma mark Flash to MP4 Video URL
@@ -100,7 +101,14 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
                                completeBlock:[self groupCompleteBlockWithVideoCompleteBlock:completeBlock]];
 
         case TCRouxbeCategoryTip:
-            return nil;
+            return [TCTip getTipWithID:[aURL rouxbeID] completeBlock:^(TCTip *tip, NSError *error) {
+                TCVideo *video = tip ? [[TCVideo alloc] initWithSourceURL:tip.videoURL title:tip.name] : nil;
+                NSArray *videos = video ? @[video] : nil;
+
+                if (completeBlock) {
+                    completeBlock(videos, error);
+                }
+            }];
 
         case TCRouxbeCategoryUnknown:
         default: {
