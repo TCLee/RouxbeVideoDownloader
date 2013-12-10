@@ -7,7 +7,7 @@
 //
 
 #import "TCDownloadOperation.h"
-#import "AFURLConnectionByteSpeedMeasure.h"
+#import "AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.h"
 
 /**
  * The file extension to append to a temporary file used for
@@ -16,11 +16,6 @@
 static NSString * const TCTemporaryFileExtension = @"tcdownload";
 
 @interface TCDownloadOperation ()
-/**
- * The \c AFURLConnectionByteSpeedMeasure object measures the download
- * speed and estimated time remaining.
- */
-@property (readwrite, nonatomic, strong) AFURLConnectionByteSpeedMeasure *speedMeasure;
 
 /**
  * The object that acts as an observer to this download operation's
@@ -91,8 +86,7 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
 
     // Create and activate the download speed and estimated time remaining
     // measurement.
-    _speedMeasure = [[AFURLConnectionByteSpeedMeasure alloc] init];
-    _speedMeasure.active = YES;
+    self.downloadSpeedMeasure.active = YES;
 }
 
 /**
@@ -146,18 +140,14 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) { return; }
 
-        // Re-calculate new average download speed.
-        [strongSelf.speedMeasure updateSpeedWithDataChunkLength:bytesRead
-                                                 receivedAtDate:[NSDate date]];
-
         // Update the download's progress (taking into account if a download was resumed).
         strongSelf.progress.completedUnitCount = totalBytesReadForFile;
         strongSelf.progress.totalUnitCount = totalBytesExpectedToReadForFile;
 
         // Update the download's current speed and estimated time to finish.
-        [strongSelf.progress setUserInfoObject:@(strongSelf.speedMeasure.speed)
+        [strongSelf.progress setUserInfoObject:@(strongSelf.downloadSpeedMeasure.speed)
                                         forKey:NSProgressThroughputKey];
-        [strongSelf.progress setUserInfoObject:@([strongSelf.speedMeasure remainingTimeOfTotalSize:totalBytesExpected numberOfCompletedBytes:totalBytesRead])
+        [strongSelf.progress setUserInfoObject:@([strongSelf.downloadSpeedMeasure remainingTimeOfTotalSize:totalBytesExpected numberOfCompletedBytes:totalBytesRead])
                                         forKey:NSProgressEstimatedTimeRemainingKey];
 
         // Callback to notify of progress updates.
