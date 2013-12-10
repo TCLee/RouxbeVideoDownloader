@@ -50,7 +50,7 @@ typedef void(^TCLessonStepVideoURLBlock)(NSURL *videoURL, NSError *error);
 @property (nonatomic, copy, readonly) NSURL *videoURL;
 
 /**
- * Initializes a new lesson step object from the given XML.
+ * Initializes a new lesson step object from the given XML element.
  *
  * @param stepXML    The XML representing a lesson step element.
  * @param lessonName The name of the lesson that this step belongs to.

@@ -11,23 +11,11 @@
 #import "TCRouxbeService.h"
 
 /**
- * The string template representing the URL to a Lesson's XML.
+ * The string template representing the relative path to a Lesson's XML.
  */
 static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
 
 @interface TCLesson ()
-
-/**
- * Fetches the video URL for each of the given lesson's step. Calls
- * the completion handler when all the video URLs have been fetched
- * or an error occured.
- *
- * @param lesson            The lesson's steps to fetch the video URLs for.
- * @param completionHandler A block object to be called when the request is done
- *                          or an error occured.
- */
-//+ (void)fetchVideoURLsForLesson:(TCLesson *)lesson
-//              completionHandler:(TCLessonCompletionHandler)completionHandler;
 
 @end
 
@@ -131,7 +119,6 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
 {
     NSMutableArray *mutableSteps = [[NSMutableArray alloc] init];
 
-    // Create a TCLessonStep object from each step XML element.
     [rootXML iterate:@"recipesteps.recipestep" usingBlock:^(RXMLElement *stepXML) {
         TCLessonStep *step = [[TCLessonStep alloc] initWithXML:stepXML
                                                     lessonName:self.name];

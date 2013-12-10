@@ -40,6 +40,16 @@ typedef void(^TCLessonCompleteBlock)(TCLesson *lesson, NSError *error);
 @property (nonatomic, copy, readonly) NSArray *steps;
 
 /**
+ * Initializes a new lesson object from the given XML data.
+ *
+ * @param data The XML data.
+ *
+ * @return A new \c TCLesson object with properties initialized 
+ *         from the XML data.
+ */
+- (id)initWithXMLData:(NSData *)data;
+
+/**
  * Creates and runs an \c AFHTTPRequestOperation to fetch a lesson with
  * the given ID. The completion block will be called when request is done.
  *
@@ -50,15 +60,5 @@ typedef void(^TCLessonCompleteBlock)(TCLesson *lesson, NSError *error);
  */
 + (AFHTTPRequestOperation *)getLessonWithID:(NSUInteger)lessonID
                               completeBlock:(TCLessonCompleteBlock)completeBlock;
-
-/**
- * Initializes a new lesson object from the given XML data.
- *
- * @param data The XML data.
- *
- * @return A new \c TCLesson object with properties initialized 
- *         from the XML data.
- */
-- (id)initWithXMLData:(NSData *)data;
 
 @end
