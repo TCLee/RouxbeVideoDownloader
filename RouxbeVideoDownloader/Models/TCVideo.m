@@ -10,6 +10,8 @@
 #import "NSURL+RouxbeAdditions.h"
 #import "TCLesson.h"
 #import "TCLessonStep.h"
+#import "TCRecipe.h"
+#import "TCRecipeStep.h"
 
 #pragma mark Flash to MP4 Video URL
 
@@ -89,11 +91,11 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
     // Determine the resource category from the URL.
     switch ([aURL rouxbeCategory]) {
         case TCRouxbeCategoryLesson:
-            [self findVideosFromLessonURL:aURL
-                            completeBlock:completeBlock];
+            [self findVideosFromLessonURL:aURL completeBlock:completeBlock];
             break;
 
         case TCRouxbeCategoryRecipe:
+            [self findVideosFromRecipeURL:aURL completeBlock:completeBlock];
             break;
 
         case TCRouxbeCategoryTip:
@@ -125,6 +127,28 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
             for (TCLessonStep *step in lesson.steps) {
                 TCVideo *video = [[TCVideo alloc] initWithSourceURL:step.videoURL
                                                               group:step.lessonName
+                                                              title:step.name
+                                                           position:step.position];
+                [mutableVideos addObject:video];
+            }
+        }
+
+        if (completeBlock) {
+            completeBlock(mutableVideos, error);
+        }
+    }];
+}
+
++ (void)findVideosFromRecipeURL:(NSURL *)recipeURL
+                  completeBlock:(TCVideoCompleteBlock)completeBlock
+{
+    [TCRecipe getRecipeWithID:[recipeURL rouxbeID] completeBlock:^(TCRecipe *recipe, NSError *error) {
+        NSMutableArray *mutableVideos = nil;
+        if (recipe) {
+            mutableVideos = [[NSMutableArray alloc] initWithCapacity:recipe.steps.count];
+            for (TCRecipeStep *step in recipe.steps) {
+                TCVideo *video = [[TCVideo alloc] initWithSourceURL:step.videoURL
+                                                              group:step.recipeName
                                                               title:step.name
                                                            position:step.position];
                 [mutableVideos addObject:video];
