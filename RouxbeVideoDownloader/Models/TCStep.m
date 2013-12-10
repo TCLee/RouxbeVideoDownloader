@@ -8,6 +8,12 @@
 
 #import "TCStep.h"
 
+@interface TCStep ()
+
+@property (readwrite, nonatomic, copy) NSURL *videoURL;
+
+@end
+
 @implementation TCStep
 
 - (id)initWithXML:(RXMLElement *)stepXML groupName:(NSString *)groupName

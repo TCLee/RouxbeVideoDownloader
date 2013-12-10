@@ -29,20 +29,13 @@ static NSString * const TCLessonStepVideoXMLPath = @"embedded_player/settings_se
  */
 typedef void(^TCLessonStepVideoURLCompleteBlock)(NSURL *videoURL, NSError *error);
 
-@interface TCStep ()
+@interface TCStep (TCLesson)
 
 @property (readwrite, nonatomic, copy) NSURL *videoURL;
-
-@end
-
-@interface TCStep (TCLesson)
 
 /**
  * Creates an \c AFHTTPRequestOperation with a \c GET request to
  * fetch the Lesson Step's video URL.
- *
- * After you create this \c AFHTTPRequestOperation, you must start it by
- * calling its \c start method or adding it to a \c NSOperationQueue.
  *
  * @param completeBlock The completion handler to call when the video
  *                      URL is fetched or there is an error.
@@ -120,6 +113,9 @@ typedef void(^TCLessonStepVideoURLCompleteBlock)(NSURL *videoURL, NSError *error
 #pragma mark -
 
 @implementation TCStep (TCLesson)
+
+// Read and write video URL property is implemented by TCStep.
+@dynamic videoURL;
 
 - (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLCompleteBlock)completeBlock
 {
