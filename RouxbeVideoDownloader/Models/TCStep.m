@@ -1,20 +1,20 @@
 //
-//  TCRecipeStep.m
+//  TCStep.m
 //  RouxbeVideoDownloader
 //
-//  Created by Lee Tze Cheun on 12/9/13.
+//  Created by Lee Tze Cheun on 12/10/13.
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-#import "TCRecipeStep.h"
+#import "TCStep.h"
 
-@implementation TCRecipeStep
+@implementation TCStep
 
-- (id)initWithXML:(RXMLElement *)stepXML recipeName:(NSString *)recipeName
+- (id)initWithXML:(RXMLElement *)stepXML groupName:(NSString *)groupName
 {
     self = [super init];
     if (self) {
-        _recipeName = [recipeName copy];
+        _groupName = [groupName copy];
 
         _ID = [[stepXML attribute:@"id"] integerValue];
         _position = [[stepXML attribute:@"position"] integerValue];

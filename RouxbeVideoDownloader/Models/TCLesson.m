@@ -7,7 +7,7 @@
 //
 
 #import "TCLesson.h"
-#import "TCLessonStep.h"
+#import "TCStep.h"
 #import "TCRouxbeService.h"
 
 /**
@@ -15,22 +15,57 @@
  */
 static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
 
-@interface TCLesson ()
+/**
+ * The string template representing the relative path to a Lesson Step's video XML.
+ */
+static NSString * const TCLessonStepVideoXMLPath = @"embedded_player/settings_section/%ld.xml";
+
+/**
+ * The prototype of the block that will be called when a Lesson Step's
+ * video URL request has completed.
+ *
+ * @param videoURL The URL to the video or \c nil on error.
+ * @param error    The \c NSError object describing the error, if any.
+ */
+typedef void(^TCLessonStepVideoURLCompleteBlock)(NSURL *videoURL, NSError *error);
+
+@interface TCStep ()
+
+@property (readwrite, nonatomic, copy) NSURL *videoURL;
 
 @end
 
+@interface TCStep (TCLesson)
+
+/**
+ * Creates an \c AFHTTPRequestOperation with a \c GET request to
+ * fetch the Lesson Step's video URL.
+ *
+ * After you create this \c AFHTTPRequestOperation, you must start it by
+ * calling its \c start method or adding it to a \c NSOperationQueue.
+ *
+ * @param completeBlock The completion handler to call when the video
+ *                      URL is fetched or there is an error.
+ *
+ * @return An \c AFHTTPRequestOperation object with a \c GET request
+ */
+- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLCompleteBlock)completeBlock;
+
+@end
+
+#pragma mark -
+
 @implementation TCLesson
 
-#pragma mark - Fetch Lesson Object
-
 + (AFHTTPRequestOperation *)getLessonWithID:(NSUInteger)lessonID
-                              completeBlock:(TCLessonCompleteBlock)completeBlock
+                              completeBlock:(TCGroupCompleteBlock)completeBlock
 {
     TCRouxbeService *service = [TCRouxbeService sharedService];
     __weak typeof(service) weakService = service;
 
     return [service GET:[NSString stringWithFormat:TCLessonXMLPath, lessonID] parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *data) {
-        TCLesson *lesson = [[TCLesson alloc] initWithXMLData:data];
+        TCGroup *group = [[TCGroup alloc] initWithXMLData:data
+                                             stepsXMLPath:@"recipesteps.recipestep"];
 
         // The most recent error encountered while fetching a video URL or
         // nil if everything went smoothly.
@@ -38,8 +73,8 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
 
         // Create a HTTP request operation for each lesson step's video URL that
         // we need to fetch.
-        NSMutableArray *mutableOperations = [[NSMutableArray alloc] initWithCapacity:lesson.steps.count];
-        for (TCLessonStep *step in lesson.steps) {
+        NSMutableArray *mutableOperations = [[NSMutableArray alloc] initWithCapacity:group.steps.count];
+        for (TCStep *step in group.steps) {
             // Skip lesson steps that already have a video URL.
             if (step.videoURL) { continue; }
 
@@ -66,7 +101,7 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
                 if (videoURLError) {
                     completeBlock(nil, videoURLError);
                 } else {
-                    completeBlock(lesson, nil);
+                    completeBlock(group, nil);
                 }
             }
         }];
@@ -75,57 +110,39 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Error - Failed to fetch Lesson object.
         if (completeBlock) {
-            completeBlock(nil, [self lessonErrorWithUnderlyingError:error]);
+            completeBlock(nil, error);
         }
     }];
 }
 
-/**
- * Returns a more detailed error object specific to the Lesson object.
- */
-+ (NSError *)lessonErrorWithUnderlyingError:(NSError *)error
+@end
+
+#pragma mark -
+
+@implementation TCStep (TCLesson)
+
+- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLCompleteBlock)completeBlock
 {
-    NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
-    mutableUserInfo[NSLocalizedDescriptionKey] = [[NSString alloc] initWithFormat:
-                                                  @"Lesson XML: %@\n"
-                                                  "Error: %@",
-                                                  error.userInfo[NSURLErrorFailingURLStringErrorKey],
-                                                  error.localizedDescription];
+    TCRouxbeService *service = [TCRouxbeService sharedService];
 
-    return [[NSError alloc] initWithDomain:error.domain
-                                      code:error.code
-                                  userInfo:[mutableUserInfo copy]];
-}
+    NSString *path = [NSString stringWithFormat:TCLessonStepVideoXMLPath, self.ID];
+    NSMutableURLRequest *request = [service.requestSerializer requestWithMethod:@"GET"
+                                                                      URLString:[[NSURL URLWithString:path relativeToURL:service.baseURL] absoluteString]
+                                                                     parameters:nil];
 
-#pragma mark - Instance Methods
-
-- (id)initWithXMLData:(NSData *)data
-{
-    // If XML data is not provided, we can't create a Lesson object.
-    if (!data) { return nil; }
-
-    self = [super init];
-    if (self) {
+    return [service HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, NSData *data) {
         RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
+        NSString *urlString = [[rootXML child:@"video"] attribute:@"url"];
+        self.videoURL = urlString ? [NSURL URLWithString:urlString] : nil;
 
-        _ID = [[rootXML attribute:@"id"] integerValue];
-        _name = [rootXML attribute:@"name"];
-        _steps = [self stepsWithXML:rootXML];
-    }
-    return self;
-}
-
-- (NSArray *)stepsWithXML:(RXMLElement *)rootXML
-{
-    NSMutableArray *mutableSteps = [[NSMutableArray alloc] init];
-
-    [rootXML iterate:@"recipesteps.recipestep" usingBlock:^(RXMLElement *stepXML) {
-        TCLessonStep *step = [[TCLessonStep alloc] initWithXML:stepXML
-                                                    lessonName:self.name];
-        [mutableSteps addObject:step];
+        if (completeBlock) {
+            completeBlock(self.videoURL, nil);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (completeBlock) {
+            completeBlock(nil, error);
+        }
     }];
-
-    return [mutableSteps copy];
 }
 
 @end

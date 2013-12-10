@@ -7,7 +7,6 @@
 //
 
 #import "TCRecipe.h"
-#import "TCRecipeStep.h"
 #import "TCRouxbeService.h"
 
 /**
@@ -17,14 +16,12 @@ static NSString * const TCRecipeXMLPath = @"recipes/%lu.xml";
 
 @implementation TCRecipe
 
-#pragma mark - Fetch Recipe
-
 + (AFHTTPRequestOperation *)getRecipeWithID:(NSUInteger)recipeID
-                              completeBlock:(TCRecipeCompleteBlock)completeBlock
+                              completeBlock:(TCGroupCompleteBlock)completeBlock
 {
     return [[TCRouxbeService sharedService] GET:[NSString stringWithFormat:TCRecipeXMLPath, recipeID] parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *data) {
-        TCRecipe *recipe = [[TCRecipe alloc] initWithXMLData:data];
-
+        TCGroup *recipe = [[TCGroup alloc] initWithXMLData:data
+                                              stepsXMLPath:@"recipeSteps.recipeStep"];
         if (completeBlock) {
             completeBlock(recipe, nil);
         }
@@ -33,36 +30,6 @@ static NSString * const TCRecipeXMLPath = @"recipes/%lu.xml";
             completeBlock(nil, error);
         }
     }];
-}
-
-#pragma mark - Initialize
-
-- (id)initWithXMLData:(NSData *)data
-{
-    NSParameterAssert(data);
-
-    self = [super init];
-    if (self) {
-        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
-
-        _ID = [[rootXML attribute:@"id"] integerValue];
-        _name = [rootXML attribute:@"name"];
-        _steps = [self stepsWithXML:rootXML];
-    }
-    return self;
-}
-
-- (NSArray *)stepsWithXML:(RXMLElement *)rootXML
-{
-    NSMutableArray *mutableSteps = [[NSMutableArray alloc] init];
-
-    [rootXML iterate:@"recipeSteps.recipeStep" usingBlock:^(RXMLElement *stepXML) {
-        TCRecipeStep *step = [[TCRecipeStep alloc] initWithXML:stepXML
-                                                    recipeName:self.name];
-        [mutableSteps addObject:step];
-    }];
-    
-    return mutableSteps;
 }
 
 @end

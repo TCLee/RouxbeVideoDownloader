@@ -8,10 +8,11 @@
 
 #import "TCVideo.h"
 #import "NSURL+RouxbeAdditions.h"
+#import "TCGroup.h"
+#import "TCStep.h"
 #import "TCLesson.h"
-#import "TCLessonStep.h"
 #import "TCRecipe.h"
-#import "TCRecipeStep.h"
+
 
 #pragma mark Flash to MP4 Video URL
 
@@ -91,11 +92,13 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
     // Determine the resource category from the URL.
     switch ([aURL rouxbeCategory]) {
         case TCRouxbeCategoryLesson:
-            [self findVideosFromLessonURL:aURL completeBlock:completeBlock];
+            [TCLesson getLessonWithID:[aURL rouxbeID]
+                        completeBlock:[self groupCompleteBlockWithVideoCompleteBlock:completeBlock]];
             break;
 
         case TCRouxbeCategoryRecipe:
-            [self findVideosFromRecipeURL:aURL completeBlock:completeBlock];
+            [TCRecipe getRecipeWithID:[aURL rouxbeID]
+                        completeBlock:[self groupCompleteBlockWithVideoCompleteBlock:completeBlock]];
             break;
 
         case TCRouxbeCategoryTip:
@@ -116,17 +119,15 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
     }
 }
 
-+ (void)findVideosFromLessonURL:(NSURL *)lessonURL
-                  completeBlock:(TCVideoCompleteBlock)completeBlock
++ (TCGroupCompleteBlock)groupCompleteBlockWithVideoCompleteBlock:(TCVideoCompleteBlock)completeBlock
 {
-    [TCLesson getLessonWithID:[lessonURL rouxbeID] completeBlock:^(TCLesson *lesson, NSError *error) {
+    return ^(TCGroup *group, NSError *error) {
         NSMutableArray *mutableVideos = nil;
-        if (lesson) {
-            // Create a video for each Lesson's step.
-            mutableVideos = [[NSMutableArray alloc] initWithCapacity:lesson.steps.count];
-            for (TCLessonStep *step in lesson.steps) {
+        if (group) {
+            mutableVideos = [[NSMutableArray alloc] initWithCapacity:group.steps.count];
+            for (TCStep *step in group.steps) {
                 TCVideo *video = [[TCVideo alloc] initWithSourceURL:step.videoURL
-                                                              group:step.lessonName
+                                                              group:step.groupName
                                                               title:step.name
                                                            position:step.position];
                 [mutableVideos addObject:video];
@@ -136,29 +137,7 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
         if (completeBlock) {
             completeBlock(mutableVideos, error);
         }
-    }];
-}
-
-+ (void)findVideosFromRecipeURL:(NSURL *)recipeURL
-                  completeBlock:(TCVideoCompleteBlock)completeBlock
-{
-    [TCRecipe getRecipeWithID:[recipeURL rouxbeID] completeBlock:^(TCRecipe *recipe, NSError *error) {
-        NSMutableArray *mutableVideos = nil;
-        if (recipe) {
-            mutableVideos = [[NSMutableArray alloc] initWithCapacity:recipe.steps.count];
-            for (TCRecipeStep *step in recipe.steps) {
-                TCVideo *video = [[TCVideo alloc] initWithSourceURL:step.videoURL
-                                                              group:step.recipeName
-                                                              title:step.name
-                                                           position:step.position];
-                [mutableVideos addObject:video];
-            }
-        }
-
-        if (completeBlock) {
-            completeBlock(mutableVideos, error);
-        }
-    }];
+    };
 }
 
 @end
