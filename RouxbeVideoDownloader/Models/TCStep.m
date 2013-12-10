@@ -26,7 +26,6 @@
         _position = [[stepXML attribute:@"position"] integerValue];
         _name = [stepXML attribute:@"name"];
         _videoURL = [NSURL URLWithString:[stepXML attribute:@"url"]];
-        _imageURL = [NSURL URLWithString:[stepXML attribute:@"posterframe_url"]];
     }
     return self;
 }

@@ -38,11 +38,6 @@
 @property (nonatomic, copy, readonly) NSURL *videoURL;
 
 /**
- * The URL to this step's image.
- */
-@property (nonatomic, copy, readonly) NSURL *imageURL;
-
-/**
  * Initializes a new step object from the given XML element.
  *
  * @param stepXML    The XML representing a step element.
