@@ -86,8 +86,10 @@ typedef void(^TCVideoCompleteBlock)(NSArray *videos, NSError *error);
  * @param aURL           The URL to search for videos.
  * @param completeBlock  The completion handler to call when the videos are
  *                       found or an error occured.
+ *
+ * @return An \c AFHTTPRequestOperation with a \c GET request.
  */
-+ (void)findVideosFromURL:(NSURL *)aURL
-            completeBlock:(TCVideoCompleteBlock)completionHandler;
++ (AFHTTPRequestOperation *)getVideosFromURL:(NSURL *)aURL
+                               completeBlock:(TCVideoCompleteBlock)completionHandler;
 
 @end

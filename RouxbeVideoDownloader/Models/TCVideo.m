@@ -84,25 +84,23 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
 
 #pragma mark - Find Videos from URL
 
-+ (void)findVideosFromURL:(NSURL *)aURL
-            completeBlock:(TCVideoCompleteBlock)completeBlock
++ (AFHTTPRequestOperation *)getVideosFromURL:(NSURL *)aURL
+                               completeBlock:(TCVideoCompleteBlock)completeBlock
 {
     NSParameterAssert(aURL);
 
     // Determine the resource category from the URL.
     switch ([aURL rouxbeCategory]) {
         case TCRouxbeCategoryLesson:
-            [TCLesson getLessonWithID:[aURL rouxbeID]
-                        completeBlock:[self groupCompleteBlockWithVideoCompleteBlock:completeBlock]];
-            break;
+            return [TCLesson getLessonWithID:[aURL rouxbeID]
+                               completeBlock:[self groupCompleteBlockWithVideoCompleteBlock:completeBlock]];
 
         case TCRouxbeCategoryRecipe:
-            [TCRecipe getRecipeWithID:[aURL rouxbeID]
-                        completeBlock:[self groupCompleteBlockWithVideoCompleteBlock:completeBlock]];
-            break;
+            return [TCRecipe getRecipeWithID:[aURL rouxbeID]
+                               completeBlock:[self groupCompleteBlockWithVideoCompleteBlock:completeBlock]];
 
         case TCRouxbeCategoryTip:
-            break;
+            return nil;
 
         case TCRouxbeCategoryUnknown:
         default: {
@@ -114,7 +112,7 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
             if (completeBlock) {
                 completeBlock(nil, error);
             }
-            break;
+            return nil;
         }
     }
 }

@@ -67,8 +67,8 @@ typedef void(^TCDownloadOperationManagerDownloadOperationDidChangeBlock)(NSUInte
  * @param aURL          The URL to create download operations from.
  * @param completeBlock The block to be called when the download operations have been added to the operation queue (or an error occured).
  */
-- (void)addDownloadOperationsWithURL:(NSURL *)aURL
-                       completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock;
+- (AFHTTPRequestOperation *)addDownloadOperationsWithURL:(NSURL *)aURL
+                                           completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock;
 
 /**
  * Resumes a failed or cancelled download operation at the given index.

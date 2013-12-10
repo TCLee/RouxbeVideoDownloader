@@ -60,12 +60,12 @@
 
 #pragma mark - Add Download Operations
 
-- (void)addDownloadOperationsWithURL:(NSURL *)aURL
-                       completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock
+- (AFHTTPRequestOperation *)addDownloadOperationsWithURL:(NSURL *)aURL
+                                           completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock
 {
     __weak typeof(self) weakSelf = self;
 
-    [TCVideo findVideosFromURL:aURL completeBlock:^(NSArray *videos, NSError *error) {
+    return [TCVideo getVideosFromURL:aURL completeBlock:^(NSArray *videos, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) { return; }
 
