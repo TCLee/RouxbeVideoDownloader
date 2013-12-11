@@ -23,6 +23,11 @@
  */
 static NSString * const kMP4VideoURLString = @"http://media.rouxbe.com/itouch/mp4/%@.mp4";
 
+/**
+ * Returns a URL to the MP4 version of the video from the given Flash video URL.
+ *
+ * @param flashVideoURL The URL to the Flash version of the video.
+ */
 FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoURL)
 {
     if (!flashVideoURL) { return nil; }
