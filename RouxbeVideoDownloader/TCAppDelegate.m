@@ -8,10 +8,12 @@
 
 #import "TCAppDelegate.h"
 #import "TCMainWindowController.h"
+#import "TCPreferencesWindowController.h"
 
 @interface TCAppDelegate ()
 
-@property (nonatomic, strong) TCMainWindowController *windowController;
+@property (readwrite, nonatomic, weak) IBOutlet TCMainWindowController *mainWindowController;
+@property (readwrite, nonatomic, weak) IBOutlet TCPreferencesWindowController *preferencesWindowController;
 
 @end
 
@@ -19,11 +21,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Create and show the main window when app finishes launching.
-    if (!self.windowController) {
-        self.windowController = [[TCMainWindowController alloc] init];
-    }
-    [self.windowController showWindow:self];
+    [self.mainWindowController showWindow:self];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender

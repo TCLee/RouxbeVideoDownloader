@@ -6,8 +6,11 @@
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
+/**
+ * The window controller for the preferences window. 
+ * The preferences window provides an interface for the user to change
+ * download settings.
+ */
 @interface TCPreferencesWindowController : NSWindowController
 
 @end

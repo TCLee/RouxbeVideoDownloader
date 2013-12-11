@@ -14,12 +14,9 @@
 
 @implementation TCPreferencesWindowController
 
-- (id)initWithWindow:(NSWindow *)window
+- (id)init
 {
-    self = [super initWithWindow:window];
-    if (self) {
-        // Initialization code here.
-    }
+    self = [super initWithWindowNibName:@"PreferencesWindow"];
     return self;
 }
 

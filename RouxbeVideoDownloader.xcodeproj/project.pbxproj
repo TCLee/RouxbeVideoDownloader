@@ -24,7 +24,7 @@
 		816328BA18277F3F0070914E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 816328B118277F3F0070914E /* main.m */; };
 		816328BC18277F3F0070914E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816328B518277F3F0070914E /* MainMenu.xib */; };
 		8171319B18586E0200DF1447 /* TCPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8171319918586E0200DF1447 /* TCPreferencesWindowController.m */; };
-		8171319F18586E3200DF1447 /* TCPreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8171319D18586E3200DF1447 /* TCPreferencesWindowController.xib */; };
+		8171319F18586E3200DF1447 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8171319D18586E3200DF1447 /* PreferencesWindow.xib */; };
 		81880EA6184440F7009387AB /* TCPaddedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81880EA5184440F7009387AB /* TCPaddedTextFieldCell.m */; };
 		819461D31852D496000FE09F /* TCDownloadOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 819461D21852D496000FE09F /* TCDownloadOperationTests.m */; };
 		819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D81834734800FE21BB /* TCTestDataLoader.m */; };
@@ -93,7 +93,7 @@
 		816328B618277F3F0070914E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8171319818586E0200DF1447 /* TCPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPreferencesWindowController.h; sourceTree = "<group>"; };
 		8171319918586E0200DF1447 /* TCPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPreferencesWindowController.m; sourceTree = "<group>"; };
-		8171319E18586E3200DF1447 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TCPreferencesWindowController.xib; sourceTree = "<group>"; };
+		8171319E18586E3200DF1447 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindow.xib; sourceTree = "<group>"; };
 		81880EA4184440F7009387AB /* TCPaddedTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPaddedTextFieldCell.h; sourceTree = "<group>"; };
 		81880EA5184440F7009387AB /* TCPaddedTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPaddedTextFieldCell.m; sourceTree = "<group>"; };
 		819461D21852D496000FE09F /* TCDownloadOperationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadOperationTests.m; sourceTree = "<group>"; };
@@ -289,7 +289,7 @@
 			children = (
 				816328B518277F3F0070914E /* MainMenu.xib */,
 				81310AE61828950700327AFF /* MainWindow.xib */,
-				8171319D18586E3200DF1447 /* TCPreferencesWindowController.xib */,
+				8171319D18586E3200DF1447 /* PreferencesWindow.xib */,
 				81F99D57182CBC6E006E561B /* TCDownloadCellView.h */,
 				81F99D58182CBC6E006E561B /* TCDownloadCellView.m */,
 				8123A197183DE2C300A6365A /* NSTableView+RowAdditions.h */,
@@ -501,7 +501,7 @@
 				816328BC18277F3F0070914E /* MainMenu.xib in Resources */,
 				81310AE81828950700327AFF /* MainWindow.xib in Resources */,
 				816328B718277F3F0070914E /* Images.xcassets in Resources */,
-				8171319F18586E3200DF1447 /* TCPreferencesWindowController.xib in Resources */,
+				8171319F18586E3200DF1447 /* PreferencesWindow.xib in Resources */,
 				816328B918277F3F0070914E /* InfoPlist.strings in Resources */,
 				816328B818277F3F0070914E /* Credits.rtf in Resources */,
 			);
@@ -671,12 +671,12 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		8171319D18586E3200DF1447 /* TCPreferencesWindowController.xib */ = {
+		8171319D18586E3200DF1447 /* PreferencesWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				8171319E18586E3200DF1447 /* Base */,
 			);
-			name = TCPreferencesWindowController.xib;
+			name = PreferencesWindow.xib;
 			sourceTree = "<group>";
 		};
 		81EFED391829E83200F28B1B /* InfoPlist.strings */ = {

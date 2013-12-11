@@ -25,7 +25,11 @@
                             <menuItem isSeparatorItem="YES" id="236">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Preferences…" keyEquivalent="," id="129"/>
+                            <menuItem title="Preferences…" keyEquivalent="," id="129">
+                                <connections>
+                                    <action selector="showWindow:" target="Y1i-Xn-TrS" id="2zo-SB-RCX"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -646,8 +650,14 @@
                 </menuItem>
             </items>
         </menu>
-        <customObject id="494" customClass="TCAppDelegate"/>
+        <customObject id="494" customClass="TCAppDelegate">
+            <connections>
+                <outlet property="mainWindowController" destination="5Yb-Ju-PR1" id="g8C-GM-Z31"/>
+                <outlet property="preferencesWindowController" destination="Y1i-Xn-TrS" id="LOK-wr-eYt"/>
+            </connections>
+        </customObject>
+        <customObject id="5Yb-Ju-PR1" customClass="TCMainWindowController"/>
+        <customObject id="Y1i-Xn-TrS" customClass="TCPreferencesWindowController"/>
         <customObject id="420" customClass="NSFontManager"/>
-        <viewController id="Gxk-hD-vmh"/>
     </objects>
 </document>

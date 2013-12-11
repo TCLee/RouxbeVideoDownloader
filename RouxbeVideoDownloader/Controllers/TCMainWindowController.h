@@ -7,7 +7,7 @@
 //
 
 /**
- * This is a single-window app, so we only have one window controller.
+ * The window controller for the main app window.
  */
 @interface TCMainWindowController : NSWindowController
     <NSTableViewDataSource, NSTableViewDelegate>
