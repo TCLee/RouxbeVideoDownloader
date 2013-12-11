@@ -11,6 +11,7 @@
 		8123A199183DE2C300A6365A /* NSTableView+RowAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */; };
 		81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81310AE21828948E00327AFF /* TCMainWindowController.m */; };
 		81310AE81828950700327AFF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81310AE61828950700327AFF /* MainWindow.xib */; };
+		8145F9A718584759008DFECB /* NSImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8145F9A618584759008DFECB /* NSImageView+AFNetworking.m */; };
 		8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */; };
 		8154CE20182F657E00DC73EC /* TCRouxbeURLContentIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */; };
 		8154CE22182F78FC00DC73EC /* TCRouxbeXMLURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */; };
@@ -70,6 +71,8 @@
 		81310AE11828948E00327AFF /* TCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMainWindowController.h; sourceTree = "<group>"; };
 		81310AE21828948E00327AFF /* TCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMainWindowController.m; sourceTree = "<group>"; };
 		81310AE71828950700327AFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		8145F9A518584759008DFECB /* NSImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		8145F9A618584759008DFECB /* NSImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLCategoryTests.m; sourceTree = "<group>"; };
 		8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLContentIDTests.m; sourceTree = "<group>"; };
 		8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeXMLURLTests.m; sourceTree = "<group>"; };
@@ -162,6 +165,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8145F9A418584759008DFECB /* AppKit+AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				8145F9A518584759008DFECB /* NSImageView+AFNetworking.h */,
+				8145F9A618584759008DFECB /* NSImageView+AFNetworking.m */,
+			);
+			path = "AppKit+AFNetworking";
+			sourceTree = "<group>";
+		};
 		81632868182770120070914E = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +397,7 @@
 		81F7B75B183B09FD0086F408 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				8145F9A418584759008DFECB /* AppKit+AFNetworking */,
 				81BADD15184892FE006FDA6D /* AFDownloadRequestOperation */,
 				81F7B75C183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure */,
 			);
@@ -588,6 +601,7 @@
 				81CD436018581093006D9DE9 /* TCDownloadOperation.m in Sources */,
 				81BADD18184892FE006FDA6D /* AFDownloadRequestOperation.m in Sources */,
 				81CD4376185815C8006D9DE9 /* TCLesson.m in Sources */,
+				8145F9A718584759008DFECB /* NSImageView+AFNetworking.m in Sources */,
 				81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */,
 				81CD4375185815C8006D9DE9 /* TCGroup.m in Sources */,
 				81CD4377185815C8006D9DE9 /* TCRecipe.m in Sources */,
