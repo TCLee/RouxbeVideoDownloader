@@ -15,7 +15,7 @@
 
 @implementation TCDownloadCellView
 
-#pragma mark - Overridden Methods
+#pragma mark - NSTableCellView
 
 - (void)awakeFromNib
 {

@@ -20,7 +20,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Create and show the main window when app finishes launching.
-    if (nil == self.windowController) {
+    if (!self.windowController) {
         self.windowController = [[TCMainWindowController alloc] init];
     }
     [self.windowController showWindow:self];
