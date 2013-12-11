@@ -10,18 +10,6 @@
 
 @implementation NSTableView (RowAdditions)
 
-- (void)addRow
-{
-    // <Last Row Index> + 1 == <Number of Rows>
-    NSInteger newRowIndex = self.numberOfRows;
-
-    [self beginUpdates];
-    [self insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newRowIndex]
-                withAnimation:NSTableViewAnimationSlideDown];
-    [self scrollRowToVisible:newRowIndex];
-    [self endUpdates];
-}
-
 - (void)addNumberOfRows:(NSUInteger)rowCount
 {
     // <Last Row Index> + 1 == <Number of Rows>
@@ -34,12 +22,6 @@
                 withAnimation:NSTableViewAnimationSlideDown];
     [self scrollRowToVisible:indexOfFirstNewRow];
     [self endUpdates];
-}
-
-- (void)removeRowAtIndex:(NSUInteger)rowIndex
-{
-    [self removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:rowIndex]
-                withAnimation:NSTableViewAnimationSlideUp];
 }
 
 - (void)reloadDataAtRowIndex:(NSUInteger)rowIndex

@@ -13,21 +13,11 @@
 @interface NSTableView (RowAdditions)
 
 /**
- * Adds a new row after the last row of the table view.
- */
-- (void)addRow;
-
-/**
  * Adds the specified number of rows to the end of the table view.
  *
  * @param rowCount The number of rows to add.
  */
 - (void)addNumberOfRows:(NSUInteger)rowCount;
-
-/**
- * Removes a row from the table view at the given index.
- */
-- (void)removeRowAtIndex:(NSUInteger)rowIndex;
 
 /**
  * Reloads the data for the row at the given index.
