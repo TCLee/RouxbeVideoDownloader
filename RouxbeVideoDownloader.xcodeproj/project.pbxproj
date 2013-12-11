@@ -211,7 +211,6 @@
 				81632886182770120070914E /* TCAppDelegate.h */,
 				81632887182770120070914E /* TCAppDelegate.m */,
 				81F7B75B183B09FD0086F408 /* Vendor */,
-				81EFED5A182B35CB00F28B1B /* Lib */,
 				816328A918277F3F0070914E /* Models */,
 				816328A818277F3F0070914E /* Controllers */,
 				816328B418277F3F0070914E /* Views */,
@@ -381,13 +380,6 @@
 				81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		81EFED5A182B35CB00F28B1B /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Lib;
 			sourceTree = "<group>";
 		};
 		81F7B75B183B09FD0086F408 /* Vendor */ = {
