@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TCPreferencesWindowController">
+            <connections>
+                <outlet property="window" destination="1" id="3"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Download Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="395" height="148"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
+            <view key="contentView" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="395" height="148"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kQo-ha-X6O">
+                        <rect key="frame" x="253" y="103" width="19" height="27"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="dse-Xb-fFh"/>
+                    </stepper>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dap-Vs-XII">
+                        <rect key="frame" x="206" y="106" width="47" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="47" id="kOj-ab-cq7"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="5" drawsBackground="YES" id="GXE-8y-mvy">
+                            <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="Kkl-1l-TeV">
+                                <real key="roundingIncrement" value="0.0"/>
+                                <metadata>
+                                    <bool key="localizesFormat" value="YES"/>
+                                </metadata>
+                            </numberFormatter>
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qwH-2b-EZm">
+                        <rect key="frame" x="18" y="109" width="182" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Concurrent Downloads:" id="EBm-LB-hQ2">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7xU-4o-U37">
+                        <rect key="frame" x="18" y="62" width="139" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Downloads Directory:" id="eQp-As-vFy">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6NN-mx-5Jd">
+                        <rect key="frame" x="161" y="57" width="217" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Downloads" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="d7G-YF-XUe" id="qi7-fH-dzt">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <menu key="menu" title="OtherViews" id="qJP-t3-BjV">
+                                <items>
+                                    <menuItem title="Downloads" state="on" id="d7G-YF-XUe"/>
+                                    <menuItem title="Item 2" id="fWh-za-c86"/>
+                                    <menuItem title="Item 3" id="PjE-eS-G7Q"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Dap-Vs-XII" firstAttribute="leading" secondItem="qwH-2b-EZm" secondAttribute="trailing" constant="8" symbolic="YES" id="BqK-ot-3cA"/>
+                    <constraint firstItem="6NN-mx-5Jd" firstAttribute="centerY" secondItem="7xU-4o-U37" secondAttribute="centerY" id="EKU-Jo-SAu"/>
+                    <constraint firstItem="kQo-ha-X6O" firstAttribute="leading" secondItem="Dap-Vs-XII" secondAttribute="trailing" constant="3" id="H65-7I-rdQ"/>
+                    <constraint firstItem="kQo-ha-X6O" firstAttribute="top" secondItem="Dap-Vs-XII" secondAttribute="top" id="I33-zI-ap3"/>
+                    <constraint firstItem="6NN-mx-5Jd" firstAttribute="leading" secondItem="7xU-4o-U37" secondAttribute="trailing" constant="8" symbolic="YES" id="KN8-7G-lUW"/>
+                    <constraint firstItem="Dap-Vs-XII" firstAttribute="centerY" secondItem="qwH-2b-EZm" secondAttribute="centerY" id="X51-nc-AGY"/>
+                    <constraint firstItem="qwH-2b-EZm" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="eCj-3A-byc"/>
+                    <constraint firstItem="6NN-mx-5Jd" firstAttribute="top" secondItem="Dap-Vs-XII" secondAttribute="bottom" constant="25" id="o4U-NZ-1LB"/>
+                    <constraint firstItem="qwH-2b-EZm" firstAttribute="leading" secondItem="7xU-4o-U37" secondAttribute="leading" id="wEy-jm-Wju"/>
+                    <constraint firstAttribute="trailing" secondItem="6NN-mx-5Jd" secondAttribute="trailing" constant="20" symbolic="YES" id="wdg-EP-Efa"/>
+                    <constraint firstItem="Dap-Vs-XII" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" symbolic="YES" id="wxZ-pJ-028"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="4"/>
+            </connections>
+        </window>
+    </objects>
+</document>
