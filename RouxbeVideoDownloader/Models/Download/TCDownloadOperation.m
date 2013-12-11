@@ -79,6 +79,10 @@ static NSString * const TCTemporaryFileExtension = @"tcdownload";
                                           userInfo:@{NSProgressFileOperationKindKey: NSProgressFileOperationKindDownloading}];
     _progress.kind = NSProgressKindFile;
 
+    // Show the file icon with download progress in Finder.
+    NSImage *fileIcon = [[NSWorkspace sharedWorkspace] iconForFileType:@"mp4"];
+    [_progress setUserInfoObject:fileIcon forKey:NSProgressFileIconKey];
+
     // Set the NSProgress object to be indeterminate, until we receive
     // some response data.
     _progress.completedUnitCount = -1;
