@@ -34,13 +34,13 @@
 		81CD436018581093006D9DE9 /* TCDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD434918581093006D9DE9 /* TCDownloadOperation.m */; };
 		81CD436118581093006D9DE9 /* TCDownloadOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD434B18581093006D9DE9 /* TCDownloadOperationManager.m */; };
 		81CD436218581093006D9DE9 /* TCRouxbeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD434E18581093006D9DE9 /* TCRouxbeService.m */; };
-		81CD436318581093006D9DE9 /* TCGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD435218581093006D9DE9 /* TCGroup.m */; };
-		81CD436418581093006D9DE9 /* TCLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD435418581093006D9DE9 /* TCLesson.m */; };
-		81CD436518581093006D9DE9 /* TCRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD435618581093006D9DE9 /* TCRecipe.m */; };
-		81CD436618581093006D9DE9 /* TCStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD435818581093006D9DE9 /* TCStep.m */; };
-		81CD436718581093006D9DE9 /* TCTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD435A18581093006D9DE9 /* TCTip.m */; };
 		81CD436818581093006D9DE9 /* NSURL+RouxbeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD435C18581093006D9DE9 /* NSURL+RouxbeAdditions.m */; };
 		81CD436918581093006D9DE9 /* TCVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD435E18581093006D9DE9 /* TCVideo.m */; };
+		81CD4375185815C8006D9DE9 /* TCGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD436C185815C8006D9DE9 /* TCGroup.m */; };
+		81CD4376185815C8006D9DE9 /* TCLesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD436E185815C8006D9DE9 /* TCLesson.m */; };
+		81CD4377185815C8006D9DE9 /* TCRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD4370185815C8006D9DE9 /* TCRecipe.m */; };
+		81CD4378185815C8006D9DE9 /* TCStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD4372185815C8006D9DE9 /* TCStep.m */; };
+		81CD4379185815C8006D9DE9 /* TCTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD4374185815C8006D9DE9 /* TCTip.m */; };
 		81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED391829E83200F28B1B /* InfoPlist.strings */; };
 		81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED3F1829F6BC00F28B1B /* Lesson.xml */; };
 		81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */; };
@@ -108,20 +108,20 @@
 		81CD434B18581093006D9DE9 /* TCDownloadOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadOperationManager.m; sourceTree = "<group>"; };
 		81CD434D18581093006D9DE9 /* TCRouxbeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCRouxbeService.h; sourceTree = "<group>"; };
 		81CD434E18581093006D9DE9 /* TCRouxbeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeService.m; sourceTree = "<group>"; };
-		81CD435118581093006D9DE9 /* TCGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCGroup.h; sourceTree = "<group>"; };
-		81CD435218581093006D9DE9 /* TCGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCGroup.m; sourceTree = "<group>"; };
-		81CD435318581093006D9DE9 /* TCLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLesson.h; sourceTree = "<group>"; };
-		81CD435418581093006D9DE9 /* TCLesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLesson.m; sourceTree = "<group>"; };
-		81CD435518581093006D9DE9 /* TCRecipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCRecipe.h; sourceTree = "<group>"; };
-		81CD435618581093006D9DE9 /* TCRecipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRecipe.m; sourceTree = "<group>"; };
-		81CD435718581093006D9DE9 /* TCStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCStep.h; sourceTree = "<group>"; };
-		81CD435818581093006D9DE9 /* TCStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCStep.m; sourceTree = "<group>"; };
-		81CD435918581093006D9DE9 /* TCTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTip.h; sourceTree = "<group>"; };
-		81CD435A18581093006D9DE9 /* TCTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTip.m; sourceTree = "<group>"; };
 		81CD435B18581093006D9DE9 /* NSURL+RouxbeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+RouxbeAdditions.h"; sourceTree = "<group>"; };
 		81CD435C18581093006D9DE9 /* NSURL+RouxbeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+RouxbeAdditions.m"; sourceTree = "<group>"; };
 		81CD435D18581093006D9DE9 /* TCVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCVideo.h; sourceTree = "<group>"; };
 		81CD435E18581093006D9DE9 /* TCVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCVideo.m; sourceTree = "<group>"; };
+		81CD436B185815C8006D9DE9 /* TCGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCGroup.h; sourceTree = "<group>"; };
+		81CD436C185815C8006D9DE9 /* TCGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCGroup.m; sourceTree = "<group>"; };
+		81CD436D185815C8006D9DE9 /* TCLesson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCLesson.h; sourceTree = "<group>"; };
+		81CD436E185815C8006D9DE9 /* TCLesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLesson.m; sourceTree = "<group>"; };
+		81CD436F185815C8006D9DE9 /* TCRecipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCRecipe.h; sourceTree = "<group>"; };
+		81CD4370185815C8006D9DE9 /* TCRecipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRecipe.m; sourceTree = "<group>"; };
+		81CD4371185815C8006D9DE9 /* TCStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCStep.h; sourceTree = "<group>"; };
+		81CD4372185815C8006D9DE9 /* TCStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCStep.m; sourceTree = "<group>"; };
+		81CD4373185815C8006D9DE9 /* TCTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTip.h; sourceTree = "<group>"; };
+		81CD4374185815C8006D9DE9 /* TCTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTip.m; sourceTree = "<group>"; };
 		81EFED3A1829E83200F28B1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		81EFED3B1829E83200F28B1B /* RouxbeVideoDownloaderTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RouxbeVideoDownloaderTests-Info.plist"; sourceTree = "<group>"; };
 		81EFED3F1829F6BC00F28B1B /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
@@ -341,26 +341,26 @@
 				81CD435E18581093006D9DE9 /* TCVideo.m */,
 				81CD435B18581093006D9DE9 /* NSURL+RouxbeAdditions.h */,
 				81CD435C18581093006D9DE9 /* NSURL+RouxbeAdditions.m */,
-				81CD435018581093006D9DE9 /* Model */,
+				81CD436A185815C8006D9DE9 /* WebService */,
 			);
 			path = Video;
 			sourceTree = "<group>";
 		};
-		81CD435018581093006D9DE9 /* Model */ = {
+		81CD436A185815C8006D9DE9 /* WebService */ = {
 			isa = PBXGroup;
 			children = (
-				81CD435118581093006D9DE9 /* TCGroup.h */,
-				81CD435218581093006D9DE9 /* TCGroup.m */,
-				81CD435718581093006D9DE9 /* TCStep.h */,
-				81CD435818581093006D9DE9 /* TCStep.m */,
-				81CD435318581093006D9DE9 /* TCLesson.h */,
-				81CD435418581093006D9DE9 /* TCLesson.m */,
-				81CD435518581093006D9DE9 /* TCRecipe.h */,
-				81CD435618581093006D9DE9 /* TCRecipe.m */,
-				81CD435918581093006D9DE9 /* TCTip.h */,
-				81CD435A18581093006D9DE9 /* TCTip.m */,
+				81CD436B185815C8006D9DE9 /* TCGroup.h */,
+				81CD436C185815C8006D9DE9 /* TCGroup.m */,
+				81CD4371185815C8006D9DE9 /* TCStep.h */,
+				81CD4372185815C8006D9DE9 /* TCStep.m */,
+				81CD436D185815C8006D9DE9 /* TCLesson.h */,
+				81CD436E185815C8006D9DE9 /* TCLesson.m */,
+				81CD436F185815C8006D9DE9 /* TCRecipe.h */,
+				81CD4370185815C8006D9DE9 /* TCRecipe.m */,
+				81CD4373185815C8006D9DE9 /* TCTip.h */,
+				81CD4374185815C8006D9DE9 /* TCTip.m */,
 			);
-			path = Model;
+			path = WebService;
 			sourceTree = "<group>";
 		};
 		81EFED381829E83200F28B1B /* SupportingFiles */ = {
@@ -578,25 +578,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81CD436718581093006D9DE9 /* TCTip.m in Sources */,
 				81F7B761183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure.m in Sources */,
-				81CD436418581093006D9DE9 /* TCLesson.m in Sources */,
 				81880EA6184440F7009387AB /* TCPaddedTextFieldCell.m in Sources */,
+				81CD4379185815C8006D9DE9 /* TCTip.m in Sources */,
 				81CD436818581093006D9DE9 /* NSURL+RouxbeAdditions.m in Sources */,
 				81CD436118581093006D9DE9 /* TCDownloadOperationManager.m in Sources */,
+				81CD4378185815C8006D9DE9 /* TCStep.m in Sources */,
 				81CD436918581093006D9DE9 /* TCVideo.m in Sources */,
-				81CD436518581093006D9DE9 /* TCRecipe.m in Sources */,
 				81CD436018581093006D9DE9 /* TCDownloadOperation.m in Sources */,
 				81BADD18184892FE006FDA6D /* AFDownloadRequestOperation.m in Sources */,
+				81CD4376185815C8006D9DE9 /* TCLesson.m in Sources */,
 				81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */,
+				81CD4375185815C8006D9DE9 /* TCGroup.m in Sources */,
+				81CD4377185815C8006D9DE9 /* TCRecipe.m in Sources */,
 				81F7B762183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m in Sources */,
 				81CD436218581093006D9DE9 /* TCRouxbeService.m in Sources */,
-				81CD436618581093006D9DE9 /* TCStep.m in Sources */,
 				816328BA18277F3F0070914E /* main.m in Sources */,
 				8123A199183DE2C300A6365A /* NSTableView+RowAdditions.m in Sources */,
 				81CD435F18581093006D9DE9 /* TCDownloadConfiguration.m in Sources */,
 				81632888182770120070914E /* TCAppDelegate.m in Sources */,
-				81CD436318581093006D9DE9 /* TCGroup.m in Sources */,
 				81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
