@@ -16,15 +16,15 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Rouxbe Videos Downloader" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" appearanceType="lightContent" animationBehavior="default" id="lrr-J4-DdU">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <rect key="contentRect" x="335" y="390" width="528" height="320"/>
+            <rect key="contentRect" x="335" y="390" width="713" height="320"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <value key="minSize" type="size" width="510" height="320"/>
             <view key="contentView" id="28s-rd-IHn">
-                <rect key="frame" x="0.0" y="0.0" width="528" height="320"/>
+                <rect key="frame" x="0.0" y="0.0" width="713" height="320"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField identifier="URLTextField" appearanceType="lightContent" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3jO-F5-ME2">
-                        <rect key="frame" x="20" y="278" width="488" height="22"/>
+                        <rect key="frame" x="20" y="278" width="673" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="e.g. http://rouxbe.com/cooking-school/lessons/170-how-to-pan-fry" drawsBackground="YES" usesSingleLineMode="YES" id="bFB-4Z-Q5X" customClass="TCPaddedTextFieldCell">
                             <font key="font" metaFont="system"/>
@@ -36,24 +36,24 @@
                         </connections>
                     </textField>
                     <progressIndicator appearanceType="lightContent" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="dlF-0j-QQ6">
-                        <rect key="frame" x="487" y="281" width="16" height="16"/>
+                        <rect key="frame" x="672" y="281" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
-                    <scrollView identifier="tableScrollView" appearanceType="lightContent" autohidesScrollers="YES" horizontalLineScroll="107" horizontalPageScroll="10" verticalLineScroll="107" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="dq4-Qv-CQi">
-                        <rect key="frame" x="20" y="20" width="488" height="250"/>
+                    <scrollView identifier="tableScrollView" appearanceType="lightContent" autohidesScrollers="YES" horizontalLineScroll="135" horizontalPageScroll="10" verticalLineScroll="135" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="dq4-Qv-CQi">
+                        <rect key="frame" x="20" y="20" width="673" height="250"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" identifier="tableClipView" id="uVY-mW-Zfy">
-                            <rect key="frame" x="1" y="1" width="486" height="248"/>
+                            <rect key="frame" x="1" y="1" width="671" height="248"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView identifier="tableView" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="105" viewBased="YES" id="JMX-H2-f4N">
-                                    <rect key="frame" x="0.0" y="0.0" width="486" height="248"/>
+                                <tableView identifier="tableView" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowHeight="133" viewBased="YES" id="JMX-H2-f4N">
+                                    <rect key="frame" x="0.0" y="0.0" width="671" height="248"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="TCDownloadCell" editable="NO" width="483" minWidth="40" maxWidth="4000" id="n7i-gB-gcs">
+                                        <tableColumn identifier="TCDownloadCell" editable="NO" width="668" minWidth="40" maxWidth="4000" id="n7i-gB-gcs">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -67,15 +67,11 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="TCDownloadCell" id="GfC-qw-0My" customClass="TCDownloadCellView">
-                                                    <rect key="frame" x="1" y="1" width="483" height="105"/>
+                                                    <rect key="frame" x="1" y="1" width="668" height="133"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <progressIndicator identifier="progressBar" appearanceType="lightContent" maxValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="lPJ-1c-dZs">
-                                                            <rect key="frame" x="20" y="41" width="421" height="20"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        </progressIndicator>
                                                         <textField identifier="titleLabel" appearanceType="lightContent" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="FvC-9u-NGm">
-                                                            <rect key="frame" x="18" y="68" width="447" height="17"/>
+                                                            <rect key="frame" x="216" y="84" width="422" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="How to Cut Using a Chef's Knife/01 - Intro to How to Use a Chef's Knife.mp4" usesSingleLineMode="YES" id="ZAe-ba-JXX">
                                                                 <font key="font" metaFont="system"/>
@@ -84,7 +80,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <textField identifier="progressLabel" appearanceType="lightContent" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="WK9-an-ni0">
-                                                            <rect key="frame" x="18" y="20" width="425" height="14"/>
+                                                            <rect key="frame" x="216" y="36" width="422" height="14"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="0 MB of 0 MB" id="2VG-yL-fVi">
                                                                 <font key="font" metaFont="smallSystem"/>
@@ -92,8 +88,21 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
+                                                        <imageView appearanceType="lightContent" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mdl-V0-71x">
+                                                            <rect key="frame" x="10" y="10" width="200" height="113"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="113" id="PA9-Rt-w0c"/>
+                                                                <constraint firstAttribute="width" constant="200" id="SEr-Mw-bne"/>
+                                                            </constraints>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Chicken_Cashew_S3_poster" id="n2B-kb-mlj"/>
+                                                        </imageView>
+                                                        <progressIndicator identifier="progressBar" appearanceType="lightContent" maxValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="lPJ-1c-dZs">
+                                                            <rect key="frame" x="218" y="57" width="418" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        </progressIndicator>
                                                         <button appearanceType="lightContent" translatesAutoresizingMaskIntoConstraints="NO" id="idw-ov-Zg9">
-                                                            <rect key="frame" x="449" y="35" width="14" height="32"/>
+                                                            <rect key="frame" x="644" y="51" width="14" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="32" id="NmS-Tr-fcd"/>
@@ -109,17 +118,19 @@
                                                         </button>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="lPJ-1c-dZs" firstAttribute="leading" secondItem="GfC-qw-0My" secondAttribute="leading" constant="20" symbolic="YES" id="0do-Zd-mAf"/>
-                                                        <constraint firstAttribute="trailing" secondItem="idw-ov-Zg9" secondAttribute="trailing" constant="20" symbolic="YES" id="1ev-n3-amM"/>
-                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="trailing" secondItem="lPJ-1c-dZs" secondAttribute="trailing" id="GoK-RK-VQh"/>
-                                                        <constraint firstItem="lPJ-1c-dZs" firstAttribute="top" secondItem="FvC-9u-NGm" secondAttribute="bottom" constant="8" symbolic="YES" id="HlT-jN-mnd"/>
-                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="leading" secondItem="lPJ-1c-dZs" secondAttribute="leading" id="PhD-Rf-Mgd"/>
-                                                        <constraint firstItem="idw-ov-Zg9" firstAttribute="leading" secondItem="lPJ-1c-dZs" secondAttribute="trailing" constant="8" symbolic="YES" id="SD5-Ei-ytW"/>
-                                                        <constraint firstItem="lPJ-1c-dZs" firstAttribute="centerY" secondItem="idw-ov-Zg9" secondAttribute="centerY" id="Vdl-G7-Qf2"/>
-                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="top" secondItem="lPJ-1c-dZs" secondAttribute="bottom" constant="8" symbolic="YES" id="oA4-Pr-zDt"/>
-                                                        <constraint firstAttribute="trailing" secondItem="FvC-9u-NGm" secondAttribute="trailing" constant="20" symbolic="YES" id="ojb-vL-qXj"/>
-                                                        <constraint firstItem="FvC-9u-NGm" firstAttribute="top" secondItem="GfC-qw-0My" secondAttribute="top" constant="20" symbolic="YES" id="sDp-Uv-hMc"/>
-                                                        <constraint firstItem="FvC-9u-NGm" firstAttribute="leading" secondItem="GfC-qw-0My" secondAttribute="leading" constant="20" symbolic="YES" id="zXC-Bo-h1p"/>
+                                                        <constraint firstItem="Mdl-V0-71x" firstAttribute="leading" secondItem="GfC-qw-0My" secondAttribute="leading" constant="10" id="1Vl-Vy-phe"/>
+                                                        <constraint firstItem="FvC-9u-NGm" firstAttribute="leading" secondItem="lPJ-1c-dZs" secondAttribute="leading" id="1Za-Fg-pnG"/>
+                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="top" secondItem="lPJ-1c-dZs" secondAttribute="bottom" constant="8" symbolic="YES" id="8Qc-KG-W9I"/>
+                                                        <constraint firstAttribute="trailing" secondItem="idw-ov-Zg9" secondAttribute="trailing" constant="10" id="OC9-jE-Ilw"/>
+                                                        <constraint firstItem="lPJ-1c-dZs" firstAttribute="top" secondItem="FvC-9u-NGm" secondAttribute="bottom" constant="8" symbolic="YES" id="QbP-6N-cNd"/>
+                                                        <constraint firstItem="idw-ov-Zg9" firstAttribute="leading" secondItem="lPJ-1c-dZs" secondAttribute="trailing" constant="8" symbolic="YES" id="Qkk-fY-438"/>
+                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="leading" secondItem="lPJ-1c-dZs" secondAttribute="leading" id="TVI-O9-vkr"/>
+                                                        <constraint firstAttribute="centerY" secondItem="lPJ-1c-dZs" secondAttribute="centerY" id="Wa3-e1-qZQ"/>
+                                                        <constraint firstAttribute="centerY" secondItem="idw-ov-Zg9" secondAttribute="centerY" id="bfV-Di-Ogo"/>
+                                                        <constraint firstItem="lPJ-1c-dZs" firstAttribute="leading" secondItem="Mdl-V0-71x" secondAttribute="trailing" constant="8" symbolic="YES" id="fT9-Bz-0OF"/>
+                                                        <constraint firstAttribute="centerY" secondItem="Mdl-V0-71x" secondAttribute="centerY" id="kRf-sr-Z7d"/>
+                                                        <constraint firstItem="FvC-9u-NGm" firstAttribute="width" secondItem="lPJ-1c-dZs" secondAttribute="width" id="tl6-5R-WDX"/>
+                                                        <constraint firstItem="WK9-an-ni0" firstAttribute="width" secondItem="lPJ-1c-dZs" secondAttribute="width" id="wHZ-RU-0ey"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="actionButton" destination="idw-ov-Zg9" id="Gnt-89-fpm"/>
@@ -168,6 +179,7 @@
         </window>
     </objects>
     <resources>
+        <image name="Chicken_Cashew_S3_poster" width="368.6400146484375" height="207.36000061035156"/>
         <image name="NSStopProgressFreestandingTemplate" width="83" height="83"/>
     </resources>
 </document>
