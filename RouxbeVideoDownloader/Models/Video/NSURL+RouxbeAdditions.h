@@ -28,6 +28,10 @@ typedef NS_ENUM(NSInteger, TCRouxbeCategory) {
     TCRouxbeCategoryTip = 3
 };
 
+/**
+ * \c RouxbeAdditions category on \c NSURL adds methods to validate 
+ * and extract information from a rouxbe.com URL.
+ */
 @interface NSURL (RouxbeAdditions)
 
 /**
@@ -56,12 +60,5 @@ typedef NS_ENUM(NSInteger, TCRouxbeCategory) {
  *         not a valid Rouxbe URL.
  */
 - (NSUInteger)rouxbeID;
-
-/**
- * Returns a new URL to the XML representation of the receiver.
- *
- * @return A new URL to the XML document.
- */
-- (NSURL *)rouxbeXMLDocumentURL;
 
 @end

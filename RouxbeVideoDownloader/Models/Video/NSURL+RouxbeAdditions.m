@@ -107,38 +107,6 @@ static NSString * const kTipsPathComponent = @"tips-techniques";
     return [scanner scanInteger:&contentID] ? contentID : NSNotFound;
 }
 
-- (NSURL *)rouxbeXMLDocumentURL
-{
-    // Don't bother if it's not a valid Rouxbe URL.
-    if (![self isValidRouxbeURL]) {
-        return nil;
-    }
-
-    // We are going to modify the path components, so we need a mutable copy.
-    NSMutableArray *mutablePathComponents = [[self pathComponents] mutableCopy];
-
-    // Replace the content path component with just the ID and XML extension.
-    // Adding the XML extension will return the XML representation of the content.
-    NSUInteger contentPathIndex = [self indexOfContentIDPathComponent];
-    mutablePathComponents[contentPathIndex] =
-        [[NSString alloc] initWithFormat:@"%lu.xml", [self rouxbeID]];
-
-    // The first path component is the leading slash "/".
-    // We replace it with an empty string, so that when we call
-    // [componentsJoinedByString:@"/"] it will not have two leading slash "//".
-    mutablePathComponents[0] = @"";
-
-    // The path components after the content ID is ignored.
-    NSArray *pathComponents = [mutablePathComponents subarrayWithRange:NSMakeRange(0, contentPathIndex + 1)];
-
-    // Combine the path components together to get the URL to the
-    // XML document.
-    NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithURL:self
-                                                  resolvingAgainstBaseURL:NO];
-    urlComponents.path = [pathComponents componentsJoinedByString:@"/"];
-    return [urlComponents URL];
-}
-
 /**
  * Returns the index of the path component that contains the content ID.
  *
