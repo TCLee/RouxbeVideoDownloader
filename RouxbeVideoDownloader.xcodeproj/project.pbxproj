@@ -25,6 +25,7 @@
 		816328BC18277F3F0070914E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 816328B518277F3F0070914E /* MainMenu.xib */; };
 		8171319B18586E0200DF1447 /* TCPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8171319918586E0200DF1447 /* TCPreferencesWindowController.m */; };
 		8171319F18586E3200DF1447 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8171319D18586E3200DF1447 /* PreferencesWindow.xib */; };
+		817131A218595C4C00DF1447 /* TCDirectoryPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 817131A118595C4C00DF1447 /* TCDirectoryPopUpButton.m */; };
 		81880EA6184440F7009387AB /* TCPaddedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81880EA5184440F7009387AB /* TCPaddedTextFieldCell.m */; };
 		819461D31852D496000FE09F /* TCDownloadOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 819461D21852D496000FE09F /* TCDownloadOperationTests.m */; };
 		819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D81834734800FE21BB /* TCTestDataLoader.m */; };
@@ -94,6 +95,8 @@
 		8171319818586E0200DF1447 /* TCPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPreferencesWindowController.h; sourceTree = "<group>"; };
 		8171319918586E0200DF1447 /* TCPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPreferencesWindowController.m; sourceTree = "<group>"; };
 		8171319E18586E3200DF1447 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindow.xib; sourceTree = "<group>"; };
+		817131A018595C4C00DF1447 /* TCDirectoryPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDirectoryPopUpButton.h; sourceTree = "<group>"; };
+		817131A118595C4C00DF1447 /* TCDirectoryPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDirectoryPopUpButton.m; sourceTree = "<group>"; };
 		81880EA4184440F7009387AB /* TCPaddedTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPaddedTextFieldCell.h; sourceTree = "<group>"; };
 		81880EA5184440F7009387AB /* TCPaddedTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPaddedTextFieldCell.m; sourceTree = "<group>"; };
 		819461D21852D496000FE09F /* TCDownloadOperationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadOperationTests.m; sourceTree = "<group>"; };
@@ -290,12 +293,14 @@
 				816328B518277F3F0070914E /* MainMenu.xib */,
 				81310AE61828950700327AFF /* MainWindow.xib */,
 				8171319D18586E3200DF1447 /* PreferencesWindow.xib */,
-				81F99D57182CBC6E006E561B /* TCDownloadCellView.h */,
-				81F99D58182CBC6E006E561B /* TCDownloadCellView.m */,
 				8123A197183DE2C300A6365A /* NSTableView+RowAdditions.h */,
 				8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */,
+				81F99D57182CBC6E006E561B /* TCDownloadCellView.h */,
+				81F99D58182CBC6E006E561B /* TCDownloadCellView.m */,
 				81880EA4184440F7009387AB /* TCPaddedTextFieldCell.h */,
 				81880EA5184440F7009387AB /* TCPaddedTextFieldCell.m */,
+				817131A018595C4C00DF1447 /* TCDirectoryPopUpButton.h */,
+				817131A118595C4C00DF1447 /* TCDirectoryPopUpButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -604,6 +609,7 @@
 				81F7B762183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m in Sources */,
 				81CD436218581093006D9DE9 /* TCRouxbeService.m in Sources */,
 				816328BA18277F3F0070914E /* main.m in Sources */,
+				817131A218595C4C00DF1447 /* TCDirectoryPopUpButton.m in Sources */,
 				8123A199183DE2C300A6365A /* NSTableView+RowAdditions.m in Sources */,
 				81CD435F18581093006D9DE9 /* TCDownloadConfiguration.m in Sources */,
 				81632888182770120070914E /* TCAppDelegate.m in Sources */,
@@ -767,7 +773,6 @@
 			baseConfigurationReference = EA621434EFAA40278656A5D5 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch";
@@ -782,7 +787,6 @@
 			baseConfigurationReference = EA621434EFAA40278656A5D5 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RouxbeVideoDownloader/SupportingFiles/RouxbeVideoDownloader-Prefix.pch";

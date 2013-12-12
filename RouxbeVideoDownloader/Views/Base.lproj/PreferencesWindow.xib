@@ -13,19 +13,19 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Download Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
-            <rect key="contentRect" x="196" y="240" width="395" height="148"/>
+            <rect key="contentRect" x="196" y="240" width="395" height="179"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <view key="contentView" id="2">
-                <rect key="frame" x="0.0" y="0.0" width="395" height="148"/>
+                <rect key="frame" x="0.0" y="0.0" width="395" height="179"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kQo-ha-X6O">
-                        <rect key="frame" x="253" y="103" width="19" height="27"/>
+                        <rect key="frame" x="253" y="134" width="19" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="dse-Xb-fFh"/>
                     </stepper>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dap-Vs-XII">
-                        <rect key="frame" x="206" y="106" width="47" height="22"/>
+                        <rect key="frame" x="206" y="137" width="47" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="5" drawsBackground="YES" id="GXE-8y-mvy">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="Kkl-1l-TeV">
@@ -40,7 +40,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qwH-2b-EZm">
-                        <rect key="frame" x="18" y="109" width="182" height="17"/>
+                        <rect key="frame" x="18" y="140" width="182" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Concurrent Downloads:" id="EBm-LB-hQ2">
                             <font key="font" metaFont="system"/>
@@ -49,7 +49,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7xU-4o-U37">
-                        <rect key="frame" x="18" y="66" width="139" height="17"/>
+                        <rect key="frame" x="18" y="99" width="139" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Downloads Directory:" id="eQp-As-vFy">
                             <font key="font" metaFont="system"/>
@@ -57,8 +57,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6NN-mx-5Jd">
-                        <rect key="frame" x="161" y="61" width="217" height="26"/>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6NN-mx-5Jd" customClass="TCDirectoryPopUpButton">
+                        <rect key="frame" x="161" y="94" width="217" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Downloads" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="d7G-YF-XUe" id="qi7-fH-dzt">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
