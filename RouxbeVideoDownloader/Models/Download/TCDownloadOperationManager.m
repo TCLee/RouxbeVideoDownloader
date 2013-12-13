@@ -49,7 +49,7 @@
 
     self = [super init];
     if (self) {
-        _configuration = [theConfiguration copy];
+        _configuration = theConfiguration;
 
         _allDownloadOperations = [[NSMutableArray alloc] init];
         _operationQueue = [[NSOperationQueue alloc] init];
