@@ -61,12 +61,24 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
     if (self) {
         _defaults = [NSUserDefaults standardUserDefaults];
 
-        // Register default values for preferences that may not have been set yet.
-        NSDictionary *defaultsDictionary = @{TCMaxConcurrentDownloadCountDefaultsKey: @(TCDefaultMaxConcurrentDownloadOperationCount),
-                                             TCDownloadsDirectoryURLDefaultsKey: TCUserDownloadsDirectoryURL()};
-        [_defaults registerDefaults:defaultsDictionary];
+        [self registerDefaults];
     }
     return self;
+}
+
+/**
+ * Register default values for preferences that may not have been set yet.
+ * (i.e. first time launching this app)
+ */
+- (void)registerDefaults
+{
+    // See documentation for NSUserDefaults::setURL:forKey: on how to save
+    // a path-based file: scheme URL.
+    NSString *downloadsDirectoryPath = [[TCUserDownloadsDirectoryURL() path] stringByAbbreviatingWithTildeInPath];
+
+    NSDictionary *defaultsDictionary = @{TCMaxConcurrentDownloadCountDefaultsKey: @(TCDefaultMaxConcurrentDownloadOperationCount),
+                                         TCDownloadsDirectoryURLDefaultsKey: downloadsDirectoryPath};
+    [self.defaults registerDefaults:defaultsDictionary];
 }
 
 #pragma mark - Max Concurrent Download Operation Count
