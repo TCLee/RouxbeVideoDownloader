@@ -7,8 +7,14 @@
 //
 
 #import "TCPreferencesWindowController.h"
+#import "TCDirectoryPopUpButton.h"
+#import "TCDownloadConfiguration.h"
 
 @interface TCPreferencesWindowController ()
+
+@property (readwrite, nonatomic, weak) IBOutlet NSStepper *stepper;
+@property (readwrite, nonatomic, weak) IBOutlet NSTextField *maxConcurrentDownloadCountTextField;
+@property (readwrite, nonatomic, weak) IBOutlet TCDirectoryPopUpButton *downloadsDirectoryPopUpButton;
 
 @end
 
@@ -26,6 +32,23 @@
     
     // Implement this method to handle any initialization after your
     // window controller's window has been loaded from its nib file.
+}
+
+#pragma mark - Target-Action
+
+- (IBAction)stepperValueChanged:(id)sender
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+- (IBAction)textFieldEndEditing:(id)sender
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+- (IBAction)directoryPopUpButtonDirectoryChanged:(id)sender
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 @end

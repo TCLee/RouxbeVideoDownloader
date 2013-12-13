@@ -6,6 +6,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TCPreferencesWindowController">
             <connections>
+                <outlet property="downloadsDirectoryPopUpButton" destination="6NN-mx-5Jd" id="BVF-1j-u17"/>
+                <outlet property="maxConcurrentDownloadCountTextField" destination="Dap-Vs-XII" id="qcD-aQ-gTL"/>
+                <outlet property="stepper" destination="kQo-ha-X6O" id="xQb-Bn-Xmu"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
@@ -22,22 +25,30 @@
                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kQo-ha-X6O">
                         <rect key="frame" x="253" y="134" width="19" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="dse-Xb-fFh"/>
+                        <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="100" doubleValue="5" id="dse-Xb-fFh"/>
+                        <connections>
+                            <action selector="stepperValueChanged:" target="-2" id="8c3-fU-dus"/>
+                        </connections>
                     </stepper>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dap-Vs-XII">
                         <rect key="frame" x="206" y="137" width="47" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="5" drawsBackground="YES" id="GXE-8y-mvy">
-                            <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="Kkl-1l-TeV">
+                            <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" allowsFloats="NO" usesGroupingSeparator="NO" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="0" id="Kkl-1l-TeV">
                                 <real key="roundingIncrement" value="0.0"/>
+                                <real key="minimum" value="1"/>
                                 <metadata>
                                     <bool key="localizesFormat" value="YES"/>
+                                    <real key="inspectorSampleValue" value="1234"/>
                                 </metadata>
                             </numberFormatter>
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <action selector="textFieldEndEditing:" target="-2" id="1uR-Jb-H0l"/>
+                        </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qwH-2b-EZm">
                         <rect key="frame" x="18" y="140" width="182" height="17"/>
@@ -62,7 +73,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Downloads" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="d7G-YF-XUe" id="qi7-fH-dzt">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="qJP-t3-BjV">
                                 <items>
                                     <menuItem title="Downloads" state="on" id="d7G-YF-XUe"/>
@@ -71,6 +82,9 @@
                                 </items>
                             </menu>
                         </popUpButtonCell>
+                        <connections>
+                            <action selector="directoryPopUpButtonDirectoryChanged:" target="-2" id="h0O-z7-y42"/>
+                        </connections>
                     </popUpButton>
                 </subviews>
             </view>
