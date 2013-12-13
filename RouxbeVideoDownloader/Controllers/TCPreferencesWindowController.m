@@ -13,8 +13,8 @@
 @interface TCPreferencesWindowController ()
 
 @property (readwrite, nonatomic, weak) IBOutlet NSStepper *stepper;
-@property (readwrite, nonatomic, weak) IBOutlet NSTextField *maxConcurrentDownloadCountTextField;
-@property (readwrite, nonatomic, weak) IBOutlet TCDirectoryPopUpButton *downloadsDirectoryPopUpButton;
+@property (readwrite, nonatomic, weak) IBOutlet NSTextField *textField;
+@property (readwrite, nonatomic, weak) IBOutlet TCDirectoryPopUpButton *directoryPopUpButton;
 
 @end
 
@@ -29,9 +29,11 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    
-    // Implement this method to handle any initialization after your
-    // window controller's window has been loaded from its nib file.
+
+    // Initialize the view with the configuration model's values.
+    self.stepper.integerValue = self.configuration.maxConcurrentDownloadCount;
+    self.textField.integerValue = self.configuration.maxConcurrentDownloadCount;
+    self.directoryPopUpButton.selectedDirectoryURL = self.configuration.downloadsDirectoryURL;
 }
 
 #pragma mark - Target-Action

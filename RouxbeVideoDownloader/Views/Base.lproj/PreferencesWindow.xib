@@ -6,9 +6,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TCPreferencesWindowController">
             <connections>
-                <outlet property="downloadsDirectoryPopUpButton" destination="6NN-mx-5Jd" id="BVF-1j-u17"/>
-                <outlet property="maxConcurrentDownloadCountTextField" destination="Dap-Vs-XII" id="qcD-aQ-gTL"/>
+                <outlet property="directoryPopUpButton" destination="6NN-mx-5Jd" id="PHW-J3-HPZ"/>
                 <outlet property="stepper" destination="kQo-ha-X6O" id="xQb-Bn-Xmu"/>
+                <outlet property="textField" destination="Dap-Vs-XII" id="OOL-Jc-S2H"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
@@ -50,24 +50,6 @@
                             <action selector="textFieldEndEditing:" target="-2" id="1uR-Jb-H0l"/>
                         </connections>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qwH-2b-EZm">
-                        <rect key="frame" x="18" y="140" width="182" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Concurrent Downloads:" id="EBm-LB-hQ2">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7xU-4o-U37">
-                        <rect key="frame" x="18" y="99" width="139" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Downloads Directory:" id="eQp-As-vFy">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6NN-mx-5Jd" customClass="TCDirectoryPopUpButton">
                         <rect key="frame" x="161" y="94" width="217" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -86,6 +68,24 @@
                             <action selector="directoryPopUpButtonDirectoryChanged:" target="-2" id="h0O-z7-y42"/>
                         </connections>
                     </popUpButton>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qwH-2b-EZm">
+                        <rect key="frame" x="18" y="140" width="182" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Concurrent Downloads:" id="EBm-LB-hQ2">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7xU-4o-U37">
+                        <rect key="frame" x="18" y="99" width="139" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Downloads Directory:" id="eQp-As-vFy">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <connections>
