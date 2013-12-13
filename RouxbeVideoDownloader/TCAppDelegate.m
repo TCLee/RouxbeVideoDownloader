@@ -9,6 +9,7 @@
 #import "TCAppDelegate.h"
 #import "TCMainWindowController.h"
 #import "TCPreferencesWindowController.h"
+#import "TCDownloadConfiguration.h"
 
 @interface TCAppDelegate ()
 
@@ -21,6 +22,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    self.preferencesWindowController.configuration = [TCDownloadConfiguration sharedConfiguration];
+    
     [self.mainWindowController showWindow:self];
 }
 
