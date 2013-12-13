@@ -52,42 +52,47 @@
     openPanel.canChooseFiles = NO;
     openPanel.allowsMultipleSelection = NO;
     openPanel.prompt = NSLocalizedString(@"Select", @"Button to confirm directory selection.");
-    openPanel.directoryURL = self.selectedDirectoryURL;
+    openPanel.directoryURL = self.directoryURL;
     
     [openPanel beginSheetModalForWindow: self.window completionHandler:^(NSInteger result) {
         if (NSFileHandlingPanelOKButton == result) {
-            // Clicked OK, so update to new directory.
-            self.selectedDirectoryURL = openPanel.directoryURL;
-        } else {
-            // Clicked Cancel, so re-select directory menu item.
-            [self selectItemAtIndex:0];
+            // Fire the action on the target object only when the directory has
+            // been changed.
+            if (![self.directoryURL isEqual:openPanel.directoryURL]) {
+                self.directoryURL = openPanel.directoryURL;
+                [self sendAction:self.action to:self.target];
+            }
         }
+
+        // Reset selection to the directory menu item. We never want the
+        // selection to remain on the "Other..." menu item.
+        [self selectItemAtIndex:0];
     }];
 }
 
 #pragma mark - Directory URL
 
-- (void)setSelectedDirectoryURL:(NSURL *)directoryURL
+- (void)setDirectoryURL:(NSURL *)directoryURL
 {
     NSParameterAssert(directoryURL);
 
     // If the same directory was selected, we re-select the
     // directory menu item and do nothing else.
-    if ([_selectedDirectoryURL isEqual:directoryURL]) {
+    if ([_directoryURL isEqual:directoryURL]) {
         [self selectItemAtIndex:0];
         return;
     }
     
-    _selectedDirectoryURL = directoryURL;
+    _directoryURL = [directoryURL copy];
 
     // Get the icon for the selected directory.
     NSImage *iconImage = [[NSWorkspace sharedWorkspace] iconForFile:
-                          [_selectedDirectoryURL path]];
+                          [_directoryURL path]];
     iconImage.size = NSMakeSize(16, 16);
 
     // Create the NSMenuItem for the selected directory.
     NSMenuItem *directoryMenuItem = [[NSMenuItem alloc] init];
-    directoryMenuItem.title = [_selectedDirectoryURL lastPathComponent];
+    directoryMenuItem.title = [_directoryURL lastPathComponent];
     directoryMenuItem.image = iconImage;
 
     // If first menu item is not a separator, it means there was a previously

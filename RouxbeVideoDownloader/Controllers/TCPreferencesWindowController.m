@@ -33,7 +33,7 @@
     // Initialize the view with the configuration model's values.
     self.stepper.integerValue = self.configuration.maxConcurrentDownloadCount;
     self.textField.integerValue = self.configuration.maxConcurrentDownloadCount;
-    self.directoryPopUpButton.selectedDirectoryURL = self.configuration.downloadsDirectoryURL;
+    self.directoryPopUpButton.directoryURL = self.configuration.downloadsDirectoryURL;
 }
 
 #pragma mark - Target-Action
@@ -45,7 +45,7 @@
  */
 - (IBAction)stepperValueChanged:(id)sender
 {
-    if (sender == self.textField) {
+    if (sender == self.stepper) {
         self.configuration.maxConcurrentDownloadCount = self.stepper.integerValue;
         self.textField.integerValue = self.configuration.maxConcurrentDownloadCount;
     }
@@ -58,10 +58,9 @@
  */
 - (IBAction)directoryPopUpButtonDirectoryChanged:(id)sender
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     if (sender == self.directoryPopUpButton) {
-        self.configuration.downloadsDirectoryURL = self.directoryPopUpButton.selectedDirectoryURL;
+        NSLog(@"%s", __PRETTY_FUNCTION__);
+        self.configuration.downloadsDirectoryURL = self.directoryPopUpButton.directoryURL;
     }
 }
 

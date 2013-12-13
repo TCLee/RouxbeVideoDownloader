@@ -20,6 +20,6 @@
  * You should set this property to an initial default directory of 
  * your choosing.
  */
-@property (readwrite, nonatomic, copy) NSURL *selectedDirectoryURL;
+@property (readwrite, nonatomic, copy) NSURL *directoryURL;
 
 @end
