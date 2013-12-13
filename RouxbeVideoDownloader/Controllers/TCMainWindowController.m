@@ -206,7 +206,7 @@
 - (TCDownloadOperationManager *)downloadManager
 {
     if (!_downloadManager) {
-        TCDownloadConfiguration *configuration = [TCDownloadConfiguration defaultConfiguration];
+        TCDownloadConfiguration *configuration = [TCDownloadConfiguration sharedConfiguration];
         _downloadManager = [[TCDownloadOperationManager alloc] initWithConfiguration:configuration];
 
         __weak typeof(self) weakSelf = self;
