@@ -12,6 +12,16 @@
 
 #import "TCVideo.h"
 
+/**
+ * The context object used for Key-Value Observing (KVO).
+ */
+static void * TCDownloadConfigurationChangedContext = &TCDownloadConfigurationChangedContext;
+
+/**
+ * The key path of \c TCDownloadConfiguration property to observe.
+ */
+static NSString * const TCMaxConcurrentDownloadCountKeyPath = @"maxConcurrentDownloadCount";
+
 @interface TCDownloadOperationManager ()
 
 /**
@@ -50,6 +60,10 @@
     self = [super init];
     if (self) {
         _configuration = theConfiguration;
+        [_configuration addObserver:self
+                         forKeyPath:TCMaxConcurrentDownloadCountKeyPath
+                            options:NSKeyValueObservingOptionNew
+                            context:TCDownloadConfigurationChangedContext];
 
         _allDownloadOperations = [[NSMutableArray alloc] init];
         _operationQueue = [[NSOperationQueue alloc] init];
@@ -180,6 +194,28 @@
 - (void)setDownloadOperationDidChangeBlock:(TCDownloadOperationManagerDownloadOperationDidChangeBlock)block
 {
     self.downloadOperationDidChange = block;
+}
+
+#pragma mark - Key-Value Observing (KVO)
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == TCDownloadConfigurationChangedContext &&
+        [keyPath isEqualToString:TCMaxConcurrentDownloadCountKeyPath]) {
+
+        // Update the NSOperationQueue's maxConcurrentOperationCount property
+        // when TCDownloadConfiguration's corresponding property has changed.
+        TCDownloadConfiguration *theConfiguration = (TCDownloadConfiguration *)object;
+        self.operationQueue.maxConcurrentOperationCount = theConfiguration.maxConcurrentDownloadCount;
+    } else {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
 }
 
 @end

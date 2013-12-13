@@ -33,8 +33,8 @@ typedef void(^TCDownloadOperationManagerDownloadOperationDidChangeBlock)(NSUInte
 @interface TCDownloadOperationManager : NSObject
 
 /**
- * A copy of the configuration object used to configure the behavior of 
- * a \c TCDownloadOperationManager.
+ * The configuration object used to configure the behavior of this 
+ * \c TCDownloadOperationManager.
  */
 @property (readonly, nonatomic, copy) TCDownloadConfiguration *configuration;
 

@@ -90,12 +90,8 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
 
 - (void)setMaxConcurrentDownloadCount:(NSUInteger)maxConcurrentDownloadCount
 {
-//    [self willChangeValueForKey:@"maxConcurrentDownloadCount"];
-
-    [self.defaults setInteger:maxConcurrentDownloadCount
+    [self.defaults setInteger:MAX(1, maxConcurrentDownloadCount)
                        forKey:TCMaxConcurrentDownloadCountDefaultsKey];
-
-//    [self didChangeValueForKey:@"maxConcurrentDownloadCount"];
 }
 
 #pragma mark - Downloads Directory URL
@@ -107,12 +103,8 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
 
 - (void)setDownloadsDirectoryURL:(NSURL *)downloadsDirectoryURL
 {
-//    [self willChangeValueForKey:@"downloadsDirectoryURL"];
-
     [self.defaults setURL:downloadsDirectoryURL
                    forKey:TCDownloadsDirectoryURLDefaultsKey];
-
-//    [self didChangeValueForKey:@"downloadsDirectoryURL"];
 }
 
 @end
