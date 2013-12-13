@@ -8,6 +8,9 @@
 
 #import "TCDownloadConfiguration.h"
 
+NSString * const TCMaxConcurrentDownloadCountDefaultsKey = @"TCMaxConcurrentDownloadCount";
+NSString * const TCDownloadsDirectoryURLDefaultsKey = @"TCDownloadsDirectoryURL";
+
 /**
  * Return the user's Downloads directory.
  *
@@ -26,35 +29,78 @@ FOUNDATION_STATIC_INLINE NSURL *TCUserDownloadsDirectoryURL()
     return directoryURL;
 }
 
+@interface TCDownloadConfiguration ()
+
+/**
+ * Returns the \c NSUserDefaults instance that is used by this receiver.
+ */
+@property (readwrite, nonatomic, strong) NSUserDefaults *defaults;
+
+@end
+
 @implementation TCDownloadConfiguration
+
+#pragma mark - Shared Configuration
+
++ (instancetype)sharedConfiguration
+{
+    static TCDownloadConfiguration *_sharedConfiguration = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedConfiguration = [[TCDownloadConfiguration alloc] init];
+    });
+
+    return _sharedConfiguration;
+}
 
 #pragma mark - Initialize
 
-+ (instancetype)defaultConfiguration
-{
-    return [[self alloc] init];
-}
-
-- (instancetype)init
+- (id)init
 {
     self = [super init];
     if (self) {
-        _downloadsDirectoryURL = TCUserDownloadsDirectoryURL();
-        _maxConcurrentDownloadCount = TCDefaultMaxConcurrentDownloadOperationCount;
+        _defaults = [NSUserDefaults standardUserDefaults];
+
+        // Register default values for preferences that may not have been set yet.
+        NSDictionary *defaultsDictionary = @{TCMaxConcurrentDownloadCountDefaultsKey: @(TCDefaultMaxConcurrentDownloadOperationCount),
+                                             TCDownloadsDirectoryURLDefaultsKey: TCUserDownloadsDirectoryURL()};
+        [_defaults registerDefaults:defaultsDictionary];
     }
     return self;
 }
 
-#pragma mark - NSCopying
+#pragma mark - Max Concurrent Download Operation Count
 
-- (id)copyWithZone:(NSZone *)zone
+- (NSUInteger)maxConcurrentDownloadCount
 {
-    TCDownloadConfiguration *configuration = [[[self class] allocWithZone:zone] init];
+    return [self.defaults integerForKey:TCMaxConcurrentDownloadCountDefaultsKey];
+}
 
-    configuration.downloadsDirectoryURL = [self.downloadsDirectoryURL copyWithZone:zone];
-    configuration.maxConcurrentDownloadCount = self.maxConcurrentDownloadCount;
+- (void)setMaxConcurrentDownloadCount:(NSUInteger)maxConcurrentDownloadCount
+{
+//    [self willChangeValueForKey:@"maxConcurrentDownloadCount"];
 
-    return configuration;
+    [self.defaults setInteger:maxConcurrentDownloadCount
+                       forKey:TCMaxConcurrentDownloadCountDefaultsKey];
+
+//    [self didChangeValueForKey:@"maxConcurrentDownloadCount"];
+}
+
+#pragma mark - Downloads Directory URL
+
+- (NSURL *)downloadsDirectoryURL
+{
+    return [self.defaults URLForKey:TCDownloadsDirectoryURLDefaultsKey];
+}
+
+- (void)setDownloadsDirectoryURL:(NSURL *)downloadsDirectoryURL
+{
+//    [self willChangeValueForKey:@"downloadsDirectoryURL"];
+
+    [self.defaults setURL:downloadsDirectoryURL
+                   forKey:TCDownloadsDirectoryURLDefaultsKey];
+
+//    [self didChangeValueForKey:@"downloadsDirectoryURL"];
 }
 
 @end

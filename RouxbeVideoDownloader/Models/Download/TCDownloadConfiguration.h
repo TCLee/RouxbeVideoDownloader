@@ -14,34 +14,44 @@ enum {
 };
 
 /**
+ * The \c NSUserDefaults key for the maximum number of concurrent download 
+ * operations. The value is an \c NSInteger.
+ */
+FOUNDATION_EXPORT NSString * const TCMaxConcurrentDownloadCountDefaultsKey;
+
+/**
+ * The \c NSUserDefaults key for the downloads directory URL. The value 
+ * is an \c NSURL object.
+ */
+FOUNDATION_EXPORT NSString * const TCDownloadsDirectoryURLDefaultsKey;
+
+/**
  * \c TCDownloadConfiguration class provides a set of properties to
  * configure an \c TCDownloadOperationManager instance.
+ *
+ * \c TCDownloadConfiguration persists its properties to a backing 
+ * \c NSUserDefaults.
  */
-@interface TCDownloadConfiguration : NSObject <NSCopying>
+@interface TCDownloadConfiguration : NSObject
 
 /**
  * The URL to the directory that all downloads will be saved to.
  *
- * If no directory URL is specified, then it defaults to the user's 
- * Downloads directory.
+ * If no URL is specified, then it defaults to the user's Downloads directory.
  */
-@property (nonatomic, copy) NSURL *downloadsDirectoryURL;
+@property (readwrite, nonatomic, copy) NSURL *downloadsDirectoryURL;
 
 /**
  * The maximum number of concurrent download operations that the
  * \c TCDownloadOperationManager operation queue can execute.
  *
- * If no value is specified, then it defaults to 
- * \c TCDefaultMaxConcurrentDownloadOperationCount.
+ * If no value is specified, then it defaults to \c TCDefaultMaxConcurrentDownloadOperationCount.
  */
-@property (nonatomic, assign) NSUInteger maxConcurrentDownloadCount;
+@property (readwrite, nonatomic, assign) NSUInteger maxConcurrentDownloadCount;
 
 /**
- * Creates the default configuration for an \c TCDownloadOperationManager 
- * instance.
- *
- * You can customize the returned configuration as needed.
+ * Returns the shared \c TCDownloadConfiguration instance.
  */
-+ (instancetype)defaultConfiguration;
++ (instancetype)sharedConfiguration;
 
 @end
