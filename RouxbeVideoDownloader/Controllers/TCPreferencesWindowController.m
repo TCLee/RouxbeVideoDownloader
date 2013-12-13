@@ -38,19 +38,46 @@
 
 #pragma mark - Target-Action
 
+/**
+ * This action is sent when the stepper's value has changed.
+ *
+ * @param sender The \c NSStepper object that send this action.
+ */
 - (IBAction)stepperValueChanged:(id)sender
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (sender == self.textField) {
+        self.configuration.maxConcurrentDownloadCount = self.stepper.integerValue;
+        self.textField.integerValue = self.configuration.maxConcurrentDownloadCount;
+    }
 }
 
-- (IBAction)textFieldEndEditing:(id)sender
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
+/**
+ * This action method is sent when the pop up button's directory has changed.
+ *
+ * @param sender The \c TCDirectoryPopUpButton that send this action.
+ */
 - (IBAction)directoryPopUpButtonDirectoryChanged:(id)sender
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
+
+    if (sender == self.directoryPopUpButton) {
+        self.configuration.downloadsDirectoryURL = self.directoryPopUpButton.selectedDirectoryURL;
+    }
+}
+
+#pragma mark - NSTextField Delegate
+
+/**
+ * This notification is sent when the text field's value has changed.
+ *
+ * @param notification The notification object.
+ */
+- (void)controlTextDidChange:(NSNotification *)notification
+{
+    if (notification.object == self.textField) {
+        self.configuration.maxConcurrentDownloadCount = self.textField.integerValue;
+        self.stepper.integerValue = self.configuration.maxConcurrentDownloadCount;
+    }
 }
 
 @end

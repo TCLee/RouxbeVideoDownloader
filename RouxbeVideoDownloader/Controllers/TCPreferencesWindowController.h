@@ -14,6 +14,7 @@
  * download settings.
  */
 @interface TCPreferencesWindowController : NSWindowController
+    <NSTextFieldDelegate>
 
 /**
  * The download configuration model object used by this controller.
