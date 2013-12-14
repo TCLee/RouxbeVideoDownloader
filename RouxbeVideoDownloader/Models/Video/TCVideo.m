@@ -50,6 +50,9 @@ FOUNDATION_STATIC_INLINE NSURL *MP4VideoURLFromFlashVideoURL(NSURL *flashVideoUR
                   title:(NSString *)title
                position:(NSUInteger)position
 {
+    NSParameterAssert(sourceURL);
+    NSParameterAssert(title);
+
     self = [super init];
     if (self) {
         _sourceURL = MP4VideoURLFromFlashVideoURL(sourceURL);
