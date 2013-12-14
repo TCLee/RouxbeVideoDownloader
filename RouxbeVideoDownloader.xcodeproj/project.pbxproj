@@ -13,7 +13,7 @@
 		81310AE81828950700327AFF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81310AE61828950700327AFF /* MainWindow.xib */; };
 		8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */; };
 		8154CE20182F657E00DC73EC /* TCRouxbeURLContentIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */; };
-		8154CE22182F78FC00DC73EC /* TCRouxbeXMLURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */; };
+		81600605185BFA3700DB3162 /* TCRouxbeServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81600604185BFA3700DB3162 /* TCRouxbeServiceTests.m */; };
 		81632875182770120070914E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81632874182770120070914E /* Cocoa.framework */; };
 		81632888182770120070914E /* TCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81632887182770120070914E /* TCAppDelegate.m */; };
 		81632894182770120070914E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81632893182770120070914E /* XCTest.framework */; };
@@ -31,8 +31,6 @@
 		819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D81834734800FE21BB /* TCTestDataLoader.m */; };
 		81BADD18184892FE006FDA6D /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BADD17184892FE006FDA6D /* AFDownloadRequestOperation.m */; };
 		81CD43011855A045006D9DE9 /* TCDownloadOperationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD43001855A045006D9DE9 /* TCDownloadOperationManagerTests.m */; };
-		81CD43041855A1FE006D9DE9 /* TCLessonStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD43021855A1FE006D9DE9 /* TCLessonStepTests.m */; };
-		81CD43051855A1FE006D9DE9 /* TCLessonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD43031855A1FE006D9DE9 /* TCLessonTests.m */; };
 		81CD435F18581093006D9DE9 /* TCDownloadConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD434718581093006D9DE9 /* TCDownloadConfiguration.m */; };
 		81CD436018581093006D9DE9 /* TCDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD434918581093006D9DE9 /* TCDownloadOperation.m */; };
 		81CD436118581093006D9DE9 /* TCDownloadOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD434B18581093006D9DE9 /* TCDownloadOperationManager.m */; };
@@ -75,7 +73,7 @@
 		81310AE71828950700327AFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLCategoryTests.m; sourceTree = "<group>"; };
 		8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLContentIDTests.m; sourceTree = "<group>"; };
-		8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeXMLURLTests.m; sourceTree = "<group>"; };
+		81600604185BFA3700DB3162 /* TCRouxbeServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeServiceTests.m; sourceTree = "<group>"; };
 		81632871182770120070914E /* RouxbeVideoDownloader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouxbeVideoDownloader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81632874182770120070914E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		81632877182770120070914E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -106,8 +104,6 @@
 		81BADD16184892FE006FDA6D /* AFDownloadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDownloadRequestOperation.h; sourceTree = "<group>"; };
 		81BADD17184892FE006FDA6D /* AFDownloadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDownloadRequestOperation.m; sourceTree = "<group>"; };
 		81CD43001855A045006D9DE9 /* TCDownloadOperationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadOperationManagerTests.m; sourceTree = "<group>"; };
-		81CD43021855A1FE006D9DE9 /* TCLessonStepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonStepTests.m; sourceTree = "<group>"; };
-		81CD43031855A1FE006D9DE9 /* TCLessonTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonTests.m; sourceTree = "<group>"; };
 		81CD434618581093006D9DE9 /* TCDownloadConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadConfiguration.h; sourceTree = "<group>"; };
 		81CD434718581093006D9DE9 /* TCDownloadConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadConfiguration.m; sourceTree = "<group>"; };
 		81CD434818581093006D9DE9 /* TCDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadOperation.h; sourceTree = "<group>"; };
@@ -234,14 +230,12 @@
 				81EFED381829E83200F28B1B /* SupportingFiles */,
 				819887D61834734800FE21BB /* Lib */,
 				81EFED3E1829F6BC00F28B1B /* Data */,
+				81600604185BFA3700DB3162 /* TCRouxbeServiceTests.m */,
 				81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */,
 				8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */,
 				8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */,
-				8154CE21182F78FC00DC73EC /* TCRouxbeXMLURLTests.m */,
 				81CD43001855A045006D9DE9 /* TCDownloadOperationManagerTests.m */,
 				819461D21852D496000FE09F /* TCDownloadOperationTests.m */,
-				81CD43031855A1FE006D9DE9 /* TCLessonTests.m */,
-				81CD43021855A1FE006D9DE9 /* TCLessonStepTests.m */,
 			);
 			path = RouxbeVideoDownloaderTests;
 			sourceTree = "<group>";
@@ -621,15 +615,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81CD43041855A1FE006D9DE9 /* TCLessonStepTests.m in Sources */,
 				8154CE20182F657E00DC73EC /* TCRouxbeURLContentIDTests.m in Sources */,
 				81CD43011855A045006D9DE9 /* TCDownloadOperationManagerTests.m in Sources */,
+				81600605185BFA3700DB3162 /* TCRouxbeServiceTests.m in Sources */,
 				81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */,
 				8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */,
-				81CD43051855A1FE006D9DE9 /* TCLessonTests.m in Sources */,
 				819461D31852D496000FE09F /* TCDownloadOperationTests.m in Sources */,
 				819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */,
-				8154CE22182F78FC00DC73EC /* TCRouxbeXMLURLTests.m in Sources */,
 				81F7B7551839B4950086F408 /* TCMockAFHTTPSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

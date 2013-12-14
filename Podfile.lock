@@ -15,13 +15,13 @@ PODS:
   - AFNetworking/Reachability (2.0.3)
   - AFNetworking/Security (2.0.3)
   - AFNetworking/Serialization (2.0.3)
-  - Expecta (0.2.3)
+  - Expecta (HEAD based on 0.2.3)
   - OCMock (2.2.1)
   - RaptureXML (1.0.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0.3)
-  - Expecta (~> 0.2.3)
+  - Expecta (HEAD)
   - OCMock (~> 2.2.1)
   - RaptureXML (~> 1.0.1)
 

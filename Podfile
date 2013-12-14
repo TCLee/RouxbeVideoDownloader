@@ -6,5 +6,5 @@ pod 'RaptureXML', '~> 1.0.1'
 target :test, :exclusive => true do
     link_with 'RouxbeVideoDownloaderTests'
     pod 'OCMock', '~> 2.2.1'
-    pod 'Expecta', '~>0.2.3'
+    pod 'Expecta', :head #'~>0.2.3'
 end
