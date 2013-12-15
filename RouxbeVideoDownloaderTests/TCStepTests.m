@@ -29,7 +29,7 @@
     [super tearDown];
 }
 
-- (void)testCanCreateStepObjectFromXML
+- (void)testCanCreateStepFromXML
 {
     NSData *data = [TCTestDataLoader XMLDataWithName:@"Recipe"];
     RXMLElement *rootElement = [[RXMLElement alloc] initFromXMLData:data];
