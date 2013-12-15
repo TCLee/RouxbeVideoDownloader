@@ -72,6 +72,13 @@ static NSString * const TCMaxConcurrentDownloadCountKeyPath = @"maxConcurrentDow
     return self;
 }
 
+- (void)dealloc
+{
+    [self.configuration removeObserver:self
+                            forKeyPath:TCMaxConcurrentDownloadCountKeyPath
+                               context:TCDownloadConfigurationChangedContext];
+}
+
 #pragma mark - Add Download Operations
 
 - (AFHTTPRequestOperation *)addDownloadOperationsWithURL:(NSURL *)aURL
