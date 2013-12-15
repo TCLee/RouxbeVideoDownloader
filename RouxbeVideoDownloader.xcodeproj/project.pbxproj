@@ -43,6 +43,9 @@
 		81CD4377185815C8006D9DE9 /* TCRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD4370185815C8006D9DE9 /* TCRecipe.m */; };
 		81CD4378185815C8006D9DE9 /* TCStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD4372185815C8006D9DE9 /* TCStep.m */; };
 		81CD4379185815C8006D9DE9 /* TCTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD4374185815C8006D9DE9 /* TCTip.m */; };
+		81CDE2F4185D471F00464DFF /* TCGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CDE2F3185D471F00464DFF /* TCGroupTests.m */; };
+		81CDE2F6185D47A800464DFF /* TCStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CDE2F5185D47A800464DFF /* TCStepTests.m */; };
+		81CDE2F8185D4FFF00464DFF /* Recipe.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81CDE2F7185D4FFF00464DFF /* Recipe.xml */; };
 		81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED391829E83200F28B1B /* InfoPlist.strings */; };
 		81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED3F1829F6BC00F28B1B /* Lesson.xml */; };
 		81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */; };
@@ -128,6 +131,9 @@
 		81CD4372185815C8006D9DE9 /* TCStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCStep.m; sourceTree = "<group>"; };
 		81CD4373185815C8006D9DE9 /* TCTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTip.h; sourceTree = "<group>"; };
 		81CD4374185815C8006D9DE9 /* TCTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTip.m; sourceTree = "<group>"; };
+		81CDE2F3185D471F00464DFF /* TCGroupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCGroupTests.m; sourceTree = "<group>"; };
+		81CDE2F5185D47A800464DFF /* TCStepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCStepTests.m; sourceTree = "<group>"; };
+		81CDE2F7185D4FFF00464DFF /* Recipe.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Recipe.xml; sourceTree = "<group>"; };
 		81EFED3A1829E83200F28B1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		81EFED3B1829E83200F28B1B /* RouxbeVideoDownloaderTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RouxbeVideoDownloaderTests-Info.plist"; sourceTree = "<group>"; };
 		81EFED3F1829F6BC00F28B1B /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
@@ -239,6 +245,8 @@
 				81CD43001855A045006D9DE9 /* TCDownloadOperationManagerTests.m */,
 				819461D21852D496000FE09F /* TCDownloadOperationTests.m */,
 				81600606185C00BC00DB3162 /* TCVideoTests.m */,
+				81CDE2F3185D471F00464DFF /* TCGroupTests.m */,
+				81CDE2F5185D47A800464DFF /* TCStepTests.m */,
 			);
 			path = RouxbeVideoDownloaderTests;
 			sourceTree = "<group>";
@@ -388,6 +396,7 @@
 			children = (
 				81EFED3F1829F6BC00F28B1B /* Lesson.xml */,
 				81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */,
+				81CDE2F7185D4FFF00464DFF /* Recipe.xml */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -514,6 +523,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */,
+				81CDE2F8185D4FFF00464DFF /* Recipe.xml in Resources */,
 				81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */,
 				81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */,
 			);
@@ -625,7 +635,9 @@
 				81600607185C00BC00DB3162 /* TCVideoTests.m in Sources */,
 				8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */,
 				819461D31852D496000FE09F /* TCDownloadOperationTests.m in Sources */,
+				81CDE2F6185D47A800464DFF /* TCStepTests.m in Sources */,
 				819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */,
+				81CDE2F4185D471F00464DFF /* TCGroupTests.m in Sources */,
 				81F7B7551839B4950086F408 /* TCMockAFHTTPSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

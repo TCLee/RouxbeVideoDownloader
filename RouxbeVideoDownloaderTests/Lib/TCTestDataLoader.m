@@ -10,6 +10,16 @@
 
 @implementation TCTestDataLoader
 
++ (NSData *)XMLDataWithName:(NSString *)name
+{
+    NSError *__autoreleasing error = nil;
+    NSData *data = [self XMLDataWithName:name error:&error];
+
+    NSAssert(data, @"%@", error.localizedDescription);
+    
+    return data;
+}
+
 + (NSData *)XMLDataWithName:(NSString *)name error:(NSError *__autoreleasing *)outError
 {
     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
