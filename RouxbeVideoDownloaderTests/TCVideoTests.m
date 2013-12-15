@@ -104,6 +104,14 @@
 
 #pragma mark - Get Videos From URL Tests
 
+- (void)testShouldReturnErrorIfURLIsInvalid
+{
+    [TCVideo getVideosFromURL:[NSURL URLWithString:@"http://www.google.com"] completeBlock:^(NSArray *videos, NSError *error) {
+        expect(videos).to.beNil();
+        expect(error).toNot.beNil();
+    }];
+}
+
 - (void)testShouldRaiseExceptionWhenSearchURLIsNil
 {
     void(^blockToTest)() = ^() {
