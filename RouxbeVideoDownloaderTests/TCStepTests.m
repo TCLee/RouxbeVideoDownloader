@@ -34,10 +34,11 @@
     NSData *data = [TCTestDataLoader XMLDataWithName:@"Recipe"];
     RXMLElement *rootElement = [[RXMLElement alloc] initFromXMLData:data];
     RXMLElement *recipeStepsElement = [rootElement child:@"recipeSteps"];
+    NSString *groupName = [rootElement attribute:@"name"];
     TCStep *step = [[TCStep alloc] initWithXML:[recipeStepsElement children:@"recipeStep"][0]
-                                     groupName:@"The Group Name"];
+                                     groupName:groupName];
 
-    expect(step.groupName).to.equal(@"The Group Name");
+    expect(step.groupName).to.equal(groupName);
     expect(step.ID).to.equal(193);
     expect(step.position).to.equal(0);
     expect(step.name).to.equal(@"Making the Sauce");
