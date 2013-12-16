@@ -1,5 +1,5 @@
 //
-//  TCLessonStep.h
+//  TCStep+Lesson.h
 //  RouxbeVideoDownloader
 //
 //  Created by Lee Tze Cheun on 12/16/13.
@@ -17,7 +17,9 @@
  */
 typedef void(^TCLessonStepVideoURLCompleteBlock)(NSURL *videoURL, NSError *error);
 
-@interface TCLessonStep : TCStep
+@interface TCStep (Lesson)
+
+@property (readwrite, nonatomic, copy) NSURL *videoURL;
 
 /**
  * Creates an \c AFHTTPRequestOperation with a \c GET request to

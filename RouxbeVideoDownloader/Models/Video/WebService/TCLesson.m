@@ -7,7 +7,7 @@
 //
 
 #import "TCLesson.h"
-#import "TCLessonStep.h"
+#import "TCStep+Lesson.h"
 #import "TCRouxbeService.h"
 
 /**
@@ -31,9 +31,9 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
             if (completeBlock) {
                 AFHTTPRequestOperation *failedOperation = [self failedOperationInOperations:operations];
                 if (failedOperation) {
-                    // If one of the request operation failed, we consider the
-                    // entire batch as failed. This is to prevent returning an
-                    // incomplete Lesson object.
+                    // If one of the request operation in the batch failed, we
+                    // consider the entire batch as failed. This is to prevent
+                    // returning an incomplete Lesson object.
                     completeBlock(nil, failedOperation.error);
                 } else {
                     completeBlock(lesson, nil);
@@ -62,7 +62,7 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
 
     // Create a request operation for each Lesson's Step that is missing
     // a video URL.
-    for (TCLessonStep *step in steps) {
+    for (TCStep *step in steps) {
         if (step.videoURL) { continue; }
 
         AFHTTPRequestOperation *requestOperation = [step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {

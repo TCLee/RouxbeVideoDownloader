@@ -1,12 +1,12 @@
 //
-//  TCLessonStep.m
+//  TCStep+Lesson.m
 //  RouxbeVideoDownloader
 //
 //  Created by Lee Tze Cheun on 12/16/13.
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-#import "TCLessonStep.h"
+#import "TCStep+Lesson.h"
 #import "TCRouxbeService.h"
 
 /**
@@ -14,13 +14,9 @@
  */
 static NSString * const TCLessonStepVideoXMLPath = @"embedded_player/settings_section/%ld.xml";
 
-@interface TCLessonStep ()
+@implementation TCStep (Lesson)
 
-@property (readwrite, nonatomic, copy) NSURL *videoURL;
-
-@end
-
-@implementation TCLessonStep
+@dynamic videoURL;
 
 - (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLCompleteBlock)completeBlock
 {
