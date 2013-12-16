@@ -7,46 +7,13 @@
 //
 
 #import "TCLesson.h"
-#import "TCStep.h"
+#import "TCLessonStep.h"
 #import "TCRouxbeService.h"
 
 /**
  * The string template representing the relative path to a Lesson's XML.
  */
 static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
-
-/**
- * The string template representing the relative path to a Lesson Step's video XML.
- */
-static NSString * const TCLessonStepVideoXMLPath = @"embedded_player/settings_section/%ld.xml";
-
-/**
- * The prototype of the block that will be called when a Lesson Step's
- * video URL request has completed.
- *
- * @param videoURL The URL to the video or \c nil on error.
- * @param error    The \c NSError object describing the error, if any.
- */
-typedef void(^TCLessonStepVideoURLCompleteBlock)(NSURL *videoURL, NSError *error);
-
-@interface TCStep (TCLesson)
-
-@property (readwrite, nonatomic, copy) NSURL *videoURL;
-
-/**
- * Creates an \c AFHTTPRequestOperation with a \c GET request to
- * fetch the Lesson Step's video URL.
- *
- * @param completeBlock The completion handler to call when the video
- *                      URL is fetched or there is an error.
- *
- * @return An \c AFHTTPRequestOperation object with a \c GET request
- */
-- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLCompleteBlock)completeBlock;
-
-@end
-
-#pragma mark -
 
 @implementation TCLesson
 
@@ -57,48 +24,23 @@ typedef void(^TCLessonStepVideoURLCompleteBlock)(NSURL *videoURL, NSError *error
     __weak typeof(service) weakService = service;
 
     return [service GET:[NSString stringWithFormat:TCLessonXMLPath, lessonID] parameters:nil success:^(AFHTTPRequestOperation *operation, NSData *data) {
-        TCGroup *group = [[TCGroup alloc] initWithXMLData:data
+        TCGroup *lesson = [[TCGroup alloc] initWithXMLData:data
                                              stepsXMLPath:@"recipesteps.recipestep"];
 
-        // The most recent error encountered while fetching a video URL or
-        // nil if everything went smoothly.
-        NSError *__block videoURLError = nil;
-
-        // Create a HTTP request operation for each lesson step's video URL that
-        // we need to fetch.
-        NSMutableArray *mutableOperations = [[NSMutableArray alloc] initWithCapacity:group.steps.count];
-        for (TCStep *step in group.steps) {
-            // Skip lesson steps that already have a video URL.
-            if (step.videoURL) { continue; }
-
-            AFHTTPRequestOperation *operation = [step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
-                if (error) {
-                    videoURLError = error;
-
-                    // Fail to fetch one of the lesson step's video URL, so
-                    // we cancel all remaining request operations.
-                    [mutableOperations enumerateObjectsUsingBlock:^(AFHTTPRequestOperation *requestOperation, NSUInteger index, BOOL *stop) {
-                        [requestOperation cancel];
-                    }];
-                }
-            }];
-            [mutableOperations addObject:operation];
-        }
-
-        // Execute the HTTP request operations as a single batch.
-        // The completion block will only be called when all the request
-        // operations have completed or when any one of the request operation
-        // encountered an error.
-        NSArray *operations = [AFURLConnectionOperation batchOfRequestOperations:mutableOperations progressBlock:nil completionBlock:^(NSArray *operations) {
+        NSArray *batchedOperations = [AFURLConnectionOperation batchOfRequestOperations:[self videoURLRequestOperationsForSteps:lesson.steps] progressBlock:nil completionBlock:^(NSArray *operations) {
             if (completeBlock) {
-                if (videoURLError) {
-                    completeBlock(nil, videoURLError);
+                AFHTTPRequestOperation *failedOperation = [self failedOperationInOperations:operations];
+                if (failedOperation) {
+                    // If one of the request operation failed, we consider the
+                    // entire batch as failed. This is to prevent returning an
+                    // incomplete Lesson object.
+                    completeBlock(nil, failedOperation.error);
                 } else {
-                    completeBlock(group, nil);
+                    completeBlock(lesson, nil);
                 }
             }
         }];
-        [weakService.operationQueue addOperations:operations waitUntilFinished:NO];
+        [weakService.operationQueue addOperations:batchedOperations waitUntilFinished:NO];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Error - Failed to fetch Lesson object.
@@ -108,37 +50,51 @@ typedef void(^TCLessonStepVideoURLCompleteBlock)(NSURL *videoURL, NSError *error
     }];
 }
 
-@end
-
-#pragma mark -
-
-@implementation TCStep (TCLesson)
-
-// Read and write video URL property is implemented by TCStep.
-@dynamic videoURL;
-
-- (AFHTTPRequestOperation *)videoURLRequestOperationWithCompleteBlock:(TCLessonStepVideoURLCompleteBlock)completeBlock
+/**
+ * Creates an \c AFHTTPRequestOperation for each Lesson Step's video URL and
+ * returns the array of \c AFHTTPRequestOperation objects.
+ *
+ * @param steps The steps in a lesson.
+ */
++ (NSArray *)videoURLRequestOperationsForSteps:(NSArray *)steps
 {
-    TCRouxbeService *service = [TCRouxbeService sharedService];
+    NSMutableArray *mutableOperations = [[NSMutableArray alloc] initWithCapacity:steps.count];
 
-    NSString *path = [NSString stringWithFormat:TCLessonStepVideoXMLPath, self.ID];
-    NSMutableURLRequest *request = [service.requestSerializer requestWithMethod:@"GET"
-                                                                      URLString:[[NSURL URLWithString:path relativeToURL:service.baseURL] absoluteString]
-                                                                     parameters:nil];
+    // Create a request operation for each Lesson's Step that is missing
+    // a video URL.
+    for (TCLessonStep *step in steps) {
+        if (step.videoURL) { continue; }
 
-    return [service HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, NSData *data) {
-        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
-        NSString *urlString = [[rootXML child:@"video"] attribute:@"url"];
-        self.videoURL = urlString ? [NSURL URLWithString:urlString] : nil;
+        AFHTTPRequestOperation *requestOperation = [step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
+            if (error) {
+                // If one of the request operation in the batch failed, we consider
+                // the whole batch as failed. So, when we receive an error callback
+                // we cancel all remaining request operations in the batch.
+                [mutableOperations enumerateObjectsUsingBlock:^(AFHTTPRequestOperation *operation, NSUInteger index, BOOL *stop) {
+                    [operation cancel];
+                }];
+            }
+        }];
+        [mutableOperations addObject:requestOperation];
+    }
 
-        if (completeBlock) {
-            completeBlock(self.videoURL, nil);
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (completeBlock) {
-            completeBlock(nil, error);
-        }
+    return mutableOperations;
+}
+
+/**
+ * Returns the first failed request operation in the given array 
+ * of operations. Returns \c nil, if all operations are successful.
+ *
+ * @param operations The array of \c AFHTTPRequestOperation objects.
+ */
++ (AFHTTPRequestOperation *)failedOperationInOperations:(NSArray *)operations
+{
+    NSUInteger errorIndex = [operations indexOfObjectPassingTest:^BOOL(AFHTTPRequestOperation *operation, NSUInteger index, BOOL *stop) {
+        return nil != operation.error;
     }];
+
+    return NSNotFound == errorIndex ? nil : operations[errorIndex];
 }
 
 @end
+
