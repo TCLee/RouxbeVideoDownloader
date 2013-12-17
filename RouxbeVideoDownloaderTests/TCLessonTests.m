@@ -8,11 +8,10 @@
 
 @import XCTest;
 
+#import "TCHTTPRequestStub.h"
 #import "TCTestDataLoader.h"
 #import "TCLesson.h"
 #import "TCRouxbeService.h"
-
-typedef void(^AFHTTPRequestOperationSuccessBlock)(AFHTTPRequestOperation *operation, id responseObject);
 
 @interface TCLessonTests : XCTestCase
 
@@ -23,60 +22,64 @@ typedef void(^AFHTTPRequestOperationSuccessBlock)(AFHTTPRequestOperation *operat
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    [Expecta setAsynchronousTestTimeout:2.0f];
+    [TCHTTPRequestStub beginStubRequests];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+
+    [Expecta setAsynchronousTestTimeout:1.0f];
+    [TCHTTPRequestStub stopStubRequests];
 }
 
-- (id)mockAFHTTPRequestOperation
-{
-    id mockOperation = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
-
-    void(^theBlock)(NSInvocation *) = ^(NSInvocation *invocation) {
-        [mockOperation completionBlock]();
-    };
-    [[[mockOperation stub] andDo:theBlock] start];
-
-    return mockOperation;
-}
-
-- (id)mockService
-{
-    id mockService = [OCMockObject niceMockForClass:[TCRouxbeService class]];
-    [[[mockService stub] andReturn:mockService] sharedService];
-
-    void(^theBlock)(NSInvocation *) = ^(NSInvocation *invocation) {
-        NSData *data = [TCTestDataLoader XMLDataWithName:@"Lesson"];
-
-        AFHTTPRequestOperation *operation = nil;
-        [invocation getReturnValue:&operation];
-
-        AFHTTPRequestOperationSuccessBlock successBlock = [invocation getArgumentAtIndexAsObject:4];
-        successBlock(operation, data);
-    };
-    [[[mockService stub] andDo:theBlock]
-     GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-
-    [[[mockService stub] andReturn:[self mockAFHTTPRequestOperation]]
-     HTTPRequestOperationWithRequest:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-
-    return mockService;
-}
+#pragma mark -
 
 - (void)testLessonStepsAreFetchedInTheCorrectOrder
 {
-    id mockService = [self mockService];
-
+    __block NSArray *actualPositions = nil;
+    __block NSArray *expectedPositions = nil;
     [TCLesson getLessonWithID:101 completeBlock:^(TCGroup *group, NSError *error) {
-        NSArray *positions = [group.steps valueForKeyPath:@"position"];
-        expect(positions).to.equal(@[@0, @1, @2]);
+        actualPositions = [group valueForKeyPath:@"steps.position"];
+        expectedPositions = [actualPositions sortedArrayUsingComparator:^NSComparisonResult(NSNumber *position1, NSNumber *position2) {
+            return [position1 compare:position2];
+        }];
     }];
 
-    [mockService stopMocking];
+    expect(actualPositions).willNot.beNil();
+    expect(actualPositions).will.equal(expectedPositions);
 }
+
+- (void)testShouldCallbackWithErrorIfOneRequestOperationFromBatchFailed
+{
+    // Stub one of the video URL request to fail.
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString isEqualToString:@"http://rouxbe.com/embedded_player/settings_section/244.xml"];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
+                                                                          code:NSURLErrorTimedOut
+                                                                      userInfo:nil]];
+    }];
+
+    __block TCGroup *blockGroup = nil;
+    __block NSError *blockError = nil;
+    [TCLesson getLessonWithID:101 completeBlock:^(TCGroup *group, NSError *error) {
+        blockGroup = group;
+        blockError = error;
+    }];
+
+    expect(blockGroup).will.beNil();
+    expect(blockError).willNot.beNil();
+    expect(blockError.code).will.equal(NSURLErrorTimedOut);
+}
+
+- (void)testShouldCancelRemainingRequestOperationsIfOneRequestOperationFailed
+{
+
+}
+
+
 
 @end
