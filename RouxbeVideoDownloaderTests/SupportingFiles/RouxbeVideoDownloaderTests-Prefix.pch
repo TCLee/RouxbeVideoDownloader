@@ -13,6 +13,8 @@
 #import <AFNetworking/AFNetworking.h>
 #import <RaptureXML/RXMLElement.h>
 
+#import <OHHTTPStubs/OHHTTPStubs.h>
+
 #import <OCMock/OCMock.h>
 #import <OCMock/NSInvocation+OCMAdditions.h>
 
