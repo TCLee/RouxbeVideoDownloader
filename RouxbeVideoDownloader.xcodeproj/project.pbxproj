@@ -46,17 +46,17 @@
 		81CD4379185815C8006D9DE9 /* TCTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CD4374185815C8006D9DE9 /* TCTip.m */; };
 		81CDE2F4185D471F00464DFF /* TCGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CDE2F3185D471F00464DFF /* TCGroupTests.m */; };
 		81CDE2F6185D47A800464DFF /* TCStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CDE2F5185D47A800464DFF /* TCStepTests.m */; };
-		81CDE2F8185D4FFF00464DFF /* Recipe.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81CDE2F7185D4FFF00464DFF /* Recipe.xml */; };
 		81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED391829E83200F28B1B /* InfoPlist.strings */; };
-		81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81EFED3F1829F6BC00F28B1B /* Lesson.xml */; };
-		81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */; };
-		81F7B7551839B4950086F408 /* TCMockAFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */; };
 		81F7B761183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7B75E183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure.m */; };
 		81F7B762183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F7B760183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m */; };
 		81F8EC42185EB73D00623F37 /* TCStep+Lesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC41185EB73D00623F37 /* TCStep+Lesson.m */; };
 		81F8EC44185EDA1100623F37 /* TCLessonStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC43185EDA1100623F37 /* TCLessonStepTests.m */; };
 		81F8EC46185EE7B600623F37 /* TCTipTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC45185EE7B600623F37 /* TCTipTests.m */; };
-		81F8EC48185EEBD800623F37 /* Tip.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC47185EEBD800623F37 /* Tip.xml */; };
+		81F8EC4B186000ED00623F37 /* TCHTTPRequestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC4A186000ED00623F37 /* TCHTTPRequestStub.m */; };
+		81F8EC531860100B00623F37 /* Recipe.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC4F1860100B00623F37 /* Recipe.xml */; };
+		81F8EC541860100B00623F37 /* Tip.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC501860100B00623F37 /* Tip.xml */; };
+		81F8EC561860383E00623F37 /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC551860383E00623F37 /* Lesson.xml */; };
+		81F8EC581860523900623F37 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC571860523900623F37 /* LessonStepVideo.xml */; };
 		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
 		81F99D63182E0AB5006E561B /* TCRouxbeURLValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */; };
 		D110F5CA73DD449A8D570AE0 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76EA7428D7480B80D1F390 /* libPods-test.a */; };
@@ -139,13 +139,8 @@
 		81CD4374185815C8006D9DE9 /* TCTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTip.m; sourceTree = "<group>"; };
 		81CDE2F3185D471F00464DFF /* TCGroupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCGroupTests.m; sourceTree = "<group>"; };
 		81CDE2F5185D47A800464DFF /* TCStepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCStepTests.m; sourceTree = "<group>"; };
-		81CDE2F7185D4FFF00464DFF /* Recipe.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Recipe.xml; sourceTree = "<group>"; };
 		81EFED3A1829E83200F28B1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		81EFED3B1829E83200F28B1B /* RouxbeVideoDownloaderTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RouxbeVideoDownloaderTests-Info.plist"; sourceTree = "<group>"; };
-		81EFED3F1829F6BC00F28B1B /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
-		81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LessonStepVideo.xml; sourceTree = "<group>"; };
-		81F7B7531839B4950086F408 /* TCMockAFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMockAFHTTPSessionManager.h; sourceTree = "<group>"; };
-		81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMockAFHTTPSessionManager.m; sourceTree = "<group>"; };
 		81F7B75D183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionByteSpeedMeasure.h; sourceTree = "<group>"; };
 		81F7B75E183B09FD0086F408 /* AFURLConnectionByteSpeedMeasure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionByteSpeedMeasure.m; sourceTree = "<group>"; };
 		81F7B75F183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.h"; sourceTree = "<group>"; };
@@ -154,7 +149,12 @@
 		81F8EC41185EB73D00623F37 /* TCStep+Lesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TCStep+Lesson.m"; sourceTree = "<group>"; };
 		81F8EC43185EDA1100623F37 /* TCLessonStepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonStepTests.m; sourceTree = "<group>"; };
 		81F8EC45185EE7B600623F37 /* TCTipTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTipTests.m; sourceTree = "<group>"; };
-		81F8EC47185EEBD800623F37 /* Tip.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tip.xml; sourceTree = "<group>"; };
+		81F8EC49186000ED00623F37 /* TCHTTPRequestStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCHTTPRequestStub.h; sourceTree = "<group>"; };
+		81F8EC4A186000ED00623F37 /* TCHTTPRequestStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCHTTPRequestStub.m; sourceTree = "<group>"; };
+		81F8EC4F1860100B00623F37 /* Recipe.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Recipe.xml; sourceTree = "<group>"; };
+		81F8EC501860100B00623F37 /* Tip.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tip.xml; sourceTree = "<group>"; };
+		81F8EC551860383E00623F37 /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
+		81F8EC571860523900623F37 /* LessonStepVideo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LessonStepVideo.xml; sourceTree = "<group>"; };
 		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
 		81F99D58182CBC6E006E561B /* TCDownloadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadCellView.m; sourceTree = "<group>"; };
 		81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLValidationTests.m; sourceTree = "<group>"; };
@@ -246,9 +246,9 @@
 		81632898182770120070914E /* RouxbeVideoDownloaderTests */ = {
 			isa = PBXGroup;
 			children = (
+				81F8EC4C1860100B00623F37 /* Fixtures */,
 				81EFED381829E83200F28B1B /* SupportingFiles */,
 				819887D61834734800FE21BB /* Lib */,
-				81EFED3E1829F6BC00F28B1B /* Data */,
 				81600604185BFA3700DB3162 /* TCRouxbeServiceTests.m */,
 				81F99D62182E0AB5006E561B /* TCRouxbeURLValidationTests.m */,
 				8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */,
@@ -329,8 +329,8 @@
 			children = (
 				819887D71834734800FE21BB /* TCTestDataLoader.h */,
 				819887D81834734800FE21BB /* TCTestDataLoader.m */,
-				81F7B7531839B4950086F408 /* TCMockAFHTTPSessionManager.h */,
-				81F7B7541839B4950086F408 /* TCMockAFHTTPSessionManager.m */,
+				81F8EC49186000ED00623F37 /* TCHTTPRequestStub.h */,
+				81F8EC4A186000ED00623F37 /* TCHTTPRequestStub.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -407,17 +407,6 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
-		81EFED3E1829F6BC00F28B1B /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				81EFED3F1829F6BC00F28B1B /* Lesson.xml */,
-				81F7B74F1838D2CE0086F408 /* LessonStepVideo.xml */,
-				81CDE2F7185D4FFF00464DFF /* Recipe.xml */,
-				81F8EC47185EEBD800623F37 /* Tip.xml */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		81F7B75B183B09FD0086F408 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,6 +425,17 @@
 				81F7B760183B09FD0086F408 /* AFURLConnectionOperation+AFURLConnectionByteSpeedMeasure.m */,
 			);
 			path = AFURLConnectionByteSpeedMeasure;
+			sourceTree = "<group>";
+		};
+		81F8EC4C1860100B00623F37 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				81F8EC551860383E00623F37 /* Lesson.xml */,
+				81F8EC571860523900623F37 /* LessonStepVideo.xml */,
+				81F8EC4F1860100B00623F37 /* Recipe.xml */,
+				81F8EC501860100B00623F37 /* Tip.xml */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -540,10 +540,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */,
-				81CDE2F8185D4FFF00464DFF /* Recipe.xml in Resources */,
-				81F7B7501838D2CE0086F408 /* LessonStepVideo.xml in Resources */,
-				81F8EC48185EEBD800623F37 /* Tip.xml in Resources */,
-				81EFED401829F6BC00F28B1B /* Lesson.xml in Resources */,
+				81F8EC531860100B00623F37 /* Recipe.xml in Resources */,
+				81F8EC541860100B00623F37 /* Tip.xml in Resources */,
+				81F8EC581860523900623F37 /* LessonStepVideo.xml in Resources */,
+				81F8EC561860383E00623F37 /* Lesson.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,11 +656,11 @@
 				819461D31852D496000FE09F /* TCDownloadOperationTests.m in Sources */,
 				81CDE2F6185D47A800464DFF /* TCStepTests.m in Sources */,
 				819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */,
+				81F8EC4B186000ED00623F37 /* TCHTTPRequestStub.m in Sources */,
 				81F8EC44185EDA1100623F37 /* TCLessonStepTests.m in Sources */,
 				8111F59C185DC2BC00B41D93 /* TCLessonTests.m in Sources */,
 				81CDE2F4185D471F00464DFF /* TCGroupTests.m in Sources */,
 				81F8EC46185EE7B600623F37 /* TCTipTests.m in Sources */,
-				81F7B7551839B4950086F408 /* TCMockAFHTTPSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
