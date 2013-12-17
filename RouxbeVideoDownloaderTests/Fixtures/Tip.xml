@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<embedded title="What is Thai Basil?" parser="embedded" video_type="drilldown" id="117" autoStart="0" hostname="http://rouxbe.com" referral_params="coupon=&amp;partner=&amp;utm_campaign=links&amp;utm_content=end-frame&amp;utm_medium=java-widget-embed&amp;utm_source=affiliate" play_ping_path="nil" legacy="true" analytics_path_prefix="/embedded_player/analytics">
+  <tabs>
+  </tabs>
+  <video url="http://media.rouxbe.com/h264/DD_ThaiBasil.f4v" time="" posterframe_url="http://media.rouxbe.com/assets/418/DD_ThaiBasil.jpg" thumbnail="http://media.rouxbe.com/assets/418/DD_ThaiBasil_thumbnail.jpg"/>
+  <description>Welcome to Rouxbe's "Drill-down" window.
+
+Drill-downs are short opt-in videos or text information that support your cooking experience. They are used to provide additional relevant information during any culinary experience on Rouxbe. They could include technique videos, culinary definitions, chef tips and tricks and even information on products.</description>
+<endframe header="Join the Rouxbe Cooking School with over 1,000 instructional videos" footer="Join students in over 200 countries today.">
+  <links>
+    <link text="Learn More About Rouxbe" link="http://rouxbe.com/cooking-school/overview?coupon=&amp;partner=&amp;utm_campaign=links&amp;utm_content=end-frame&amp;utm_medium=java-widget-embed&amp;utm_source=affiliate" target="_blank"/>
+    <link text="Replay Video" link="event:replay" target="_blank"/>
+    <link text="Free Sample Lesson" link="http://rouxbe.com/redeem-trial?coupon=&amp;partner=&amp;utm_campaign=links&amp;utm_content=end-frame&amp;utm_medium=java-widget-embed&amp;utm_source=affiliate" target="_blank"/>
+  </links>
+  <buttons>
+    <button text="View Membership Options" link="http://rouxbe.com/membership?coupon=&amp;partner=&amp;utm_campaign=links&amp;utm_content=end-frame&amp;utm_medium=java-widget-embed&amp;utm_source=affiliate" target="_blank"/>
+  </buttons>
+</endframe>
+</embedded>

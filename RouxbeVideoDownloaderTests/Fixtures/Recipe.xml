@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe name="Chicken Cashew" id="89" posterframe_url="http://media.rouxbe.com/assets/327/Chicken_Cashew_Preview_poster.jpg" serves="4" activeTime="30 mins" autoplay="1" music_mute="0" referral="0" totalTime="35 mins" rating="95%" filenamePart="" login_type="0" bookmarked="" hostname="http://rouxbe.com" video_type="recipes" parent_url="http://rouxbe.com/recipes" parent="See Other Recipes" child="Step" analytics_path_prefix="/player/analytics" collapse="1">
+  <recipeSteps>
+<recipeStep name="Making the Sauce" position="0" url="http://media.rouxbe.com/h264/Chicken_Cashew_S1.f4v" posterframe_url="http://media.rouxbe.com/assets/323/Chicken_Cashew_S1_poster.jpg" id="193">
+  <drilldowns>
+    <drilldown id="125" buttonLabel="What is Palm Sugar?" swf_url="http://media.rouxbe.com/h264/DD_PalmSugar.f4v" timePosition="3" duration="5000" url="http://rouxbe.com/steps/193/drilldowns/125-what-is-palm-sugar.xml" posterframe_url="http://media.rouxbe.com/assets/425/DD_PalmSugar_poster.jpg" mediumframe_url="http://media.rouxbe.com/assets/425/DD_PalmSugar_medium.jpg" thumbnail_url="http://media.rouxbe.com/assets/425/DD_PalmSugar_thumbnail.jpg" poster_800_url="http://media.rouxbe.com/assets/425/DD_PalmSugar_poster_800.jpg">
+      <info>&lt;p&gt;Welcome to Rouxbe&amp;#8217;s &amp;#8220;Drill-down&amp;#8221; window.&lt;/p&gt;&lt;br&gt;
+&lt;p&gt;Drill-downs are short opt-in videos or text information that support your cooking experience. They are used to provide additional relevant information during any culinary experience on Rouxbe. They could include technique videos, culinary definitions, chef tips and tricks and even information on products.&lt;/p&gt;&lt;br&gt;</info>
+    </drilldown>
+  </drilldowns>
+  <summary>&lt;ul&gt;&lt;li&gt;1/4 cup palm sugar (or brown sugar)&lt;/li&gt;&lt;li&gt;1 tbsp fish sauce &lt;/li&gt;&lt;li&gt;2 tbsp soy sauce &lt;/li&gt;&lt;li&gt;6 tbsp oyster sauce &lt;/li&gt;&lt;/ul&gt;</summary>
+  <description>For the sauce, roughly chop the palm sugar. Combine it with the fish sauce, soy sauce and oyster sauce. Bring to a gentle boil and then set aside while you prepare the rest of your mise en place.</description>
+</recipeStep>
+<recipeStep name="Preparing the Mise en Place" position="1" url="http://media.rouxbe.com/h264/Chicken_Cashew_S2.f4v" posterframe_url="http://media.rouxbe.com/assets/322/Chicken_Cashew_S2_poster.jpg" id="196">
+  <drilldowns>
+    <drilldown id="30" buttonLabel="How to Slice Onions" swf_url="http://media.rouxbe.com/h264/DD_Onions_how_to_slice_NEW.redo.f4v" timePosition="2" duration="6000" url="http://rouxbe.com/steps/196/drilldowns/30-how-to-slice-onions.xml" posterframe_url="http://media.rouxbe.com/assets/361/DD_Slicing_Onions_poster.jpg" mediumframe_url="http://media.rouxbe.com/assets/361/DD_Slicing_Onions_medium.jpg" thumbnail_url="http://media.rouxbe.com/assets/361/DD_Slicing_Onions_thumbnail.jpg" poster_800_url="http://media.rouxbe.com/assets/361/DD_Slicing_Onions_poster_800.jpg">
+      <info>&lt;p&gt;To learn more about how to slice efficiently and safely, just like a professional chef, go to the Rouxbe Cooking School.&lt;/p&gt;&lt;br&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;a href="http://rouxbe.com/school/sections/104/objectives"&gt;Lesson: How to Slice Ingredients&lt;/a&gt;*&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;(Note: clicking the lesson link will take you away from this recipe)&lt;/p&gt;&lt;br&gt;</info>
+    </drilldown>
+    <drilldown id="124" buttonLabel="Which Thai Chili to Use?" swf_url="http://media.rouxbe.com/h264/DD_Thai_Chilli_NEW.redo.f4v" timePosition="9" duration="16000" url="http://rouxbe.com/steps/196/drilldowns/124-which-thai-chili-to-use.xml" posterframe_url="http://media.rouxbe.com/assets/424/DD_ThaiChili_poster.jpg" mediumframe_url="http://media.rouxbe.com/assets/424/DD_ThaiChili_medium.jpg" thumbnail_url="http://media.rouxbe.com/assets/424/DD_ThaiChili_thumbnail.jpg" poster_800_url="http://media.rouxbe.com/assets/424/DD_ThaiChili_poster_800.jpg">
+      <info>&lt;p&gt;Welcome to Rouxbe&amp;#8217;s &amp;#8220;Drill-down&amp;#8221; window.&lt;/p&gt;&lt;br&gt;
+&lt;p&gt;Drill-downs are short opt-in videos or text information that support your cooking experience. They are used to provide additional relevant information during any culinary experience on Rouxbe. They could include technique videos, culinary definitions, chef tips and tricks and even information on products.&lt;/p&gt;&lt;br&gt;</info>
+    </drilldown>
+    <drilldown id="185" buttonLabel="How to Buy and Prepare Garlic" swf_url="http://media.rouxbe.com/h264/DD_How_To_Buy_Garlic.f4v" timePosition="40" duration="2000" url="http://rouxbe.com/steps/196/drilldowns/185-how-to-buy-and-prepare-garlic.xml" posterframe_url="http://media.rouxbe.com/assets/614/DD_How_To_Buy_Garlic_poster.jpg" mediumframe_url="http://media.rouxbe.com/assets/614/DD_How_To_Buy_Garlic_medium.jpg" thumbnail_url="http://media.rouxbe.com/assets/614/DD_How_To_Buy_Garlic_thumbnail.jpg" poster_800_url="http://media.rouxbe.com/assets/614/DD_How_To_Buy_Garlic_poster_800.jpg">
+      <info>&lt;p&gt;Welcome to Rouxbe&amp;#8217;s &amp;#8220;Drill-down&amp;#8221; window.&lt;/p&gt;&lt;br&gt;
+&lt;p&gt;Drill-downs are short opt-in videos or text information that support your cooking experience. They are used to provide additional relevant information during any culinary experience on Rouxbe. They could include technique videos, culinary definitions, chef tips and tricks and even information on products.&lt;/p&gt;&lt;br&gt;</info>
+    </drilldown>
+    <drilldown id="341" buttonLabel="How to Remove Chicken Tendons" swf_url="http://media.rouxbe.com/h264/DD_RemovingTendon_MP.f4v" timePosition="46" duration="2000" url="http://rouxbe.com/steps/196/drilldowns/341-how-to-remove-chicken-tendons.xml" posterframe_url="http://media.rouxbe.com/assets/7796/DD_RemovingTendon_poster.jpg" mediumframe_url="http://media.rouxbe.com/assets/7796/DD_RemovingTendon_medium.jpg" thumbnail_url="http://media.rouxbe.com/assets/7796/DD_RemovingTendon_thumbnail.jpg" poster_800_url="http://media.rouxbe.com/assets/7796/DD_RemovingTendon_poster_800.jpg">
+      <info>&lt;p&gt;Welcome to Rouxbe&amp;#8217;s &amp;#8220;Drill-down&amp;#8221; window.&lt;/p&gt;&lt;br&gt;
+&lt;p&gt;Drill-downs are short opt-in videos or text information that support your cooking experience. They are used to provide additional relevant information during any culinary experience on Rouxbe. They could include technique videos, culinary definitions, chef tips and tricks and even information on products.&lt;/p&gt;&lt;br&gt;</info>
+    </drilldown>
+  </drilldowns>
+  <summary>&lt;ul&gt;&lt;li&gt;1 small, white onion &lt;/li&gt;&lt;li&gt;1/2 cup long, red Thai chilies (3 or 4)&lt;/li&gt;&lt;li&gt;4 small green onions &lt;/li&gt;&lt;li&gt;5 garlic cloves &lt;/li&gt;&lt;li&gt;2 single chicken breasts &lt;/li&gt;&lt;li&gt;1 cup toasted, unsalted cashews&lt;/li&gt;&lt;li&gt;1 tbsp whiskey (or white wine), optional&lt;/li&gt;&lt;li&gt;1 tbsp peanut oil (or vegetable oil)&lt;/li&gt;&lt;li&gt;1/2 tsp kosher salt&lt;/li&gt;&lt;/ul&gt;</summary>
+  <description>To prepare your mise en place, slice the onion vertically into 3/4" -inch pieces. Roughly chop the garlic. Slice the Thai chilies and green onions into 2" -inch pieces. Next, slice the chicken into 2" -inch pieces and set aside. 
+
+Note: If you can't find the long, red Thai chilies, substitute one small red pepper along with 1 or 2 minced serrano or small, red Thai chilies.
+</description>
+</recipeStep>
+<recipeStep name="Cooking and Finishing the Dish" position="2" url="http://media.rouxbe.com/h264/Chicken_Cashew_S3.f4v" posterframe_url="http://media.rouxbe.com/assets/324/Chicken_Cashew_S3_poster.jpg" id="197">
+  <drilldowns>
+  </drilldowns>
+  <summary>There are no ingredients for this step</summary>
+  <description>To cook the dish, heat a wok or large fry pan over medium-high heat. Once hot, add the oil and sauté the chicken until it is cooked half way through. Next, add the garlic and sauté for about 30 seconds. Add the onions and salt and sauté for another minute or so. Add the chilies and cook for another minute or so before adding the green onions and sauce. Toss to coat. To finish, add the cashew nuts and whiskey. Taste for seasoning and serve immediately.</description>
+</recipeStep>
+  </recipeSteps>
+  <recipeMusic url="http://media.rouxbe.com/assets/20/namaste_low.mp3"/>
+  <recipeSummary>
+  Active Time: 30 mins&lt;br /&gt;
+  Total Time: 35 mins&lt;br /&gt;
+  &lt;br /&gt;
+  
+ </recipeSummary>
+  <chefsNotes>This is a great dish to make for a dinner party. All of the prep can be done ahead of time and you'll be able to whip it together in about 5 to 10 minutes.
+
+</chefsNotes>
+<endframe>
+  <links>
+  </links>
+  <buttons>
+    <button text="Replay Video" link="event:replay"/>
+  </buttons>
+</endframe>
+</recipe>

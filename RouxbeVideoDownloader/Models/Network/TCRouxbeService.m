@@ -21,15 +21,22 @@ static NSString * const TCRouxbeBaseURLString = @"http://rouxbe.com/";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedService = [[TCRouxbeService alloc] initWithBaseURL:[NSURL URLWithString:TCRouxbeBaseURLString]];
-
-        // Configure the response serializer to handle XML responses.
-        AFHTTPResponseSerializer *XMLDataSerializer = [[AFHTTPResponseSerializer alloc] init];
-        XMLDataSerializer.stringEncoding = NSUTF8StringEncoding;
-        XMLDataSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml", nil];
-        _sharedService.responseSerializer = XMLDataSerializer;
     });
 
     return _sharedService;
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)url
+{
+    self = [super initWithBaseURL:url];
+    if (self) {
+        // Configure the response serializer to handle XML responses and
+        // return the response object as a plain NSData.
+        AFHTTPResponseSerializer *XMLResponseSerializer = [[AFHTTPResponseSerializer alloc] init];
+        XMLResponseSerializer.acceptableContentTypes = [[NSSet alloc] initWithObjects:@"application/xml", @"text/xml", nil];
+        self.responseSerializer = XMLResponseSerializer;
+    }
+    return self;
 }
 
 @end
