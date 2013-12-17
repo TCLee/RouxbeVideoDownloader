@@ -17,18 +17,21 @@ PODS:
   - AFNetworking/Serialization (2.0.3)
   - Expecta (HEAD based on 0.2.3)
   - OCMock (2.2.1)
+  - OHHTTPStubs (3.0.3)
   - RaptureXML (1.0.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0.3)
   - Expecta (HEAD)
   - OCMock (~> 2.2.1)
+  - OHHTTPStubs (~> 3.0.3)
   - RaptureXML (~> 1.0.1)
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   Expecta: dbc4a27fabb853bdd2e907e33f11ee43a9a47d0c
   OCMock: 80e4cfbc71a0e1bd28caf10a9fda27da7c4c8402
+  OHHTTPStubs: a2ffcd547c003680066cf427964e5ba67b37ed0c
   RaptureXML: ef017fda62eb95c60300108366d1f0cd0c28cbd4
 
 COCOAPODS: 0.28.0
