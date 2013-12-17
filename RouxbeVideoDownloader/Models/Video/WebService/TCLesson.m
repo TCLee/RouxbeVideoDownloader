@@ -65,16 +65,7 @@ static NSString * const TCLessonXMLPath = @"cooking-school/lessons/%lu.xml";
     for (TCStep *step in steps) {
         if (step.videoURL) { continue; }
 
-        AFHTTPRequestOperation *requestOperation = [step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
-            if (error) {
-                // If one of the request operation in the batch failed, we consider
-                // the whole batch as failed. So, when we receive an error callback
-                // we cancel all remaining request operations in the batch.
-                [mutableOperations enumerateObjectsUsingBlock:^(AFHTTPRequestOperation *operation, NSUInteger index, BOOL *stop) {
-                    [operation cancel];
-                }];
-            }
-        }];
+        AFHTTPRequestOperation *requestOperation = [step videoURLRequestOperationWithCompleteBlock:nil];
         [mutableOperations addObject:requestOperation];
     }
 
