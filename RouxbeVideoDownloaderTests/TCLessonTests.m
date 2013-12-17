@@ -75,11 +75,4 @@
     expect(blockError.code).will.equal(NSURLErrorTimedOut);
 }
 
-- (void)testShouldCancelRemainingRequestOperationsIfOneRequestOperationFailed
-{
-
-}
-
-
-
 @end
