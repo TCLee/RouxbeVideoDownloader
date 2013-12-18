@@ -38,7 +38,7 @@
 
         return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
                                                                           code:NSURLErrorUnsupportedURL
-                                                                      userInfo:@{NSLocalizedDescriptionKey: @"Request URL was not stubbed because it does not match any known URL."}]];
+                                                                      userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Request URL was not stubbed because it does not match any known URL.", nil)}]];
     }];
     stub.name = @"Rouxbe Web Service Stub";
 
