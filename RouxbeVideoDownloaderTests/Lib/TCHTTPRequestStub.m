@@ -20,12 +20,11 @@
 + (id<OHHTTPStubsDescriptor>)beginStubRequests
 {
     id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.scheme isEqualToString:@"http"] &&
-               [request.URL.host isEqualToString:@"rouxbe.com"];
+        return [self isRouxbeBaseURL:request.URL];
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [self responseForRequest:request];
     }];
-    stub.name = @"TCHTTPRequestStub";
+    stub.name = @"OHHTTPStubs.BaseURLStub";
 
     return stub;
 }
@@ -63,6 +62,15 @@
     return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName, testBundle)
                                             statusCode:200
                                                headers:@{@"Content-Type":@"application/xml"}];
+}
+
+/**
+ * Returns \c YES if \c theURL matches http://rouxbe.com; \c NO otherwise.
+ */
++ (BOOL)isRouxbeBaseURL:(NSURL *)theURL
+{
+    return [theURL.scheme isEqualToString:@"http"] &&
+           [theURL.host isEqualToString:@"rouxbe.com"];
 }
 
 + (BOOL)isLessonPath:(NSArray *)pathComponents
