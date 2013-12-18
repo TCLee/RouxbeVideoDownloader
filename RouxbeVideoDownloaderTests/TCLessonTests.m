@@ -56,12 +56,12 @@
 {
     // Stub one of the video URL request to fail.
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.absoluteString isEqualToString:@"http://rouxbe.com/embedded_player/settings_section/244.xml"];
+        return [request.URL.pathComponents.lastObject isEqualToString:@"244.xml"];
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
                                                                           code:NSURLErrorTimedOut
                                                                       userInfo:nil]];
-    }].name = @"TCLessonTestsStub";
+    }].name = @"OHHTTPStubs.LessonStepVideoErrorStub";
 
     __block TCGroup *blockGroup = nil;
     __block NSError *blockError = nil;
