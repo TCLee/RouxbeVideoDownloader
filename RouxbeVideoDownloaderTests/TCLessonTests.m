@@ -61,7 +61,7 @@
         return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
                                                                           code:NSURLErrorTimedOut
                                                                       userInfo:nil]];
-    }];
+    }].name = @"TCLessonTestsStub";
 
     __block TCGroup *blockGroup = nil;
     __block NSError *blockError = nil;
