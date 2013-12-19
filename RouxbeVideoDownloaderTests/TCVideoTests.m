@@ -25,7 +25,7 @@
 {
     [super setUp];
 
-    [TCHTTPRequestStub beginStubRequests];
+    [TCHTTPRequestStub stubAllRouxbeRequestsToReturnSuccessResponse];
 
     self.dummySourceURL = [NSURL URLWithString:@"http://media.rouxbe.com/h264/Cs_Eggs_L2_T2.f4v"];
     self.dummyGroup = @"The Video's Group";
@@ -36,7 +36,7 @@
 {
     [super tearDown];
 
-    [TCHTTPRequestStub stopStubRequests];
+    [TCHTTPRequestStub stopStubbingRequests];
 
     self.dummySourceURL = nil;
     self.dummyGroup = nil;

@@ -24,7 +24,7 @@
     [super setUp];
 
     [Expecta setAsynchronousTestTimeout:2.0f];
-    [TCHTTPRequestStub beginStubRequests];
+    [TCHTTPRequestStub stubAllRouxbeRequestsToReturnSuccessResponse];
 }
 
 - (void)tearDown
@@ -32,7 +32,7 @@
     [super tearDown];
 
     [Expecta setAsynchronousTestTimeout:1.0f];
-    [TCHTTPRequestStub stopStubRequests];
+    [TCHTTPRequestStub stopStubbingRequests];
 }
 
 #pragma mark -
