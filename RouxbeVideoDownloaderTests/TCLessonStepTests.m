@@ -49,7 +49,7 @@
         return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"LessonStepVideo.xml", nil)
                                                 statusCode:200
                                                    headers:@{@"Content-Type":@"application/xml"}];
-    }];
+    }].name = @"OHHTTPStubs.LessonStepVideoSuccessStub";
 
     __block NSURL *blockVideoURL = nil;
     __block NSError *blockError = nil;
@@ -72,7 +72,7 @@
         return [OHHTTPStubsResponse responseWithError: [NSError errorWithDomain:NSURLErrorDomain
                                                                            code:NSURLErrorNotConnectedToInternet
                                                                        userInfo:nil]];
-    }];
+    }].name = @"OHHTTPStubs.LessonStepVideoFailureStub";
 
     __block NSURL *blockVideoURL = nil;
     __block NSError *blockError = nil;
