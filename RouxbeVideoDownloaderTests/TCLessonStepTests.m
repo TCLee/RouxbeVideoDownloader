@@ -8,6 +8,7 @@
 
 @import XCTest;
 
+#import "TCHTTPRequestStub.h"
 #import "TCTestDataLoader.h"
 #import "TCGroup.h"
 #import "TCStep+Lesson.h"
@@ -25,6 +26,8 @@
 {
     [super setUp];
 
+    [TCHTTPRequestStub stubAllRouxbeRequestsToReturnSuccessResponse];
+
     self.group = [[TCGroup alloc] initWithXMLData:[TCTestDataLoader XMLDataWithName:@"Lesson"]
                                      stepsXMLPath:@"recipesteps.recipestep"];
     
@@ -36,21 +39,13 @@
 {
     [super tearDown];
 
-    [OHHTTPStubs removeAllStubs];
+    [TCHTTPRequestStub stopStubbingRequests];
     self.group = nil;
     self.step = nil;
 }
 
 - (void)testCanParseVideoURLFromXML
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"rouxbe.com"];
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"LessonStepVideo.xml", nil)
-                                                statusCode:200
-                                                   headers:@{@"Content-Type":@"application/xml"}];
-    }].name = @"OHHTTPStubs.LessonStepVideoSuccessStub";
-
     __block NSURL *blockVideoURL = nil;
     __block NSError *blockError = nil;
     AFHTTPRequestOperation *requestOperation = [self.step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
@@ -66,13 +61,10 @@
 
 - (void)testErrorIsSetOnFailure
 {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"rouxbe.com"];
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithError: [NSError errorWithDomain:NSURLErrorDomain
-                                                                           code:NSURLErrorNotConnectedToInternet
-                                                                       userInfo:nil]];
-    }].name = @"OHHTTPStubs.LessonStepVideoFailureStub";
+    [TCHTTPRequestStub stubLessonStepVideoRequestToReturnResponseWithError:
+     [NSError errorWithDomain:NSURLErrorDomain
+                         code:NSURLErrorNotConnectedToInternet
+                     userInfo:nil]];
 
     __block NSURL *blockVideoURL = nil;
     __block NSError *blockError = nil;
