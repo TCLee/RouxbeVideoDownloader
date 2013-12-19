@@ -17,19 +17,60 @@
     }];
 }
 
-+ (id<OHHTTPStubsDescriptor>)beginStubRequests
++ (id<OHHTTPStubsDescriptor>)stubAllRouxbeRequestsToReturnSuccessResponse
 {
     id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [self isRouxbeBaseURL:request.URL];
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [self responseForRequest:request];
     }];
-    stub.name = @"OHHTTPStubs.BaseURLStub";
+    stub.name = @"TCBaseStub";
 
     return stub;
 }
 
-+ (void)stopStubRequests
++ (id<OHHTTPStubsDescriptor>)stubLessonRequestToReturnResponseWithError:(NSError *)error
+{
+    return [self stubRequestsPassingTest:^BOOL(NSURLRequest *request) { return [self isLessonPath:request.URL.pathComponents]; }
+                       withResponseError:error
+                                    name:@"TCBaseStub.LessonErrorStub"];
+}
+
++ (id<OHHTTPStubsDescriptor>)stubLessonStepVideoRequestToReturnResponseWithError:(NSError *)error
+{
+    return [self stubRequestsPassingTest:^BOOL(NSURLRequest *request) { return [self isLessonStepVideoPath:request.URL.pathComponents]; }
+                       withResponseError:error
+                                    name:@"TCBaseStub.LessonStepErrorStub"];
+}
+
++ (id<OHHTTPStubsDescriptor>)stubRecipeRequestToReturnResponseWithError:(NSError *)error
+{
+    return [self stubRequestsPassingTest:^BOOL(NSURLRequest *request) { return [self isRecipePath:request.URL.pathComponents]; }
+                       withResponseError:error
+                                    name:@"TCBaseStub.RecipeErrorStub"];
+
+}
+
++ (id<OHHTTPStubsDescriptor>)stubTipRequestToReturnResponseWithError:(NSError *)error
+{
+    return [self stubRequestsPassingTest:^BOOL(NSURLRequest *request) { return [self isTipVideoPath:request.URL.pathComponents]; }
+                       withResponseError:error
+                                    name:@"TCBaseStub.TipErrorStub"];
+}
+
++(id<OHHTTPStubsDescriptor>)stubRequestsPassingTest:(OHHTTPStubsTestBlock)testBlock
+                                  withResponseError:(NSError *)error
+                                               name:(NSString *)name
+{
+    id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:testBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithError:error];
+    }];
+    stub.name = name;
+
+    return stub;
+}
+
++ (void)stopStubbingRequests
 {
     [OHHTTPStubs removeAllStubs];
 }
@@ -61,7 +102,7 @@
     
     return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(fileName, testBundle)
                                             statusCode:200
-                                               headers:@{@"Content-Type":@"application/xml"}];
+                                               headers:@{@"Content-Type": @"application/xml"}];
 }
 
 /**

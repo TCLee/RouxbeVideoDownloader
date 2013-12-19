@@ -8,8 +8,14 @@
 
 @interface TCHTTPRequestStub : NSObject
 
-+ (id<OHHTTPStubsDescriptor>)beginStubRequests;
++ (id<OHHTTPStubsDescriptor>)stubAllRouxbeRequestsToReturnSuccessResponse;
 
-+ (void)stopStubRequests;
++ (id<OHHTTPStubsDescriptor>)stubLessonRequestToReturnResponseWithError:(NSError *)error;
++ (id<OHHTTPStubsDescriptor>)stubRecipeRequestToReturnResponseWithError:(NSError *)error;
++ (id<OHHTTPStubsDescriptor>)stubTipRequestToReturnResponseWithError:(NSError *)error;
+
++ (id<OHHTTPStubsDescriptor>)stubLessonStepVideoRequestToReturnResponseWithError:(NSError *)error;
+
++ (void)stopStubbingRequests;
 
 @end
