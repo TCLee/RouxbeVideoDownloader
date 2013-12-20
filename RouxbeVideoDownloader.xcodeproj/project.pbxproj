@@ -12,6 +12,7 @@
 		8123A199183DE2C300A6365A /* NSTableView+RowAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8123A198183DE2C300A6365A /* NSTableView+RowAdditions.m */; };
 		81310AE41828948E00327AFF /* TCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81310AE21828948E00327AFF /* TCMainWindowController.m */; };
 		81310AE81828950700327AFF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81310AE61828950700327AFF /* MainWindow.xib */; };
+		81386B541863F598002DF013 /* TipVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81386B531863F598002DF013 /* TipVideo.xml */; };
 		8154CE1E182F327100DC73EC /* TCRouxbeURLCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */; };
 		8154CE20182F657E00DC73EC /* TCRouxbeURLContentIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */; };
 		81600605185BFA3700DB3162 /* TCRouxbeServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81600604185BFA3700DB3162 /* TCRouxbeServiceTests.m */; };
@@ -54,7 +55,6 @@
 		81F8EC46185EE7B600623F37 /* TCTipTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC45185EE7B600623F37 /* TCTipTests.m */; };
 		81F8EC4B186000ED00623F37 /* TCRouxbeServiceStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC4A186000ED00623F37 /* TCRouxbeServiceStub.m */; };
 		81F8EC531860100B00623F37 /* Recipe.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC4F1860100B00623F37 /* Recipe.xml */; };
-		81F8EC541860100B00623F37 /* Tip.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC501860100B00623F37 /* Tip.xml */; };
 		81F8EC561860383E00623F37 /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC551860383E00623F37 /* Lesson.xml */; };
 		81F8EC581860523900623F37 /* LessonStepVideo.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC571860523900623F37 /* LessonStepVideo.xml */; };
 		81F99D59182CBC6E006E561B /* TCDownloadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F99D58182CBC6E006E561B /* TCDownloadCellView.m */; };
@@ -81,6 +81,7 @@
 		81310AE11828948E00327AFF /* TCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMainWindowController.h; sourceTree = "<group>"; };
 		81310AE21828948E00327AFF /* TCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMainWindowController.m; sourceTree = "<group>"; };
 		81310AE71828950700327AFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		81386B531863F598002DF013 /* TipVideo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TipVideo.xml; sourceTree = "<group>"; };
 		8154CE1D182F327100DC73EC /* TCRouxbeURLCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLCategoryTests.m; sourceTree = "<group>"; };
 		8154CE1F182F657E00DC73EC /* TCRouxbeURLContentIDTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeURLContentIDTests.m; sourceTree = "<group>"; };
 		81600604185BFA3700DB3162 /* TCRouxbeServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeServiceTests.m; sourceTree = "<group>"; };
@@ -152,7 +153,6 @@
 		81F8EC49186000ED00623F37 /* TCRouxbeServiceStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCRouxbeServiceStub.h; sourceTree = "<group>"; };
 		81F8EC4A186000ED00623F37 /* TCRouxbeServiceStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeServiceStub.m; sourceTree = "<group>"; };
 		81F8EC4F1860100B00623F37 /* Recipe.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Recipe.xml; sourceTree = "<group>"; };
-		81F8EC501860100B00623F37 /* Tip.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tip.xml; sourceTree = "<group>"; };
 		81F8EC551860383E00623F37 /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
 		81F8EC571860523900623F37 /* LessonStepVideo.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LessonStepVideo.xml; sourceTree = "<group>"; };
 		81F99D57182CBC6E006E561B /* TCDownloadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDownloadCellView.h; sourceTree = "<group>"; };
@@ -433,7 +433,7 @@
 				81F8EC551860383E00623F37 /* Lesson.xml */,
 				81F8EC571860523900623F37 /* LessonStepVideo.xml */,
 				81F8EC4F1860100B00623F37 /* Recipe.xml */,
-				81F8EC501860100B00623F37 /* Tip.xml */,
+				81386B531863F598002DF013 /* TipVideo.xml */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -539,9 +539,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81386B541863F598002DF013 /* TipVideo.xml in Resources */,
 				81EFED3C1829E83200F28B1B /* InfoPlist.strings in Resources */,
 				81F8EC531860100B00623F37 /* Recipe.xml in Resources */,
-				81F8EC541860100B00623F37 /* Tip.xml in Resources */,
 				81F8EC581860523900623F37 /* LessonStepVideo.xml in Resources */,
 				81F8EC561860383E00623F37 /* Lesson.xml in Resources */,
 			);
