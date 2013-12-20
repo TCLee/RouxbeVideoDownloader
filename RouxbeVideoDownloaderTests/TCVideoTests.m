@@ -9,7 +9,7 @@
 @import XCTest;
 
 #import "TCVideo.h"
-#import "TCHTTPRequestStub.h"
+#import "TCRouxbeServiceStub.h"
 
 @interface TCVideoTests : XCTestCase
 
@@ -25,7 +25,7 @@
 {
     [super setUp];
 
-    [TCHTTPRequestStub stubAllRouxbeRequestsToReturnSuccessResponse];
+    [TCRouxbeServiceStub stubAllRequestsToReturnSuccessResponse];
 
     self.dummySourceURL = [NSURL URLWithString:@"http://media.rouxbe.com/h264/Cs_Eggs_L2_T2.f4v"];
     self.dummyGroup = @"The Video's Group";
@@ -36,7 +36,7 @@
 {
     [super tearDown];
 
-    [TCHTTPRequestStub stopStubbingRequests];
+    [TCRouxbeServiceStub stopStubbingRequests];
 
     self.dummySourceURL = nil;
     self.dummyGroup = nil;
@@ -154,7 +154,7 @@
 
 - (void)testFailToFetchLessonVideosShouldCallCompletionBlockWithError
 {
-    [TCHTTPRequestStub stubLessonRequestToReturnResponseWithError:
+    [TCRouxbeServiceStub stubLessonRequestToReturnResponseWithError:
      [NSError errorWithDomain:NSURLErrorDomain
                          code:NSURLErrorTimedOut
                      userInfo:nil]];
@@ -173,7 +173,7 @@
 
 - (void)testFailToFetchRecipeVideosShouldCallCompletionBlockWithError
 {
-    [TCHTTPRequestStub stubRecipeRequestToReturnResponseWithError:
+    [TCRouxbeServiceStub stubRecipeRequestToReturnResponseWithError:
      [NSError errorWithDomain:NSURLErrorDomain
                          code:NSURLErrorNotConnectedToInternet
                      userInfo:nil]];
@@ -192,7 +192,7 @@
 
 - (void)testFailToFetchTipVideoShouldCallCompletionBlockWithError
 {
-    [TCHTTPRequestStub stubTipRequestToReturnResponseWithError:
+    [TCRouxbeServiceStub stubTipRequestToReturnResponseWithError:
      [NSError errorWithDomain:NSURLErrorDomain
                          code:NSURLErrorResourceUnavailable
                      userInfo:nil]];

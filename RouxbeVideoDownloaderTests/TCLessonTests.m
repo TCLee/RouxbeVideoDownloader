@@ -8,10 +8,8 @@
 
 @import XCTest;
 
-#import "TCHTTPRequestStub.h"
-#import "TCTestDataLoader.h"
+#import "TCRouxbeServiceStub.h"
 #import "TCLesson.h"
-#import "TCRouxbeService.h"
 
 @interface TCLessonTests : XCTestCase
 
@@ -23,16 +21,14 @@
 {
     [super setUp];
 
-    [Expecta setAsynchronousTestTimeout:2.0f];
-    [TCHTTPRequestStub stubAllRouxbeRequestsToReturnSuccessResponse];
+    [TCRouxbeServiceStub stubAllRequestsToReturnSuccessResponse];
 }
 
 - (void)tearDown
 {
     [super tearDown];
 
-    [Expecta setAsynchronousTestTimeout:1.0f];
-    [TCHTTPRequestStub stopStubbingRequests];
+    [TCRouxbeServiceStub stopStubbingRequests];
 }
 
 #pragma mark -
@@ -52,17 +48,28 @@
     expect(actualPositions).will.equal(expectedPositions);
 }
 
-- (void)testShouldCallbackWithErrorIfOneRequestOperationFromBatchFailed
+- (void)testFailToFetchLessonStepVideoURLShouldCallCompletionBlockWithError
 {
-    // Stub one of the video URL request to fail.
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.pathComponents.lastObject isEqualToString:@"244.xml"];
-    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
-                                                                          code:NSURLErrorTimedOut
-                                                                      userInfo:nil]];
-    }].name = @"OHHTTPStubs.LessonStepVideoErrorStub";
+    [TCRouxbeServiceStub stubLessonStepVideoRequestToReturnResponseWithError:
+     [NSError errorWithDomain:NSURLErrorDomain
+                         code:NSURLErrorTimedOut
+                     userInfo:nil]];
 
+    [self verifyErrorWithCode:NSURLErrorTimedOut];
+}
+
+- (void)testFailToFetchLessonShouldCallCompletionBlockWithError
+{
+    [TCRouxbeServiceStub stubLessonRequestToReturnResponseWithError:
+     [NSError errorWithDomain:NSURLErrorDomain
+                         code:NSURLErrorNotConnectedToInternet
+                     userInfo:nil]];
+
+    [self verifyErrorWithCode:NSURLErrorNotConnectedToInternet];
+}
+
+- (void)verifyErrorWithCode:(NSInteger)errorCode
+{
     __block TCGroup *blockGroup = nil;
     __block NSError *blockError = nil;
     [TCLesson getLessonWithID:101 completeBlock:^(TCGroup *group, NSError *error) {
@@ -72,7 +79,7 @@
 
     expect(blockGroup).will.beNil();
     expect(blockError).willNot.beNil();
-    expect(blockError.code).will.equal(NSURLErrorTimedOut);
+    expect(blockError.code).will.equal(errorCode);
 }
 
 @end

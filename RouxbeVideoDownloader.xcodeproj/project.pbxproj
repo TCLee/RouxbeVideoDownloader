@@ -52,7 +52,7 @@
 		81F8EC42185EB73D00623F37 /* TCStep+Lesson.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC41185EB73D00623F37 /* TCStep+Lesson.m */; };
 		81F8EC44185EDA1100623F37 /* TCLessonStepTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC43185EDA1100623F37 /* TCLessonStepTests.m */; };
 		81F8EC46185EE7B600623F37 /* TCTipTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC45185EE7B600623F37 /* TCTipTests.m */; };
-		81F8EC4B186000ED00623F37 /* TCHTTPRequestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC4A186000ED00623F37 /* TCHTTPRequestStub.m */; };
+		81F8EC4B186000ED00623F37 /* TCRouxbeServiceStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8EC4A186000ED00623F37 /* TCRouxbeServiceStub.m */; };
 		81F8EC531860100B00623F37 /* Recipe.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC4F1860100B00623F37 /* Recipe.xml */; };
 		81F8EC541860100B00623F37 /* Tip.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC501860100B00623F37 /* Tip.xml */; };
 		81F8EC561860383E00623F37 /* Lesson.xml in Resources */ = {isa = PBXBuildFile; fileRef = 81F8EC551860383E00623F37 /* Lesson.xml */; };
@@ -149,8 +149,8 @@
 		81F8EC41185EB73D00623F37 /* TCStep+Lesson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TCStep+Lesson.m"; sourceTree = "<group>"; };
 		81F8EC43185EDA1100623F37 /* TCLessonStepTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCLessonStepTests.m; sourceTree = "<group>"; };
 		81F8EC45185EE7B600623F37 /* TCTipTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTipTests.m; sourceTree = "<group>"; };
-		81F8EC49186000ED00623F37 /* TCHTTPRequestStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCHTTPRequestStub.h; sourceTree = "<group>"; };
-		81F8EC4A186000ED00623F37 /* TCHTTPRequestStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCHTTPRequestStub.m; sourceTree = "<group>"; };
+		81F8EC49186000ED00623F37 /* TCRouxbeServiceStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCRouxbeServiceStub.h; sourceTree = "<group>"; };
+		81F8EC4A186000ED00623F37 /* TCRouxbeServiceStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRouxbeServiceStub.m; sourceTree = "<group>"; };
 		81F8EC4F1860100B00623F37 /* Recipe.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Recipe.xml; sourceTree = "<group>"; };
 		81F8EC501860100B00623F37 /* Tip.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tip.xml; sourceTree = "<group>"; };
 		81F8EC551860383E00623F37 /* Lesson.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lesson.xml; sourceTree = "<group>"; };
@@ -329,8 +329,8 @@
 			children = (
 				819887D71834734800FE21BB /* TCTestDataLoader.h */,
 				819887D81834734800FE21BB /* TCTestDataLoader.m */,
-				81F8EC49186000ED00623F37 /* TCHTTPRequestStub.h */,
-				81F8EC4A186000ED00623F37 /* TCHTTPRequestStub.m */,
+				81F8EC49186000ED00623F37 /* TCRouxbeServiceStub.h */,
+				81F8EC4A186000ED00623F37 /* TCRouxbeServiceStub.m */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -656,7 +656,7 @@
 				819461D31852D496000FE09F /* TCDownloadOperationTests.m in Sources */,
 				81CDE2F6185D47A800464DFF /* TCStepTests.m in Sources */,
 				819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */,
-				81F8EC4B186000ED00623F37 /* TCHTTPRequestStub.m in Sources */,
+				81F8EC4B186000ED00623F37 /* TCRouxbeServiceStub.m in Sources */,
 				81F8EC44185EDA1100623F37 /* TCLessonStepTests.m in Sources */,
 				8111F59C185DC2BC00B41D93 /* TCLessonTests.m in Sources */,
 				81CDE2F4185D471F00464DFF /* TCGroupTests.m in Sources */,

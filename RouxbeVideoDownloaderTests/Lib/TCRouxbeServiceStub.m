@@ -1,14 +1,14 @@
 //
-//  TCStubRouxbeService.m
+//  TCRouxbeServiceStub.m
 //  RouxbeVideoDownloader
 //
 //  Created by Lee Tze Cheun on 12/17/13.
 //  Copyright (c) 2013 Lee Tze Cheun. All rights reserved.
 //
 
-#import "TCHTTPRequestStub.h"
+#import "TCRouxbeServiceStub.h"
 
-@implementation TCHTTPRequestStub
+@implementation TCRouxbeServiceStub
 
 + (void)initialize
 {
@@ -17,7 +17,7 @@
     }];
 }
 
-+ (id<OHHTTPStubsDescriptor>)stubAllRouxbeRequestsToReturnSuccessResponse
++ (id<OHHTTPStubsDescriptor>)stubAllRequestsToReturnSuccessResponse
 {
     id<OHHTTPStubsDescriptor> stub = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return [self isRouxbeBaseURL:request.URL];

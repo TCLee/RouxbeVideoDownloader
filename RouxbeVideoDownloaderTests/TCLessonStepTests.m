@@ -8,7 +8,7 @@
 
 @import XCTest;
 
-#import "TCHTTPRequestStub.h"
+#import "TCRouxbeServiceStub.h"
 #import "TCTestDataLoader.h"
 #import "TCGroup.h"
 #import "TCStep+Lesson.h"
@@ -26,7 +26,7 @@
 {
     [super setUp];
 
-    [TCHTTPRequestStub stubAllRouxbeRequestsToReturnSuccessResponse];
+    [TCRouxbeServiceStub stubAllRequestsToReturnSuccessResponse];
 
     self.group = [[TCGroup alloc] initWithXMLData:[TCTestDataLoader XMLDataWithName:@"Lesson"]
                                      stepsXMLPath:@"recipesteps.recipestep"];
@@ -39,7 +39,7 @@
 {
     [super tearDown];
 
-    [TCHTTPRequestStub stopStubbingRequests];
+    [TCRouxbeServiceStub stopStubbingRequests];
     self.group = nil;
     self.step = nil;
 }
@@ -59,9 +59,9 @@
     expect(self.step.videoURL).will.equal(blockVideoURL);
 }
 
-- (void)testErrorIsSetOnFailure
+- (void)testFailToFetchVideoURLShouldCallCompletionBlockWithError
 {
-    [TCHTTPRequestStub stubLessonStepVideoRequestToReturnResponseWithError:
+    [TCRouxbeServiceStub stubLessonStepVideoRequestToReturnResponseWithError:
      [NSError errorWithDomain:NSURLErrorDomain
                          code:NSURLErrorNotConnectedToInternet
                      userInfo:nil]];
