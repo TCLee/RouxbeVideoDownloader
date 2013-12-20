@@ -9,11 +9,12 @@
 @import XCTest;
 
 #import "TCLesson.h"
+#import "TCStep.h"
 
 @interface TCLessonTests : XCTestCase
 
 @property (readwrite, nonatomic, assign) NSUInteger lessonID;
-@property (readwrite, nonatomic, copy) OHHTTPStubsTestBlock stubRequestTestBlock;
+@property (readwrite, nonatomic, copy) OHHTTPStubsTestBlock lessonTestBlock;
 
 @end
 
@@ -25,12 +26,12 @@
 
     self.lessonID = 240;
 
-    self.stubRequestTestBlock = ^BOOL(NSURLRequest *request) {
+    self.lessonTestBlock = ^BOOL(NSURLRequest *request) {
         return [request.URL.absoluteString isEqualToString:@"http://rouxbe.com/cooking-school/lessons/240.xml"];
     };
 
     // Stub requests for Lesson URL to return success response.
-    [OHHTTPStubs stubRequestsPassingTest:self.stubRequestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:self.lessonTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"Lesson.xml", nil)
                                                 statusCode:200
                                                    headers:nil];
@@ -51,12 +52,24 @@
     [OHHTTPStubs removeAllStubs];
 
     self.lessonID = NSNotFound;
-    self.stubRequestTestBlock = nil;
+    self.lessonTestBlock = nil;
 
     [super tearDown];
 }
 
-#pragma mark -
+- (void)testWhenCompletionBlockIsCalledAllLessonStepsHaveVideoURLs
+{
+    __block NSArray *blockSteps = @[];
+    [TCLesson getLessonWithID:self.lessonID completeBlock:^(TCGroup *group, NSError *error) {
+        blockSteps = group.steps;
+    }];
+
+    expect(blockSteps).will.haveCountOf(4);
+    
+    for (TCStep *step in blockSteps) {
+        expect(step.videoURL).willNot.beNil();
+    }
+}
 
 - (void)testLessonStepsAreFetchedInTheCorrectOrder
 {
@@ -90,7 +103,8 @@
 
 - (void)testFailToFetchLessonShouldCallCompletionBlockWithError
 {
-    [OHHTTPStubs stubRequestsPassingTest:self.stubRequestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    // Stub the Lesson request to return an error response.
+    [OHHTTPStubs stubRequestsPassingTest:self.lessonTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
                                                                           code:NSURLErrorTimedOut
                                                                       userInfo:nil]];
