@@ -8,10 +8,12 @@
 
 @import XCTest;
 
-#import "TCRouxbeServiceStub.h"
 #import "TCLesson.h"
 
 @interface TCLessonTests : XCTestCase
+
+@property (readwrite, nonatomic, assign) NSUInteger lessonID;
+@property (readwrite, nonatomic, copy) OHHTTPStubsTestBlock stubRequestTestBlock;
 
 @end
 
@@ -21,14 +23,37 @@
 {
     [super setUp];
 
-    [TCRouxbeServiceStub stubAllRequestsToReturnSuccessResponse];
+    self.lessonID = 240;
+
+    self.stubRequestTestBlock = ^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString isEqualToString:@"http://rouxbe.com/cooking-school/lessons/240.xml"];
+    };
+
+    // Stub requests for Lesson URL to return success response.
+    [OHHTTPStubs stubRequestsPassingTest:self.stubRequestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"Lesson.xml", nil)
+                                                statusCode:200
+                                                   headers:nil];
+    }];
+
+    // Stub requests for Lesson Step video URL to return success response.
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString hasPrefix:@"http://rouxbe.com/embedded_player/settings_section/"];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"LessonStepVideo.xml", nil)
+                                                statusCode:200
+                                                   headers:nil];
+    }];
 }
 
 - (void)tearDown
 {
-    [super tearDown];
+    [OHHTTPStubs removeAllStubs];
 
-    [TCRouxbeServiceStub stopStubbingRequests];
+    self.lessonID = NSNotFound;
+    self.stubRequestTestBlock = nil;
+
+    [super tearDown];
 }
 
 #pragma mark -
@@ -37,7 +62,7 @@
 {
     __block NSArray *actualPositions = nil;
     __block NSArray *expectedPositions = nil;
-    [TCLesson getLessonWithID:101 completeBlock:^(TCGroup *group, NSError *error) {
+    [TCLesson getLessonWithID:self.lessonID completeBlock:^(TCGroup *group, NSError *error) {
         actualPositions = [group valueForKeyPath:@"steps.position"];
         expectedPositions = [actualPositions sortedArrayUsingComparator:^NSComparisonResult(NSNumber *position1, NSNumber *position2) {
             return [position1 compare:position2];
@@ -48,31 +73,37 @@
     expect(actualPositions).will.equal(expectedPositions);
 }
 
-- (void)testFailToFetchLessonStepVideoURLShouldCallCompletionBlockWithError
+- (void)testFailToFetchOneLessonStepVideoURLShouldCallCompletionBlockWithError
 {
-    [TCRouxbeServiceStub stubLessonStepVideoRequestToReturnResponseWithError:
-     [NSError errorWithDomain:NSURLErrorDomain
-                         code:NSURLErrorTimedOut
-                     userInfo:nil]];
+    // Stub only one of the Lesson Step video URL request to fail.
+    // The other requests should succeed as usual.
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString isEqualToString:@"http://rouxbe.com/embedded_player/settings_section/244.xml"];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
+                                                                          code:NSURLErrorNotConnectedToInternet
+                                                                      userInfo:nil]];
+    }];
 
-    [self verifyErrorWithCode:NSURLErrorTimedOut];
+    [self verifyErrorWithCode:NSURLErrorNotConnectedToInternet];
 }
 
 - (void)testFailToFetchLessonShouldCallCompletionBlockWithError
 {
-    [TCRouxbeServiceStub stubLessonRequestToReturnResponseWithError:
-     [NSError errorWithDomain:NSURLErrorDomain
-                         code:NSURLErrorNotConnectedToInternet
-                     userInfo:nil]];
+    [OHHTTPStubs stubRequestsPassingTest:self.stubRequestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
+                                                                          code:NSURLErrorTimedOut
+                                                                      userInfo:nil]];
+    }];
 
-    [self verifyErrorWithCode:NSURLErrorNotConnectedToInternet];
+    [self verifyErrorWithCode:NSURLErrorTimedOut];
 }
 
 - (void)verifyErrorWithCode:(NSInteger)errorCode
 {
     __block TCGroup *blockGroup = nil;
     __block NSError *blockError = nil;
-    [TCLesson getLessonWithID:101 completeBlock:^(TCGroup *group, NSError *error) {
+    [TCLesson getLessonWithID:self.lessonID completeBlock:^(TCGroup *group, NSError *error) {
         blockGroup = group;
         blockError = error;
     }];

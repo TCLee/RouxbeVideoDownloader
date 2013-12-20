@@ -16,7 +16,7 @@
 
 @property (readwrite, nonatomic, strong) TCGroup *group;
 @property (readwrite, nonatomic, strong) TCStep *step;
-@property (readwrite, nonatomic, copy) OHHTTPStubsTestBlock requestTestBlock;
+@property (readwrite, nonatomic, copy) OHHTTPStubsTestBlock stubRequestTestBlock;
 
 @end
 
@@ -27,7 +27,7 @@
     [super setUp];
 
     // Only requests that match the given URL will be stubbed.
-    self.requestTestBlock = ^BOOL(NSURLRequest *request) {
+    self.stubRequestTestBlock = ^BOOL(NSURLRequest *request) {
         return [request.URL.absoluteString isEqualToString:
                 @"http://rouxbe.com/embedded_player/settings_section/242.xml"];
     };
@@ -41,18 +41,18 @@
 
 - (void)tearDown
 {
-    [super tearDown];
-
     [OHHTTPStubs removeAllStubs];
 
-    self.requestTestBlock = nil;
+    self.stubRequestTestBlock = nil;
     self.group = nil;
     self.step = nil;
+
+    [super tearDown];
 }
 
 - (void)testCanParseVideoURLFromXML
 {
-    [OHHTTPStubs stubRequestsPassingTest:self.requestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:self.stubRequestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"LessonStepVideo.xml", nil)
                                                 statusCode:200
                                                    headers:nil];
@@ -73,7 +73,7 @@
 
 - (void)testFailToFetchVideoURLShouldCallCompletionBlockWithError
 {
-    [OHHTTPStubs stubRequestsPassingTest:self.requestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+    [OHHTTPStubs stubRequestsPassingTest:self.stubRequestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
                                                                           code:NSURLErrorNotConnectedToInternet
                                                                       userInfo:nil]];
