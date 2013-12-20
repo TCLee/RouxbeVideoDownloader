@@ -32,12 +32,12 @@
 
 - (void)tearDown
 {
-    [super tearDown];
-
     [OHHTTPStubs removeAllStubs];
 
     self.expectedTipID = NSNotFound;
     self.stubTestBlock = nil;
+
+    [super tearDown];
 }
 
 - (void)testFetchTipWithSuccessShouldCallCompletionBlockWithTipResult
