@@ -49,11 +49,4 @@ typedef void(^TCTipCompleteBlock)(TCTip *tip, NSError *error);
 + (AFHTTPRequestOperation *)getTipWithID:(NSUInteger)tipID
                            completeBlock:(TCTipCompleteBlock)completeBlock;
 
-/**
- * Initializes a new tip object from the given XML data.
- *
- * @param data The XML data.
- */
-- (id)initWithXMLData:(NSData *)data;
-
 @end

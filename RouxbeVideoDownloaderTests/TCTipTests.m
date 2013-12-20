@@ -9,9 +9,11 @@
 @import XCTest;
 
 #import "TCTip.h"
-#import "TCTestDataLoader.h"
 
 @interface TCTipTests : XCTestCase
+
+@property (readwrite, nonatomic, assign) NSUInteger expectedTipID;
+@property (readwrite, nonatomic, copy) OHHTTPStubsTestBlock stubTestBlock;
 
 @end
 
@@ -20,23 +22,65 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    self.expectedTipID = 117;
+
+    self.stubTestBlock = ^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString isEqualToString:@"http://rouxbe.com/embedded_player/settings_drilldown/117.xml"];
+    };
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+
+    [OHHTTPStubs removeAllStubs];
+
+    self.expectedTipID = NSNotFound;
+    self.stubTestBlock = nil;
 }
 
-- (void)testCanParseTipFromXMLData
+- (void)testFetchTipWithSuccessShouldCallCompletionBlockWithTipResult
 {
-    NSData *data = [TCTestDataLoader XMLDataWithName:@"Tip"];
-    TCTip *tip = [[TCTip alloc] initWithXMLData:data];
+    [OHHTTPStubs stubRequestsPassingTest:self.stubTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"TipVideo.xml", nil)
+                                                statusCode:200
+                                                   headers:nil];
+    }];
 
-    expect(tip.ID).to.equal(117);
-    expect(tip.name).to.equal(@"What is Thai Basil?");
-    expect(tip.videoURL).to.equal([NSURL URLWithString:@"http://media.rouxbe.com/h264/DD_ThaiBasil.f4v"]);
+    __block TCTip *blockTip = nil;
+    __block NSError *blockError = nil;
+    [TCTip getTipWithID:self.expectedTipID completeBlock:^(TCTip *tip, NSError *error) {
+        blockTip = tip;
+        blockError = error;
+    }];
+
+    expect(blockError).will.beNil();
+    expect(blockTip).willNot.beNil();
+
+    expect(blockTip.ID).will.equal(self.expectedTipID);
+    expect(blockTip.name).will.equal(@"What is Thai Basil?");
+    expect(blockTip.videoURL).will.equal([NSURL URLWithString:@"http://media.rouxbe.com/h264/DD_ThaiBasil.f4v"]);
+}
+
+- (void)testFetchTipWithFailureShouldCallCompletionBlockWithError
+{
+    [OHHTTPStubs stubRequestsPassingTest:self.stubTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
+                                                                          code:NSURLErrorTimedOut
+                                                                      userInfo:nil]];
+    }];
+
+    __block TCTip *blockTip = nil;
+    __block NSError *blockError = nil;
+    [TCTip getTipWithID:self.expectedTipID completeBlock:^(TCTip *tip, NSError *error) {
+        blockTip = tip;
+        blockError = error;
+    }];
+
+    expect(blockTip).will.beNil();
+    expect(blockError).willNot.beNil();
+    expect(blockError.code).to.equal(NSURLErrorTimedOut);
 }
 
 @end

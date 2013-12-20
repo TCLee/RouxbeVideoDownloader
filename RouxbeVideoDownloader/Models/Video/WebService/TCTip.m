@@ -14,6 +14,17 @@
  */
 static NSString * const TCTipXMLPath = @"embedded_player/settings_drilldown/%lu.xml";
 
+@interface TCTip ()
+
+/**
+ * Initializes a new tip object from the given XML data.
+ *
+ * @param data The XML data.
+ */
+- (instancetype)initWithXMLData:(NSData *)data;
+
+@end
+
 @implementation TCTip
 
 + (AFHTTPRequestOperation *)getTipWithID:(NSUInteger)tipID
@@ -32,12 +43,13 @@ static NSString * const TCTipXMLPath = @"embedded_player/settings_drilldown/%lu.
     }];
 }
 
-- (id)initWithXMLData:(NSData *)data
+- (instancetype)initWithXMLData:(NSData *)data
 {
     self = [super init];
     if (self) {
-        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
+        NSParameterAssert(data);
 
+        RXMLElement *rootXML = [[RXMLElement alloc] initFromXMLData:data];
         _ID = [[rootXML attribute:@"id"] integerValue];
         _name = [rootXML attribute:@"title"];
         _videoURL = [NSURL URLWithString:[[rootXML child:@"video"] attribute:@"url"]];
