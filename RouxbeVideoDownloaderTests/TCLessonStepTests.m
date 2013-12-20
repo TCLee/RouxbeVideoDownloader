@@ -8,7 +8,6 @@
 
 @import XCTest;
 
-#import "TCRouxbeServiceStub.h"
 #import "TCTestDataLoader.h"
 #import "TCGroup.h"
 #import "TCStep+Lesson.h"
@@ -17,6 +16,7 @@
 
 @property (readwrite, nonatomic, strong) TCGroup *group;
 @property (readwrite, nonatomic, strong) TCStep *step;
+@property (readwrite, nonatomic, copy) OHHTTPStubsTestBlock requestTestBlock;
 
 @end
 
@@ -26,7 +26,11 @@
 {
     [super setUp];
 
-    [TCRouxbeServiceStub stubAllRequestsToReturnSuccessResponse];
+    // Only requests that match the given URL will be stubbed.
+    self.requestTestBlock = ^BOOL(NSURLRequest *request) {
+        return [request.URL.absoluteString isEqualToString:
+                @"http://rouxbe.com/embedded_player/settings_section/242.xml"];
+    };
 
     self.group = [[TCGroup alloc] initWithXMLData:[TCTestDataLoader XMLDataWithName:@"Lesson"]
                                      stepsXMLPath:@"recipesteps.recipestep"];
@@ -39,13 +43,21 @@
 {
     [super tearDown];
 
-    [TCRouxbeServiceStub stopStubbingRequests];
+    [OHHTTPStubs removeAllStubs];
+
+    self.requestTestBlock = nil;
     self.group = nil;
     self.step = nil;
 }
 
 - (void)testCanParseVideoURLFromXML
 {
+    [OHHTTPStubs stubRequestsPassingTest:self.requestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithFileAtPath:OHPathForFileInBundle(@"LessonStepVideo.xml", nil)
+                                                statusCode:200
+                                                   headers:nil];
+    }];
+
     __block NSURL *blockVideoURL = nil;
     __block NSError *blockError = nil;
     AFHTTPRequestOperation *requestOperation = [self.step videoURLRequestOperationWithCompleteBlock:^(NSURL *videoURL, NSError *error) {
@@ -61,10 +73,11 @@
 
 - (void)testFailToFetchVideoURLShouldCallCompletionBlockWithError
 {
-    [TCRouxbeServiceStub stubLessonStepVideoRequestToReturnResponseWithError:
-     [NSError errorWithDomain:NSURLErrorDomain
-                         code:NSURLErrorNotConnectedToInternet
-                     userInfo:nil]];
+    [OHHTTPStubs stubRequestsPassingTest:self.requestTestBlock withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithError:[NSError errorWithDomain:NSURLErrorDomain
+                                                                          code:NSURLErrorNotConnectedToInternet
+                                                                      userInfo:nil]];
+    }];
 
     __block NSURL *blockVideoURL = nil;
     __block NSError *blockError = nil;
