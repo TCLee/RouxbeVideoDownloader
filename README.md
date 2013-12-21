@@ -1,26 +1,18 @@
-#TCGoogleStreetView
+#RouxbeVideoDownloader
 
-This sample app uses Google Street View technology to give users a virtual tour of the museums featured in Google Art Project.
-This app also features a speaking tour guide that makes use of the new class introduced in iOS 7 - `AVSpeechSynthesizer`.
+This Mac OS X app downloads videos from rouxbe.com
 
-![App Screenshot](http://tclee.github.io/TCGoogleStreetView/images/Screenshot.jpg "App Screenshot")
-
-#### Quick Guide to Using the App
-* Use the floor picker control on the top right corner to select different floors of a museum to view.
-* Use the navigation arrows `<` `>` on the top bar to move between different museums.
-* The camera's heading will automatically rotate to give you a 360 degrees view of the museum. You can stop the camera animation anytime by touching the panorama view.
-* Double tap in the panorama view to navigate around the museum.
-* Drag to change where the camera is facing.
-* Pinch to zoom camera in and out.
-* App supports both landscape and portrait orientation, so you can rotate the device to get the best view of the museum.
+#### How to Use the App
+1. Copy and paste a URL from rouxbe.com. Example: http://rouxbe.com/cooking-school/lessons/240-eggs-frying-basting-poaching
+2. Press Return/Enter to begin downloads.
 
 ##How to Build and Run
 
 <dl>
   <dt>Build Requirements</dt>
-  <dd>Xcode 5, iOS 7 SDK, CocoaPods</dd>
+  <dd>Xcode 5, Mac OS X 10.9 SDK, CocoaPods</dd>
   <dt>Runtime Requirements</dt>
-  <dd>iOS 7 or later, iPad only</dd>
+  <dd>Mac OS X 10.9 or later</dd>
 </dl>
 
 ####Step 1: Download and Install CocoaPods
@@ -32,26 +24,19 @@ This sample app needs to download and install the required libraries before it c
 
 Run the following commands in `Terminal.app`: 
 ```
-$ cd <YOUR_PROJECT_DIRECTORY>  
+$ cd RouxbeVideoDownloader
 $ pod install  
-$ open TCGoogleStreetView.xcworkspace
+$ open RouxbeVideoDownloader.xcworkspace
 ```
 
-####Step 3: Generate your Google API Key
-1. Go to [Google API Console](https://code.google.com/apis/console/) and generate your API key.
-2. In Xcode, open `TCGoogleStreetView\AppDelegate.m` and replace with your own API key:
-  
-  ```Objective-C
-  // Replace with your own API key generated using Google APIs Console.
-  static NSString * const kTCGoogleMapsAPIKey = @"YOUR-API-KEY";
-  ```
-
 ###Unit Tests
-TCGoogleStreetView includes a suite of unit tests in the `TCGoogleStreetViewTests` directory. The unit test framework used is **XCTest**, so you can run the unit tests easily from XCode using the shortcut &#8984;U.
+RouxbeVideoDownloader includes a suite of unit tests in the `RouxbeVideoDownloaderTests` directory. The unit test framework used is **XCTest**, so you can run the unit tests easily from XCode using the shortcut &#8984;U.
 
-##See Also
-* Google Maps SDK for iOS - <https://developers.google.com/maps/documentation/ios/>
-* SDWebImage - <https://github.com/rs/SDWebImage>
+##Open Source Libraries Used
+- AFNetworking
+- OCMock
+- Expecta
+- OHHTTPStubs
 
 ##License
 This project's source code is provided for educational purposes only. Street View logo is the copyright of Google. See the LICENSE file for more info.
