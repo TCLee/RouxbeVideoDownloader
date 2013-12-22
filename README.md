@@ -1,10 +1,18 @@
 #RouxbeVideoDownloader
 
-This Mac OS X app downloads videos from rouxbe.com
+An easy to use app to save videos from [rouxbe.com](http://rouxbe.com) for offline viewing.
 
-#### How to Use the App
+By default, rouxbe.com only provides a way for you to stream their videos. However, it is much more convenient to be able to download the videos to your device and view them anytime without an Internet connection.
+
+#### How to use the app?
 1. Copy and paste a URL from rouxbe.com. Example: http://rouxbe.com/cooking-school/lessons/240-eggs-frying-basting-poaching
-2. Press Return/Enter to begin downloads.
+2. Press `Return/Enter` to add downloads to the queue.
+
+####Features
+* Downloaded Lesson and Recipe videos are automatically organized into folders. Videos are also renamed to match the correct order of the Lesson's or Recipe's steps.
+* Videos are saved in MP4 format, so you can view them on your iOS devices.
+* Downloads are resumable even after you quit the app.
+* You can limit the number of video downloads that can run concurrently to manage your bandwidth.
 
 ##How to Build and Run
 
@@ -33,10 +41,11 @@ $ open RouxbeVideoDownloader.xcworkspace
 RouxbeVideoDownloader includes a suite of unit tests in the `RouxbeVideoDownloaderTests` directory. The unit test framework used is **XCTest**, so you can run the unit tests easily from XCode using the shortcut &#8984;U.
 
 ##Open Source Libraries Used
-- AFNetworking
-- OCMock
-- Expecta
-- OHHTTPStubs
+* [AFNetworking](https://github.com/AFNetworking/AFNetworking) - A delightful Objective-C networking library.
+* [RaptureXML](https://github.com/ZaBlanc/RaptureXML) - Simple block-based XML library.
+* [OCMock](https://github.com/erikdoe/ocmock) - Objective-C implementation of mock objects.
+* [Expecta](https://github.com/specta/expecta) - A matcher framework for Objective-C.
+* [OHHTTPStubs](https://github.com/AliSoftware/OHHTTPStubs) - Stub network requests easily for testing.
 
 ##License
-This project's source code is provided for educational purposes only. Street View logo is the copyright of Google. See the LICENSE file for more info.
+This project's source code is provided for educational purposes only. Please see Rouxbe's Terms and Conditions before downloading any video. See the LICENSE file for more info.
