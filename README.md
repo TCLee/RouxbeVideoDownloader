@@ -9,6 +9,7 @@ By default, rouxbe.com only provides a way for you to stream their videos. Howev
 2. Press `Return/Enter` to add downloads to the queue.
 
 ####Features
+* Very easy to get started. Just copy and paste a URL to add downloads to the download queue.
 * Downloaded Lesson and Recipe videos are automatically organized into folders. Videos are also renamed to match the correct order of the Lesson's or Recipe's steps.
 * Videos are saved in MP4 format, so you can view them on your iOS devices.
 * Downloads are resumable even after you quit the app.
