@@ -4,6 +4,8 @@ An easy to use app to save videos from [rouxbe.com](http://rouxbe.com) for offli
 
 By default, rouxbe.com only provides a way for you to stream their videos. However, it is much more convenient to be able to download the videos to your device and view them anytime without an Internet connection.
 
+![Screenshot of Rouxbe Video Downloader App](http://tclee.github.io/RouxbeVideoDownloader/images/Screenshot.png "Screenshot")
+
 #### How to use the app?
 1. Copy and paste a URL from rouxbe.com. Example: http://rouxbe.com/cooking-school/lessons/240-eggs-frying-basting-poaching
 2. Press `Return/Enter` to add downloads to the queue.
