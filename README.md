@@ -4,11 +4,14 @@ A quick and easy app to save videos from [rouxbe.com](http://rouxbe.com) for off
 
 By default, rouxbe.com only provides a way for you to stream their videos. However, it is much more convenient to be able to download the videos to your device and view them anytime without an Internet connection.
 
+![Screenshot of Rouxbe Video Downloader App](http://tclee.github.io/RouxbeVideoDownloader/images/Screenshot.png "Screenshot")
+
 #### How to use the app?
 1. Copy and paste a URL from rouxbe.com. Example: `http://rouxbe.com/cooking-school/lessons/240-eggs-frying-basting-poaching`
 2. Press `Return/Enter` to add downloads to the queue.
 
 ####Features
+* Very easy to get started. Just copy and paste a URL to add downloads to the download queue.
 * Downloaded Lesson and Recipe videos are automatically organized into folders. Videos are also renamed to match the correct order of the Lesson's or Recipe's steps.
 * Videos are saved in MP4 format, so you can view them on your iOS devices.
 * Downloads are resumable even after you quit the app.
