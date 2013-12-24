@@ -31,37 +31,80 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="rouxbevideodownloader" class="anchor" href="#rouxbevideodownloader"><span class="octicon octicon-link"></span></a>RouxbeVideoDownloader</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>An easy to use app to save videos from <a href="http://rouxbe.com">rouxbe.com</a> for offline viewing.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>By default, rouxbe.com only provides a way for you to stream their videos. However, it is much more convenient to be able to download the videos to your device and view them anytime without an Internet connection.</p>
+
+<p><img src="http://tclee.github.io/RouxbeVideoDownloader/images/Screenshot.png" alt="Screenshot of Rouxbe Video Downloader app"></p>
+
+<h4>
+<a name="how-to-use-the-app" class="anchor" href="#how-to-use-the-app"><span class="octicon octicon-link"></span></a>How to use the app?</h4>
+
+<ol>
+<li>Copy and paste a URL from rouxbe.com. Example: <a href="http://rouxbe.com/cooking-school/lessons/240-eggs-frying-basting-poaching">http://rouxbe.com/cooking-school/lessons/240-eggs-frying-basting-poaching</a>
+</li>
+<li>Press <code>Return/Enter</code> to add downloads to the queue.</li>
+</ol><h4>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h4>
+
+<ul>
+<li>Very easy to get started. Just copy and paste a URL to add downloads to the download queue.</li>
+<li>Downloaded Lesson and Recipe videos are automatically organized into folders. Videos are also renamed to match the correct order of the Lesson's or Recipe's steps.</li>
+<li>Videos are saved in MP4 format, so you can view them on your iOS devices.</li>
+<li>Downloads are resumable even after you quit the app.</li>
+<li>You can limit the number of video downloads that can run concurrently to manage your bandwidth.</li>
+</ul><h2>
+<a name="how-to-build-and-run" class="anchor" href="#how-to-build-and-run"><span class="octicon octicon-link"></span></a>How to Build and Run</h2>
+
+<dl>
+<dt>Build Requirements</dt>
+  <dd>Xcode 5, Mac OS X 10.9 SDK, CocoaPods</dd>
+  <dt>Runtime Requirements</dt>
+  <dd>Mac OS X 10.9 or later</dd>
+</dl><h4>
+<a name="step-1-download-and-install-cocoapods" class="anchor" href="#step-1-download-and-install-cocoapods"><span class="octicon octicon-link"></span></a>Step 1: Download and Install CocoaPods</h4>
+
+<p>If you've already installed CocoaPods, you can skip to <strong>Step 2</strong>.<br>
+Otherwise, install CocoaPods by following the quick installation guide at <a href="http://cocoapods.org/">http://cocoapods.org/</a>.</p>
+
+<h4>
+<a name="step-2-install-library-dependencies" class="anchor" href="#step-2-install-library-dependencies"><span class="octicon octicon-link"></span></a>Step 2: Install Library Dependencies</h4>
+
+<p>This sample app needs to download and install the required libraries before it can be build. We'll let CocoaPods do all the hard work for us.</p>
+
+<p>Run the following commands in <code>Terminal.app</code>: </p>
+
+<pre><code>$ cd RouxbeVideoDownloader
+$ pod install  
+$ open RouxbeVideoDownloader.xcworkspace
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="unit-tests" class="anchor" href="#unit-tests"><span class="octicon octicon-link"></span></a>Unit Tests</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>RouxbeVideoDownloader includes a suite of unit tests in the <code>RouxbeVideoDownloaderTests</code> directory. The unit test framework used is <strong>XCTest</strong>, so you can run the unit tests easily from XCode using the shortcut ⌘U.</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<h2>
+<a name="open-source-libraries-used" class="anchor" href="#open-source-libraries-used"><span class="octicon octicon-link"></span></a>Open Source Libraries Used</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<ul>
+<li>
+<a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> - A delightful Objective-C networking library.</li>
+<li>
+<a href="https://github.com/ZaBlanc/RaptureXML">RaptureXML</a> - Simple block-based XML library.</li>
+<li>
+<a href="https://github.com/erikdoe/ocmock">OCMock</a> - Objective-C implementation of mock objects.</li>
+<li>
+<a href="https://github.com/specta/expecta">Expecta</a> - A matcher framework for Objective-C.</li>
+<li>
+<a href="https://github.com/AliSoftware/OHHTTPStubs">OHHTTPStubs</a> - Stub network requests easily for testing.</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>This project's source code is provided for educational purposes only. Please see Rouxbe's Terms and Conditions before downloading any video. See the LICENSE file for more info.</p>
       </section>
     </div>
 
