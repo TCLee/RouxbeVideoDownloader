@@ -4,6 +4,8 @@ An easy to use app to save videos from [rouxbe.com](http://rouxbe.com) for offli
 
 By default, rouxbe.com only provides a way for you to stream their videos. However, it is much more convenient to be able to download the videos to your device and view them anytime without an Internet connection.
 
+[Download the app.](http://tclee.github.io/RouxbeVideoDownloader/downloads/RouxbeVideoDownloader.tar.gz)
+
 ![Screenshot of Rouxbe Video Downloader App](http://tclee.github.io/RouxbeVideoDownloader/images/Screenshot.png "Screenshot")
 
 #### How to use the app?
