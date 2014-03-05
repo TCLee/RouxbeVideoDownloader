@@ -71,6 +71,13 @@ typedef void(^TCDownloadOperationManagerDownloadOperationDidChangeBlock)(NSUInte
                                            completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock;
 
 /**
+ * Removes all download operations that have finished from the queue.
+ * Download operations that are cancelled, failed or executing remains in 
+ * the queue.
+ */
+- (void)removeFinishedDownloadOperations;
+
+/**
  * Resumes a failed or cancelled download operation at the given index.
  *
  * This method does nothing if the download operation has not failed or 

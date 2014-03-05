@@ -22,7 +22,6 @@
 		81632888182770120070914E /* TCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81632887182770120070914E /* TCAppDelegate.m */; };
 		81632894182770120070914E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81632893182770120070914E /* XCTest.framework */; };
 		81632895182770120070914E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81632874182770120070914E /* Cocoa.framework */; };
-		816328B718277F3F0070914E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 816328AB18277F3F0070914E /* Images.xcassets */; };
 		816328B818277F3F0070914E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 816328AD18277F3F0070914E /* Credits.rtf */; };
 		816328B918277F3F0070914E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 816328AF18277F3F0070914E /* InfoPlist.strings */; };
 		816328BA18277F3F0070914E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 816328B118277F3F0070914E /* main.m */; };
@@ -31,6 +30,7 @@
 		8171319F18586E3200DF1447 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8171319D18586E3200DF1447 /* PreferencesWindow.xib */; };
 		817131A218595C4C00DF1447 /* TCDirectoryPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 817131A118595C4C00DF1447 /* TCDirectoryPopUpButton.m */; };
 		81880EA6184440F7009387AB /* TCPaddedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81880EA5184440F7009387AB /* TCPaddedTextFieldCell.m */; };
+		8188F65A186842020091455C /* icon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 8188F659186842020091455C /* icon.iconset */; };
 		819461D31852D496000FE09F /* TCDownloadOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 819461D21852D496000FE09F /* TCDownloadOperationTests.m */; };
 		819887D91834734800FE21BB /* TCTestDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 819887D81834734800FE21BB /* TCTestDataLoader.m */; };
 		81BADD18184892FE006FDA6D /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 81BADD17184892FE006FDA6D /* AFDownloadRequestOperation.m */; };
@@ -97,7 +97,6 @@
 		81632887182770120070914E /* TCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TCAppDelegate.m; sourceTree = "<group>"; };
 		81632892182770120070914E /* RouxbeVideoDownloaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RouxbeVideoDownloaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		81632893182770120070914E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		816328AB18277F3F0070914E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		816328AE18277F3F0070914E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		816328B018277F3F0070914E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		816328B118277F3F0070914E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -111,6 +110,7 @@
 		817131A118595C4C00DF1447 /* TCDirectoryPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDirectoryPopUpButton.m; sourceTree = "<group>"; };
 		81880EA4184440F7009387AB /* TCPaddedTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPaddedTextFieldCell.h; sourceTree = "<group>"; };
 		81880EA5184440F7009387AB /* TCPaddedTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPaddedTextFieldCell.m; sourceTree = "<group>"; };
+		8188F659186842020091455C /* icon.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = icon.iconset; sourceTree = "<group>"; };
 		819461D21852D496000FE09F /* TCDownloadOperationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDownloadOperationTests.m; sourceTree = "<group>"; };
 		819887D71834734800FE21BB /* TCTestDataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCTestDataLoader.h; sourceTree = "<group>"; };
 		819887D81834734800FE21BB /* TCTestDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCTestDataLoader.m; sourceTree = "<group>"; };
@@ -292,7 +292,7 @@
 		816328AA18277F3F0070914E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				816328AB18277F3F0070914E /* Images.xcassets */,
+				8188F659186842020091455C /* icon.iconset */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -531,9 +531,9 @@
 			files = (
 				816328BC18277F3F0070914E /* MainMenu.xib in Resources */,
 				81310AE81828950700327AFF /* MainWindow.xib in Resources */,
-				816328B718277F3F0070914E /* Images.xcassets in Resources */,
 				8171319F18586E3200DF1447 /* PreferencesWindow.xib in Resources */,
 				816328B918277F3F0070914E /* InfoPlist.strings in Resources */,
+				8188F65A186842020091455C /* icon.iconset in Resources */,
 				816328B818277F3F0070914E /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
