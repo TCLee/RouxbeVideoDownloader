@@ -129,6 +129,17 @@
     return YES;
 }
 
+#pragma mark - Clear Completed Downloads
+
+/**
+ * User clicks the Clear button to remove finished downloads.
+ */
+- (IBAction)clearButtonClicked:(id)sender
+{
+    [self.downloadManager removeFinishedDownloadOperations];
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table View Data Source & Delegate
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView

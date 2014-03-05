@@ -79,7 +79,7 @@ static NSString * const TCMaxConcurrentDownloadCountKeyPath = @"maxConcurrentDow
                                context:TCDownloadConfigurationChangedContext];
 }
 
-#pragma mark - Add Download Operations
+#pragma mark - Add/Remove Download Operations
 
 - (AFHTTPRequestOperation *)addDownloadOperationsWithURL:(NSURL *)aURL
                                            completeBlock:(TCDownloadOperationManagerAddDownloadOperationsCompleteBlock)completeBlock
@@ -102,14 +102,22 @@ static NSString * const TCMaxConcurrentDownloadCountKeyPath = @"maxConcurrentDow
             }
 
             // Add the download operations to the operation queue.
-            [strongSelf.allDownloadOperations addObjectsFromArray:mutableOperations];
-            [strongSelf.operationQueue addOperations:mutableOperations waitUntilFinished:NO];
+            [strongSelf addDownloadOperations:mutableOperations];
         }
 
         if (completeBlock) {
             completeBlock(mutableOperations, error);
         }
     }];
+}
+
+/**
+ * Adds an array of download operations to the download queue.
+ */
+- (void)addDownloadOperations:(NSArray *)operations
+{
+    [self.allDownloadOperations addObjectsFromArray:operations];
+    [self.operationQueue addOperations:operations waitUntilFinished:NO];
 }
 
 /**
@@ -129,12 +137,10 @@ static NSString * const TCMaxConcurrentDownloadCountKeyPath = @"maxConcurrentDow
         if (!strongSelf) { return; }
 
         NSUInteger index = [strongSelf.allDownloadOperations indexOfObject:operation];
-        if (NSNotFound == index) {
-            [NSException raise:NSInternalInconsistencyException
-                        format:@"Download operation should exist because it is never removed."];
-        }
 
-        if (strongSelf.downloadOperationDidChange) {
+        // If download operation has already been removed from the queue, then
+        // there's is no point in making the callback.
+        if (NSNotFound != index && strongSelf.downloadOperationDidChange) {
             strongSelf.downloadOperationDidChange(index);
         }
     };
@@ -146,6 +152,16 @@ static NSString * const TCMaxConcurrentDownloadCountKeyPath = @"maxConcurrentDow
     [downloadOperation setDidFailBlock:callback];
 
     return downloadOperation;
+}
+
+- (void)removeFinishedDownloadOperations
+{
+    // Only remove download operations that have finished successfully.
+    [self.allDownloadOperations filterUsingPredicate:
+     [NSPredicate predicateWithFormat:@"!(isFinished == YES && error == nil)"]];
+
+    // We don't have to remove finished operations from the operation
+    // queue, since it's performed automatically.
 }
 
 #pragma mark - Download Operation Queue

@@ -155,6 +155,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="clearButtonClicked:" target="-2" id="SkS-qz-vKm"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

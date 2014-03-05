@@ -9,6 +9,8 @@
 @import XCTest;
 
 #import "TCDownloadOperationManager.h"
+#import "TCDownloadConfiguration.h"
+#import "TCDownloadOperation.h"
 
 @interface TCDownloadOperationManagerTests : XCTestCase
 
@@ -26,6 +28,17 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testThatOnlyCompletedDownloadsAreRemoved
+{
+    // Add an executing download operation to the queue.
+    // Add a cancelled download operation to the queue.
+    // Add a failed download operation to the queue.
+    // Add a completed download operation to the queue.
+    // Remove only finished download operations from queue.
+
+    // Verify that only the finished download operation has been removed from the queue.
 }
 
 @end
